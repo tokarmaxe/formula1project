@@ -1,0 +1,24 @@
+2018/08/01 18:19:01 [error] 5#5: *2 open() "/var/www/favicon.ico" failed (2: No such file or directory), client: 172.18.0.1, server: magento2.dev, request: "GET /favicon.ico HTTP/1.1", host: "localhost"
+2018/08/01 18:19:02 [error] 5#5: *2 open() "/var/www/favicon.ico" failed (2: No such file or directory), client: 172.18.0.1, server: magento2.dev, request: "GET /favicon.ico HTTP/1.1", host: "localhost"
+2018/08/01 19:20:47 [emerg] 1#1: open() "/var/nginx/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 19:40:02 [emerg] 1#1: open() "/var/nginx/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 22:08:14 [emerg] 1#1: open() "/var/docker/nginx/cor/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 22:22:32 [emerg] 1#1: open() "/etc/nginx/./docker/nginx/cor/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 22:35:31 [emerg] 1#1: open() "/home/sklyack/docker3/docker/nginx/cor/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 22:44:10 [emerg] 1#1: open() "/var/docker/nginx/cor/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 23:02:24 [emerg] 1#1: open() "/var/docker/nginx/cor/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 23:11:22 [emerg] 1#1: open() "/var/docker/nginx/cor/Logs/error.log" failed (2: No such file or directory)
+2018/08/01 23:26:31 [error] 5#5: *1 open() "/var/www/reg" failed (2: No such file or directory), client: 172.20.0.1, server: test1.dev, request: "GET /reg HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2018/08/01 23:26:36 [error] 5#5: *1 open() "/var/www/auth" failed (2: No such file or directory), client: 172.20.0.1, server: test1.dev, request: "GET /auth HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2018/08/03 10:29:30 [error] 5#5: *4 FastCGI sent in stderr: "PHP message: PHP Warning:  require(/var/www/../vendor/autoload.php): failed to open stream: No such file or directory in /var/www/index.php on line 24
+PHP message: PHP Fatal error:  require(): Failed opening required '/var/www/../vendor/autoload.php' (include_path='.:/opt/bitnami/php/lib/php') in /var/www/index.php on line 24" while reading response header from upstream, client: 172.21.0.1, server: test1.dev, request: "GET / HTTP/1.1", upstream: "fastcgi://172.21.0.4:9000", host: "localhost"
+2018/08/03 10:29:38 [error] 5#5: *4 FastCGI sent in stderr: "PHP message: PHP Warning:  require(/var/www/../vendor/autoload.php): failed to open stream: No such file or directory in /var/www/index.php on line 24
+PHP message: PHP Fatal error:  require(): Failed opening required '/var/www/../vendor/autoload.php' (include_path='.:/opt/bitnami/php/lib/php') in /var/www/index.php on line 24" while reading response header from upstream, client: 172.21.0.1, server: test1.dev, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://172.21.0.4:9000", host: "localhost"
+2018/08/03 14:26:32 [emerg] 1#1: "server" directive is not allowed here in /etc/nginx/nginx.conf:1
+2018/08/03 14:32:42 [emerg] 1#1: "server" directive is not allowed here in /etc/nginx/nginx.conf:1
+2018/08/03 14:39:12 [emerg] 1#1: "server" directive is not allowed here in /etc/nginx/nginx.conf:1
+2018/08/03 14:47:32 [emerg] 1#1: open() "/var/core/Logs/error.log" failed (2: No such file or directory)
+2018/08/03 14:57:47 [emerg] 1#1: open() "/var/core/Logs/error.log" failed (2: No such file or directory)
+2018/08/03 15:06:37 [emerg] 1#1: open() "/var/core/Logs/error.log" failed (2: No such file or directory)
+2018/08/03 15:23:56 [error] 5#5: *1 open() "/var/www/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: test1.dev, request: "GET /favicon.ico HTTP/1.1", host: "localhost"
+2018/08/03 15:24:28 [error] 5#5: *1 directory index of "/var/www/" is forbidden, client: 172.19.0.1, server: test1.dev, request: "GET / HTTP/1.1", host: "localhost"
