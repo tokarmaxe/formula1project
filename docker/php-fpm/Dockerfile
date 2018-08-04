@@ -15,4 +15,7 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
   && chmod a+x composer.phar \
   && mv composer.phar /usr/local/bin/composer 
 
+  RUN ln -s /var/www/artisan /usr/local/bin/ \
+&& ln -s /vendor/bin/phpunit /usr/local/bin/
+
   CMD ["php-fpm"]
