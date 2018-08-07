@@ -30,7 +30,7 @@ services:
     container_name: php
     build:
       context: .
-      dockerfile: php-frm/Dockerfile
+      dockerfile: php-fpm/Dockerfile
     ports:
         - '9000:9000'
 
