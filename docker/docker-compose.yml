@@ -1,0 +1,64 @@
+version: '3.3'
+
+services:
+  mysql:
+    build:
+      context: ./mysql
+    environment:
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=laravel
+      - MYSQL_PASSWORD=laravel
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    depends_on:
+      - redis
+    networks:
+      - backend
+
+  redis:
+    build:
+      context: ./redis
+    volumes:
+      - ./logs/redis:/var/log/redis:cached
+      - ./data/redis:/data:cached
+    ports:
+      - "6379:6379"
+    depends_on:
+      - nginx
+    networks:
+      - backend
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - ../:/var/www:cached
+      - ./nginx/sites/:/etc/nginx/sites-available/
+      - ./logs/nginx:/var/log/nginx
+    ports:
+      - "8080:8080"
+    depends_on:
+      - php-fpm
+    networks:
+      - backend
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+    environment:
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=10.254.254.254
+    volumes:
+      - ../:/var/www:cached
+    expose:
+      - "9000"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
