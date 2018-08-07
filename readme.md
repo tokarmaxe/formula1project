@@ -40,6 +40,6 @@ docker-compose exec php-fpm {service} {args}
 
 *The site should be available by next address*
 ```
-http://api.vptech.local Port:8080
+http://api.vptech.local:8080
 
 ```
