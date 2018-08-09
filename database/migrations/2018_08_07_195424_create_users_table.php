@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->string('avatar');
             $table->boolean('is_admin');
+            $table->dateTime('expired_at');
             $table->timestamps();
         });
     }
