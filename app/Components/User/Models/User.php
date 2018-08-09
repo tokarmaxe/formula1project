@@ -35,10 +35,10 @@ class User extends Authenticatable implements UserContract
         'remember_token',
     ];
 
-    private $dependency;
+//    private $dependency;
 
-    public function __construct(UserServiceContract $dependency)
-    {
-        $this->dependency = $dependency;
-    }
+//    public function __construct(UserServiceContract $dependency)
+//    {
+//        $this->dependency = $dependency;
+//    }
 }
