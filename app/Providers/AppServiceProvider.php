@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //DI for User components
+        $this->app->bind(UserContract::class, User::class);
+       //?? $this->app->make()
+        $this->app->bind(UserServiceContract::class, UserService::class);
+
     }
 }

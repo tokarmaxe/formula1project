@@ -1,28 +1,21 @@
 <?php
 
-namespace App;
+namespace App\Components\User\Models;
 
 use Illuminate\Notifications\Notifiable;
+use App\Components\User\Services\UserContract as UserContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements UserContract
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password', 'remember_token',
     ];
