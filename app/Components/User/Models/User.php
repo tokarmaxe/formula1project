@@ -3,6 +3,7 @@
 namespace App\Components\User\Models;
 
 use App\Components\User\Services\UserContract;
+use App\Components\User\Services\UserServiceContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -33,4 +34,11 @@ class User extends Authenticatable implements UserContract
         'password',
         'remember_token',
     ];
+
+    private $dependency;
+
+    public function __construct(UserServiceContract $dependency)
+    {
+        $this->dependency = $dependency;
+    }
 }
