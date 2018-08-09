@@ -13,7 +13,7 @@ use Socialite;
 
 class UserServiceContractController extends Controller
 {
-    public function singUpByGoogle(Request $request)
+    public function singUpFromSocial(Request $request)
     {
         //temporary realization: UserService model creation with strong connetion
         $userService = new UserService();
