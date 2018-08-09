@@ -18,13 +18,7 @@ class UserController extends Controller
         return view('welcome');
     }
 
-    public function singUpByGoogle(Request $request)
+    public function logging(Request $request)
     {
-        $user = new User;
-        $id_token = $request->header('Authorization');
-        $id_token = str_replace("Bearer ", "", $id_token);
-
-        $user = Socialite::driver('google')->userFromToken($id_token);
-        $CLIENT_ID = Config::get('google.client_id');
     }
 }
