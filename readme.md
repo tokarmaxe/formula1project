@@ -40,6 +40,6 @@ docker-compose exec php-fpm {service} {args}
 
 *The site should be available by next address*
 ```
-http://api.baraholka.local:8080
+http://api.vptech.local:8080
 
 ```
