@@ -11,14 +11,14 @@ use Socialite;
 
 class UserServiceContractController extends Controller
 {
-    public function singUpFromSocial(Request $request)
+    public function singUpFromSocial(Request $request, UserServiceContract $userService)
     {
 
-        $userService = new UserService(new User());
+   
         //$id_token=$request->header('Authorization');
         //$id_token=str_replace("Bearer ","", $id_token);
 
-      return  $userService->socialSignIn($request);
+      return  $userService->sendResponse();
 
     }
 
