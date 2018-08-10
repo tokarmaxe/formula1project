@@ -24,4 +24,5 @@ class UserController extends Controller
         $result = $userService->socialSignIn($request);
         return $this->sendResponse($result, 200);
     }
+
 }
