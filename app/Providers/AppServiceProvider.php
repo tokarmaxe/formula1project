@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Components\User\Models\UserMok;
+use App\Components\User\Services\UserContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //DI for User components
-        $this->app->bind(UserContract::class, User::class);
+        $this->app->bind(UserContract::class, UserMok::class);
        //?? $this->app->make()
         $this->app->bind(UserServiceContract::class, UserService::class);
 
