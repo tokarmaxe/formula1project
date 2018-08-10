@@ -2,11 +2,14 @@
 
 namespace App\Components\User\Models;
 
+USE App;
 use App\Components\User\Services\UserContract;
 use App\Components\User\Services\UserServiceContract;
-use http\Env\Request;
-use http\Env\Response;
+use Illuminate\Http\Request as Request;
+use Illuminate\Http\Response as Response;
 use Laravel\Socialite\Facades\Socialite;
+use Google_Client;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -43,7 +46,6 @@ class User extends Authenticatable implements UserContract
         $id_token = $request->header('Authorization');
         $id_token = str_replace("Bearer ", "", $id_token);
 
-        $user = Socialite::driver('google')->userFromToken($id_token);
         $CLIENT_ID = Config::get('google.client_id');
 
         $email = $request->input('email');
@@ -53,7 +55,7 @@ class User extends Authenticatable implements UserContract
         $client->setDeveloperKey($CLIENT_ID);
         $payload = $client->verifyIdToken($id_token);
         if ($payload) {
-            if (User::where('email', '=', $email)->exists()) {
+            if (User::all()->find($email)) {
 
             }
         }
