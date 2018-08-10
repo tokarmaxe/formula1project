@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\User\Services\UserContract;
+use App\Components\User\Services\UserServiceContract;
 use Illuminate\Http\Request;
 use App\Components\User\Models\UserService;
 use App\Components\User\Models\User;
@@ -22,8 +23,8 @@ class UserServiceContractController extends Controller
     }
 
 
-    public function testProviders(UserContract $user) {
-            return   $user->getAll();
+    public function testProviders(UserServiceContract $user) {
+            return   $user->sendResponse();
 
     }
 }

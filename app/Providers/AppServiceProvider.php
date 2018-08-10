@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Components\User\Models\UserMok;
 use App\Components\User\Services\UserContract;
+use App\Components\User\Models\UserService;
+use App\Components\User\Services\UserServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
