@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use http\Env\Response;
 use Illuminate\Http\Request;
+use App\Components\User\Services\UserServiceContract;
 USE App;
 use App\Components\User\Models\User;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -18,7 +19,9 @@ class UserController extends Controller
         return view('welcome');
     }
 
-    public function logging(Request $request)
+    public function singUpFromSocial(Request $request, UserServiceContract $userService)
     {
+        $result = $userService->socialSignIn($request);
+        return $this->sendResponse($result, 200);
     }
 }
