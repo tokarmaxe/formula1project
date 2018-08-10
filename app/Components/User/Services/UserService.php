@@ -29,26 +29,34 @@ class UserService implements UserServiceContract
         //if something wrong throw new AuthorizationExeption
         $id_token = $request->header('Authorization');
         $id_token = str_replace("Bearer ", "", $id_token);
+
         $CLIENT_ID = Config::get('google.client_id');
+
         $email = $request->input('email');
         $name = $request->input('name');
+
         $client = new Google_Client();
         $client->setDeveloperKey($CLIENT_ID);
+
         $payload = $client->verifyIdToken($id_token);
+
         if ($payload) {
             if ($this->user->where('email', '=', $email)) {
+                //everything is ok, log in
+                echo "";
+            } else {
+                //register user
                 echo "";
             }
+            $accessToken = $this->user->createToken('access_token')->accessToken;
+            return response()->json([
+                'access_token' => $accessToken
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'failed'
+            ], 403);
         }
-        $accessToken = $this->user->createToken('access_token')->accessToken;
-        return [
-            'access_token' => $accessToken,
-            ''
-        ];
-    }
-
-    public function login(Request $request, Response $response)
-    {
 
     }
 }
