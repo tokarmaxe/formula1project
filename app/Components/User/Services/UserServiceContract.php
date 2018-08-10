@@ -1,12 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sklyack
- * Date: 09.08.18
- * Time: 21:30
- */
+
 
 namespace App\Components\User\Services;
+
+use Illuminate\Http\Request as Request;
 
 
 interface UserServiceContract

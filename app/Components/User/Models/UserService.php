@@ -2,10 +2,11 @@
 
 namespace App\Components\User\Models;
 
-use App\Components\User\Services\Request;
+//use App\Components\User\Services\Request;
 use App\Components\User\Services\Response;
 use App\Components\User\Services\UserContract;
 use App\Components\User\Services\UserServiceContract;
+use Illuminate\Http\Request as Request;
 
 class UserService implements UserServiceContract
 {
@@ -17,8 +18,11 @@ class UserService implements UserServiceContract
         $this->user=$user;
     }
 
-    public function socialSignIn(Request $request, Response $response)
+    public function socialSignIn(Request $request, Response $response = null)
     {
-        // TODO: Implement socialSignIn() method.
+        return response()->json([
+            'name' => 'Abigail',
+            'state' => 'CA'
+        ]);
     }
 }

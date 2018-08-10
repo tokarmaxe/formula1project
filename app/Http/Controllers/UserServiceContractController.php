@@ -3,23 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Components\User\Services\UserServiceContract;
+use App\Components\User\Models\UserService;
+use App\Components\User\Models\User;
 use Socialite;
 
 class UserServiceContractController extends Controller
 {
     public function singUpFromSocial(Request $request)
     {
-        return response()->json([
-            'name' => 'Abigail',
-            'state' => 'CA'
-        ]);
-        //temporary realization: UserService model creation with strong connetion
-        $userService = new UserService();
-        $id_token=$request->header('Authorization');
-        $id_token=str_replace("Bearer ","", $id_token);
 
-        $userService->socialSignIn($id_token,null);
+        $userService = new UserService(new User());
+        //$id_token=$request->header('Authorization');
+        //$id_token=str_replace("Bearer ","", $id_token);
+
+      return  $userService->socialSignIn($request);
 
     }
 }
