@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Components\User\Services\UserServiceContract;
 USE App;

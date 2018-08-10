@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Components\User\Services;
-
+namespace App\Components\User\Models;
 
 interface UserContract
 {

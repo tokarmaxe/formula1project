@@ -3,7 +3,7 @@
 namespace App\Components\User\Models;
 
 USE App;
-use App\Components\User\Services\UserContract;
+use App\Components\User\Models\UserContract;
 use App\Components\User\Services\UserServiceContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;

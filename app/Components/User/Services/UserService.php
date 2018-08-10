@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Components\User\Serives;
+namespace App\Components\User\Services;
 
-
-use App\Components\User\Services\UserContract;
+use App\Components\User\Models\UserContract;
 use App\Components\User\Services\UserServiceContract;
 use Illuminate\Http\Request as Request;
 use Illuminate\Http\Response as Response;
@@ -61,7 +60,7 @@ class UserService implements UserServiceContract
         $id_token = str_replace("Bearer ", "", $id_token);
 
         return [
-            'token'=>$id_token
+            'token' => $id_token
         ];
 
     }
