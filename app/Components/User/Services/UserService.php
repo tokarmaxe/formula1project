@@ -33,14 +33,18 @@ class UserService implements UserServiceContract
         $CLIENT_ID = Config::get('google.client_id');
 
         $apiToken = $this->user->createToken()->api_token;
-        $client = Socialite::driver('google');
-        $client = $client->userFromToken($apiToken);
-        $client_email = $client->getEmail();
+        $client = new Google_Client();
 
-        $user = new User;
+        $client->setScopes(array("https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",));
+        $client->addScope("profile");
+        $client->addScope("email");
+
+        $payload = $client->verifyIdToken($id_token);
+
 
         return [
-            'email' => $client_email,
+            $payload
         ];
 
     }
