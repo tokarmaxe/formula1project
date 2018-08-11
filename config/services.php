@@ -34,5 +34,14 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    //add google keys for api authorization
+    'google' => [
+        'client_id' => env('GOOGLE_ID'),
+        'client_secret' => env('GOOGLE_SECRET'),
+        'redirect' =>  env('GOOGLE_REDIRECT')
+    ],
+    'validity' => [
+        'access_token' => '1'
+    ]
 
 ];

@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <a href="{{ url('/auth/googlr') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i> Google</a>
                 </div>
 
                 <div class="links">

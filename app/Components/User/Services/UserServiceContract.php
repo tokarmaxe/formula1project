@@ -10,6 +10,6 @@ use Illuminate\Http\Response as Response;
 interface UserServiceContract
 {
     public function socialSignIn(Request $request, Response $response);
-    public function sendResponse();
+
 
 }

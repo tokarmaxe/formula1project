@@ -1,5 +1,5 @@
 <?php
-
+use Barryvdh\Debugbar\Facade as Debugbar;
 return [
 
     /*
@@ -145,7 +145,11 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
+        //google auth
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        //add debug service
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -176,6 +180,7 @@ return [
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
@@ -207,6 +212,7 @@ return [
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'View' => Illuminate\Support\Facades\View::class,
 
     ],

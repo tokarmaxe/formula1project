@@ -15,4 +15,5 @@ use Illuminate\Http\Request;
 
 
 
-Route::post('/login', 'UserServiceContractController@singUpFromSocial');
+Route::post('/login', 'UserServiceController@singUpFromSocial');
+Route::post('/test', 'UserServiceControlle@testProviders');
