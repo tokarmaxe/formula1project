@@ -34,26 +34,30 @@ class UserService implements UserServiceContract
         //gets Id token from request
         $idToken=$request->header('Authorization');
         $idToken=str_replace('Beare','',str_replace(" ","", $idToken));
-
+        $clientEmail = $request->input('email');
         if (isset($idToken)) {
             //gets client or exeption - 404
             //$client = $driver->userFromToken($idToken);
             //$clientEmail = $client->getEmail();
+        //    $client->setDeveloperKey($clientServiceID);
+          //  $payload = $client->verifyIdToken($idToken);
+//mok
             $clientEmail ='sklyack@gmail.com';
-            if (User::where('email', '=', $clientEmail)->exists()) {
-                $user = User::Where('email', '=', $clientEmail)->first();
-                /* We need just only generate acces_token
-                if(!Auth::loginUsingId($user->id)){
-                    return response()->json([
-                        'failed'
-                    ], 403);
-                }*/
+           // if ($payload) {
+                if (User::where('email', '=', $clientEmail)->exists()) {
+                    $user = User::Where('email', '=', $clientEmail)->first();
+                    /* We need just only generate acces_token
+                    if(!Auth::loginUsingId($user->id)){
+                        return response()->json([
+                            'failed'
+                        ], 403);
+                    }*/
 
-             //   $autorizedUser = User::where('id', Auth::user()->id)->first();
-                $user->access_token = mt_rand (5, 5555555512233);
-                $user->expired_at = $expiredDate;
-                $user->save();
-
+                    //   $autorizedUser = User::where('id', Auth::user()->id)->first();
+                    $user->access_token = mt_rand(5, 5555555512233);
+                    $user->expired_at = $expiredDate;
+                    $user->save();
+            //    }
 
 
                // $updateLastLoginDate->save();
