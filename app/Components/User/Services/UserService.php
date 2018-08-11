@@ -30,21 +30,38 @@ class UserService implements UserServiceContract
         $id_token = $request->header('Authorization');
         $id_token = str_replace("Bearer ", "", $id_token);
 
-        $CLIENT_ID = Config::get('google.client_id');
-
-        $apiToken = $this->user->createToken()->api_token;
         $client = new Google_Client();
 
-        $client->setScopes(array("https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/userinfo.profile",));
+        $client->setScopes(array(
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",
+        ));
         $client->addScope("profile");
         $client->addScope("email");
 
         $payload = $client->verifyIdToken($id_token);
 
-        return [
-            $payload
-        ];
+        if ($payload) {
+            $newUser = new User();
+            $newUser->first_name = $payload['given_name'];
+            $newUser->last_name = $payload['family_name'];
+            $newUser->avatar = $payload['picture'];
+//            $newUser->email= $payload['email'];
+//            $newUser->phone_number=$payload['phone'];
+            $date = date('Y-m-d h:i:s');
+            $newUser->expired_at = $date;
+            $newUser->api_token = $this->user->createToken()->api_token;
+            $newUser->save();
+            return [$newUser->api_token];
+        } else {
+            return response()->json([
+                'failed'
+            ], 403);
+        }
+
+//        return [
+//            $payload['given_name']
+//        ];
 
     }
 
