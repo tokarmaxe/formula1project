@@ -42,7 +42,6 @@ class UserService implements UserServiceContract
 
         $payload = $client->verifyIdToken($id_token);
 
-
         return [
             $payload
         ];
