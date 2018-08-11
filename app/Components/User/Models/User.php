@@ -35,4 +35,13 @@ class User extends Authenticatable implements UserContract
         'password',
         'remember_token',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function createToken($length = 1024)
+    {
+        $this->api_token = \Hash::make(\random_bytes($length));
+        return $this;
+    }
 }
