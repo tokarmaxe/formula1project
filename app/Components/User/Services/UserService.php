@@ -21,61 +21,41 @@ class UserService implements UserServiceContract
         $this->user = $user;
     }
 
-
+    /*
+    1) geting Email from idToken
+    2)check is email in base
+    3)if in base check gets acces_token from user model and check isOVERDUE,
+    if true - generate new acces_token if false - return current
+    4)if user is not in base - user registration and acces_token generation
+    */
     public function socialSignIn(Request $request)
     {
-        /*
-        //TODO logic
-        //if something wrong throw new AuthorizationExeption
-
-        $id_token = $request->header('Authorization');
-        $id_token = str_replace("Bearer ", "", $id_token);
-
-        $client = new Google_Client();
-
-        $client->setScopes(array(
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/userinfo.profile",
-        ));
-        $client->addScope("profile");
-        $client->addScope("email");
-
-        $payload = $client->verifyIdToken($id_token);
-
-        if ($payload) {
-            $newUser = new User();
-            $newUser->first_name = $payload['given_name'];
-            $newUser->last_name = $payload['family_name'];
-            $newUser->avatar = $payload['picture'];
-//            $newUser->email= $payload['email'];
-//            $newUser->phone_number=$payload['phone'];
-            $date = date('Y-m-d h:i:s');
-            $newUser->expired_at = $date;
-            $newUser->api_token = $this->user->createToken()->api_token;
-            $newUser->save();
-            return [$newUser->api_token];
-        } else {
-            return response()->json([
-                'failed'
-            ], 403);
+        $idToken=$request->header('Authorization');
+        $idToken=str_replace('Beare','',str_replace(" ","", $idToken));
+        //secure code ???
+        if (isset($idToken)) {
+            $googleClientID = Config::get('google.client_id');
+            $client = new \Google_Client();
+            $client->setDeveloperKey($googleClientID);
+         //   $client->addScope("profile");
+            $client->addScope('email');
+            $payload = $client->verifyIdToken($idToken);
+            if ($payload['email']) {
+                $clienEmail = $payload['email'];
+                if (User::where('email', '=', $clienEmail)->exists()) {
+                    $user = User::Where('email', '=', $clienEmail)->first();
+                    $currentAccessToken = $user->api_token;
+                    if ($this->isOverdueApiToken($user))
+                        $currentAccessToken = $user->createToken();
+                    return response()->json([
+                        "acces_token" => "".$currentAccessToken."",
+                    ],200);
+                }
+                //user creation
+            }
         }
-
-//        return [
-//            $payload['given_name']
-//        ];
-        */
-
-
-        return response()->json([
-            "acces_token" => "test"
-        ],200);
-
-
-
     }
-
-    public function sendResponse(Request $request, $code)
-    {
-        return response()->json($request, $code);
+    protected function isOverdueApiToken (UserContract $user):Bollean {
+        return false;
     }
 }
