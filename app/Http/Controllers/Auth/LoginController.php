@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Socialite;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -20,7 +20,6 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-    //use App\Components;
 
     /**
      * Where to redirect users after login.
@@ -41,19 +40,20 @@ class LoginController extends Controller
 
     public function redirectToProvider()
     {
-        //$user = Socialite::driver('google')->stateless()->user();;
-
-       // dd(Socialite::driver('google')->stateless()->user());
-
         return Socialite::driver('google')->redirect();
-
     }
 
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function handleProviderCallback()
     {
-
         $user = Socialite::driver('google')->stateless()->user();
-
-
+        echo $user->token;
+        echo $user->name;
+        echo "<img src='.$user->avatar;.'>";
+        echo $user->getName();
     }
 }
