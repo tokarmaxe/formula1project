@@ -13,7 +13,8 @@ class User extends Authenticatable implements UserContract
     public function createToken($length = 1024)
     {
         $this->api_token = \Hash::make(\random_bytes($length));
-        $this->expired_at = Carbon::now();
+        $this->Carbon::now()
+            ->addDays(Config::get('services.validity.access_token'));
         return $this->api_token;
     }
 
