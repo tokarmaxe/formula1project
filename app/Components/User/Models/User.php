@@ -44,4 +44,6 @@ class User extends Authenticatable implements UserContract
         $this->api_token = \Hash::make(\random_bytes($length));
         return $this;
     }
+
+
 }

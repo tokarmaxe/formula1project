@@ -42,11 +42,14 @@ class UserService implements UserServiceContract
         $payload = $client->verifyIdToken($id_token);
 
         if ($payload) {
+            if ($this->user->where('email', '=', $payload['email'])->exists()) {
+                return [$this->user->api_token];
+            }
             $newUser = new User();
             $newUser->first_name = $payload['given_name'];
             $newUser->last_name = $payload['family_name'];
             $newUser->avatar = $payload['picture'];
-//            $newUser->email= $payload['email'];
+            $newUser->email = $payload['email'];
 //            $newUser->phone_number=$payload['phone'];
             $date = date('Y-m-d h:i:s');
             $newUser->expired_at = $date;
@@ -54,15 +57,8 @@ class UserService implements UserServiceContract
             $newUser->save();
             return [$newUser->api_token];
         } else {
-            return response()->json([
-                'failed'
-            ], 403);
+            return response()->json(['failed'], 403);
         }
-
-//        return [
-//            $payload['given_name']
-//        ];
-
     }
 
     public function sendResponse(Request $request, $code)
