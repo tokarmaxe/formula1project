@@ -30,14 +30,14 @@ class UserService implements UserServiceContract
     */
     public function socialSignIn(Request $request)
     {
-        $idToken=$request->header('Authorization');
-        $idToken=str_replace('Beare','',str_replace(" ","", $idToken));
+        $idToken = $request->header('Authorization');
+        $idToken = str_replace('Beare', '', str_replace(" ", "", $idToken));
         //secure code ???
         if (isset($idToken)) {
             $googleClientID = Config::get('google.client_id');
             $client = new \Google_Client();
             $client->setDeveloperKey($googleClientID);
-         //   $client->addScope("profile");
+            //   $client->addScope("profile");
             $client->addScope('email');
             $payload = $client->verifyIdToken($idToken);
             if ($payload['email']) {
@@ -45,17 +45,20 @@ class UserService implements UserServiceContract
                 if (User::where('email', '=', $clienEmail)->exists()) {
                     $user = User::Where('email', '=', $clienEmail)->first();
                     $currentAccessToken = $user->api_token;
-                    if ($this->isOverdueApiToken($user))
+                    if ($this->isOverdueApiToken($user)) {
                         $currentAccessToken = $user->createToken();
+                    }
                     return response()->json([
-                        "acces_token" => "".$currentAccessToken."",
-                    ],200);
+                        "acces_token" => "" . $currentAccessToken . "",
+                    ], 200);
                 }
                 //user creation
             }
         }
     }
-    protected function isOverdueApiToken (UserContract $user):Bollean {
+
+    protected function isOverdueApiToken(UserContract $user): Bollean
+    {
         return false;
     }
 }
