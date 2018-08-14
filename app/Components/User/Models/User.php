@@ -2,7 +2,7 @@
 
 namespace App\Components\User\Models;
 
-USE App;
+use App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
