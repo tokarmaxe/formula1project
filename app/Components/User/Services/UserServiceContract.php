@@ -6,5 +6,5 @@ use Illuminate\Http\Request as Request;
 
 interface UserServiceContract
 {
-    public function socialSignIn(Request $request);
+    public function login(Request $request);
 }

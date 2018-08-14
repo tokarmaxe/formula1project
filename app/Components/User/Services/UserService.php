@@ -2,81 +2,93 @@
 
 namespace App\Components\User\Services;
 
-use App\Components\User\Models\UserContract;
-use Illuminate\Http\Request as Request;
-use Google_Client;
 use App\Components\User\Models\User;
+use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
 
 class UserService implements UserServiceContract
 {
+    /**
+     * @var User
+     */
     private $user;
 
-    public function __construct(UserContract $user)
+    /**
+     * UserService constructor.
+     * @param User $user
+     */
+    public function __construct(User $user)
     {
         $this->user = $user;
     }
 
-    /*
-    1) geting Email from idToken
-    2)check is email in base
-    3)if user is not in base - user registration and acces_token generation
-    */
-    public function socialSignIn(Request $request)
+    /**
+     * @param Request $request
+     * @return array
+     * @throws AuthenticationException
+     */
+    public function login(Request $request)
     {
         $idToken = $request->header('Authorization');
-        $idToken = str_replace('Beare', '', str_replace(" ", "", $idToken));
-        //$idToken = str_replace("Bearer ", "", $idToken);
+        $idToken = str_replace('Bearer ', '', $idToken);
+
         if (empty ($idToken)) {
             throw new AuthenticationException('Unathorized: token_ID is incorrect!');
         }
-        $googleClientID = Config::get('google.client_id');
         $client = new \Google_Client();
-        $client->setDeveloperKey($googleClientID);
+
+        $client->setDeveloperKey(Config::get('google.client_id'));
+
         $payload = $client->verifyIdToken($idToken);
-        if (empty($payload['email'])) {
-            throw AuthenticationException('Unathorized: e-mail is not available');
-        }
-        $clienEmail = $payload['email'];
-        if ($this->user->where('email', '=', $clienEmail)->exists()) {
-            $this->user = User::Where('email', '=', $clienEmail)
+        $this->checkPayloadEmail($payload);
+
+        $clientEmail = $payload['email'];
+        if ($this->user->where('email', $clientEmail)->exists()) {
+            $this->user = $this->user->where('email', $clientEmail)
                 ->first();
-        } //user registration
-        else {
-            $this->createUserFromGoogleData($payload);
+        } else {
+            $this->user = $this->createUserFromGoogleData($payload);
         }
-        return [$this->user->api_token];
+
+        return [
+            'access_token' => $this->user->api_token,
+        ];
     }
 
-    public function createUserFromGoogleData($payload): String
+    /**
+     * @param $payload
+     * @throws AuthenticationException
+     */
+    private function checkPayloadEmail($payload)
     {
-        $creationMessage = '';
-        $data = [];
-        if ($payload['email']) {
-            $data['email'] = $payload['email'];
-        } else {
-            $creationMessage = 'Error: incorrect email';
-            return $creationMessage;
+        if (empty($payload['email'])) {
+            throw new AuthenticationException('E-mail is not available');
         }
-        /* we don'return if theese fields are empty...
-     the fields should be null = true */
-        $payload['given_name'] ?
-            $data['first_name'] = $payload['given_name']
-            : $creationMessage .= 'Warning: First name are empty\n';
-        $payload['family_name'] ?
-            $data['last_name'] = $payload['family_name']
-            : $creationMessage .= 'Warning: Last name are empty\n';
-        $payload['picture'] ? $data['avatar'] = $payload['picture']
-            : $creationMessage .= 'Warning: No avatar\n';
-        //phone is skiped
-        //  $data['first_name'] = 'test';
-        $data['api_token'] = $this->user->createToken();
-        $data['expired_at'] = Carbon::now()
-            ->addDays(Config::get('services.validity.access_token'));
-        $this->user = User::create($data);
-        return $creationMessage = 'Ok';
+        //TODO array with allowed email domains '@provectus.com' + all emails from Baraholka doc
+    }
 
+
+    /**
+     * @param $payload
+     * @return User
+     * @throws AuthenticationException
+     */
+    public function createUserFromGoogleData($payload): User
+    {
+        $this->checkPayloadEmail($payload);
+
+        $data = [
+            'email' => array_get($payload, 'email', ''),
+            'first_name' => array_get($payload, 'given_name', ''),
+            'last_name' => array_get($payload, 'family_name', ''),
+            'avatar' => array_get($payload, 'picture', ''),
+            'api_token' => $this->user->createToken(),
+            'expired_at' => Carbon::now()
+                ->addDays(Config::get('services.validity.access_token')),
+        ];
+
+        return $this->user->create($data);
     }
 }

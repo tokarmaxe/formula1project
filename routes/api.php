@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,7 +11,9 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('/login', 'UserController@login');
 
-
-Route::post('/login', 'UserServiceController@singUpFromSocial');
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/user', 'UserController@user');
+});
 

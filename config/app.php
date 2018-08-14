@@ -1,5 +1,4 @@
 <?php
-use Barryvdh\Debugbar\Facade as Debugbar;
 return [
 
     /*
@@ -146,7 +145,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         //google auth
-        Laravel\Socialite\SocialiteServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         //add debug service
         Barryvdh\Debugbar\ServiceProvider::class,

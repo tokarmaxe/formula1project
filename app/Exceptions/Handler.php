@@ -52,8 +52,8 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof AuthenticationException) {
-            return response()->json(['message' => $exception->getMessage()],
-                '404');
+            return response()->json(['message' => 'Unauthorized: ' . $exception->getMessage()],
+                '401');
         }
     }
 }
