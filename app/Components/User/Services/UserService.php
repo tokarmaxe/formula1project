@@ -9,7 +9,7 @@ use App\Components\User\Models\User;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
-                                                                                                            
+
 class UserService implements UserServiceContract
 {
     private $user;
@@ -28,7 +28,8 @@ class UserService implements UserServiceContract
     {
         $idToken = $request->header('Authorization');
         $idToken = str_replace('Beare', '', str_replace(" ", "", $idToken));
-        if ( ! $idToken) {
+        //$idToken = str_replace("Bearer ", "", $idToken);
+        if (empty ($idToken)) {
             throw new AuthenticationException('Unathorized: token_ID is incorrect!');
         }
         $googleClientID = Config::get('google.client_id');
@@ -39,19 +40,14 @@ class UserService implements UserServiceContract
             throw AuthenticationException('Unathorized: e-mail is not available');
         }
         $clienEmail = $payload['email'];
-        if ($this->user->where('email', $clienEmail)->first()) {
+        if ($this->user->where('email', '=', $clienEmail)->exists()) {
             $this->user = User::Where('email', '=', $clienEmail)
                 ->first();
-            $this->user->api_token = $this->user->createToken();
-            $this->user->expired_at = Carbon::now()
-                ->addDays(Config::get('services.validity.access_token'));
-            $this->user->save();
-
         } //user registration
         else {
             $this->createUserFromGoogleData($payload);
         }
-        return array("access_token" => $this->user->api_token);
+        return [$this->user->api_token];
     }
 
     public function createUserFromGoogleData($payload): String
