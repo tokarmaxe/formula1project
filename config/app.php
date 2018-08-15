@@ -144,7 +144,6 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
-        //google auth
         Illuminate\View\ViewServiceProvider::class,
         //add debug service
         Barryvdh\Debugbar\ServiceProvider::class,
@@ -178,7 +177,6 @@ return [
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
