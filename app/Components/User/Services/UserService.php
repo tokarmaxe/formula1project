@@ -4,6 +4,8 @@ namespace App\Components\User\Services;
 
 use App\Components\User\Models\UserContract;
 use App\Components\User\Services\UserServiceContract;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Http\Request as Request;
 use Illuminate\Http\Response as Response;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +13,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Google_Client;
 use App\Components\User\Models\User;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Validator;
 
 class UserService implements UserServiceContract
 {
@@ -34,25 +37,46 @@ class UserService implements UserServiceContract
 
         $payload = $client->verifyIdToken($id_token);
 
-        if (!empty($payload['email'])) {
-            if ($this->user->where('email', '=', $payload['email'])->exists()) {
-                $existedUser = new User();
-                $existedUser->expired_at = date('Y-m-d h:i:s');
-                $existedUser->api_token = $this->user->createToken()->api_token;
+        try {
+            if (!empty($payload['email'])) {
+                if ($this->user->where('email', $payload['email'])->exists()) {
+                    $existedUser = $this->user->where('email', $payload['email']);
+                    $existedUser->expired_at = date('Y-m-d h:i:s');
+                    $existedUser->api_token = $this->user->createToken()->api_token;
+                } else {
+                    if ($this->emailValidate($payload['email'])) {
+                        $newUser = $this->createUserFromGoogleData($payload);
+                        return ['access_token' => $newUser->api_token];
+                    } else {
+                        throw new AuthenticationException('Email is not available');
+                    }
+                }
+            } else {
+                throw new AuthenticationException('Authentication error');
             }
-            $newUser = new User();
-            $newUser->first_name = $payload['given_name'];
-            $newUser->last_name = $payload['family_name'];
-            $newUser->avatar = $payload['picture'];
-            $newUser->email = $payload['email'];
-//            $newUser->phone_number=$payload['phone'];
-            $date = date('Y-m-d h:i:s');
-            $newUser->expired_at = $date;
-            $newUser->api_token = $this->user->createToken()->api_token;
-            $newUser->save();
-            return ['access_token'=>$newUser->api_token];
-        } else {
-            return response()->json(['failed'], 403);
+        } catch (\Exception $exception) {
         }
     }
+
+    public function createUserFromGoogleData($payload): User
+    {
+        $newUser = new User();
+        $newUser->first_name = $payload['given_name'];
+        $newUser->last_name = $payload['family_name'];
+        $newUser->avatar = $payload['picture'];
+        $newUser->email = $payload['email'];
+        $date = date('Y-m-d h:i:s');
+        $newUser->expired_at = $date;
+        $newUser->api_token = $this->user->createToken()->api_token;
+        $newUser->save();
+        return $newUser;
+    }
+
+    private function emailValidate($email)
+    {
+        return Validator::make($email, [
+            'email' => 'required|email|max:255|unique:users|regex:/(.*)provectus\.com$/i'
+        ]);
+    }
+
 }
