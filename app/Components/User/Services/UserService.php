@@ -8,11 +8,8 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Http\Request as Request;
 use Illuminate\Http\Response as Response;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
 use Google_Client;
 use App\Components\User\Models\User;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
 class UserService implements UserServiceContract
@@ -43,10 +40,11 @@ class UserService implements UserServiceContract
                     $existedUser = $this->user->where('email', $payload['email']);
                     $existedUser->expired_at = date('Y-m-d h:i:s');
                     $existedUser->api_token = $this->user->createToken()->api_token;
+                    $this->user = $existedUser;
                 } else {
                     if ($this->emailValidate($payload['email'])) {
                         $newUser = $this->createUserFromGoogleData($payload);
-                        return ['access_token' => $newUser->api_token];
+                        $this->user = $newUser;
                     } else {
                         throw new AuthenticationException('Email is not available');
                     }
@@ -56,6 +54,7 @@ class UserService implements UserServiceContract
             }
         } catch (\Exception $exception) {
         }
+        return ['access_token' => $newUser->api_token];
     }
 
     public function createUserFromGoogleData($payload): User
