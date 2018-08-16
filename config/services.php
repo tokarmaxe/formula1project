@@ -42,6 +42,13 @@ return [
     ],
     'validity' => [
         'access_token' => '1'
-    ]
+    ],
+
+    'allowed_email_domains' => [
+        'provectus-it.com',
+        'provectus.com',
+        'livenation.com',
+        'determine.com',
+        ],
 
 ];

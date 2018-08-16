@@ -17,6 +17,7 @@ class UserService implements UserServiceContract
 
     /**
      * UserService constructor.
+     *
      * @param User $user
      */
     public function __construct(User $user)
@@ -26,6 +27,7 @@ class UserService implements UserServiceContract
 
     /**
      * @param Request $request
+     *
      * @return array
      * @throws AuthenticationException
      */
@@ -59,6 +61,7 @@ class UserService implements UserServiceContract
 
     /**
      * @param $payload
+     *
      * @throws AuthenticationException
      */
     private function checkPayloadEmail($payload)
@@ -67,11 +70,20 @@ class UserService implements UserServiceContract
             throw new AuthenticationException('E-mail is not available');
         }
         //TODO array with allowed email domains '@provectus.com' + all emails from Baraholka doc
+        $row = explode('@', $payload['email']);
+        if (!(in_array($row[1],
+            Config::get('services.allowed_email_domains'))==true)
+        ) {
+            throw new AuthenticationException('E-mail domain is not allowed');
+        }
+
+        return true;
     }
 
 
     /**
      * @param $payload
+     *
      * @return User
      * @throws AuthenticationException
      */
