@@ -37,9 +37,10 @@ class UserService implements UserServiceContract
         try {
             if (!empty($payload['email'])) {
                 if ($this->user->where('email', $payload['email'])->exists()) {
-                    $existedUser = $this->user->where('email', $payload['email']);
+                    $existedUser = $this->user->where('email', $payload['email'])->first();
                     $existedUser->expired_at = date('Y-m-d h:i:s');
                     $existedUser->api_token = $this->user->createToken()->api_token;
+                    $existedUser->save();
                     $this->user = $existedUser;
                 } else {
                     if ($this->emailValidate([$payload['email']])) {
