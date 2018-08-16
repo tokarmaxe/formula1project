@@ -66,18 +66,17 @@ class UserService implements UserServiceContract
      */
     private function checkPayloadEmail($payload)
     {
-        if (empty($payload['email'])) {
+        if ( ! $payload['email']) {
             throw new AuthenticationException('E-mail is not available');
         }
         //TODO array with allowed email domains '@provectus.com' + all emails from Baraholka doc
         $row = explode('@', $payload['email']);
-        if (!(in_array($row[1],
-            Config::get('services.allowed_email_domains'))==true)
+        if ( ! (in_array($row[1],
+                Config::get('services.allowed_email_domains')) == true)
         ) {
             throw new AuthenticationException('E-mail domain is not allowed');
         }
-
-        return true;
+        
     }
 
 
