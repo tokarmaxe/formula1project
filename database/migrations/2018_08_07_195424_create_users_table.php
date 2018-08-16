@@ -16,12 +16,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('api_token');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email');
-            $table->string('phone_number');
-            $table->string('avatar');
-            $table->boolean('is_admin');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('email')->unique();
+            $table->string('phone_number')->nullable();
+            $table->string('avatar')->nullable();
+            $table->boolean('is_admin')->nullable();
             $table->dateTime('expired_at');
             $table->timestamps();
         });

@@ -32,18 +32,13 @@ class UserService implements UserServiceContract
 
         $client = new Google_Client();
 
-        $client->setScopes(array(
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/userinfo.profile",
-        ));
-        $client->addScope("profile");
-        $client->addScope("email");
-
         $payload = $client->verifyIdToken($id_token);
 
-        if ($payload) {
+        if (!empty($payload['email'])) {
             if ($this->user->where('email', '=', $payload['email'])->exists()) {
-                return [$this->user->api_token];
+                $existedUser = new User();
+                $existedUser->expired_at = date('Y-m-d h:i:s');
+                $existedUser->api_token = $this->user->createToken()->api_token;
             }
             $newUser = new User();
             $newUser->first_name = $payload['given_name'];
@@ -55,14 +50,9 @@ class UserService implements UserServiceContract
             $newUser->expired_at = $date;
             $newUser->api_token = $this->user->createToken()->api_token;
             $newUser->save();
-            return [$newUser->api_token];
+            return ['access_token'=>$newUser->api_token];
         } else {
             return response()->json(['failed'], 403);
         }
-    }
-
-    public function sendResponse(Request $request, $code)
-    {
-        return response()->json($request, $code);
     }
 }

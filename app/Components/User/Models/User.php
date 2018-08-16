@@ -2,7 +2,7 @@
 
 namespace App\Components\User\Models;
 
-USE App;
+use app;
 use App\Components\User\Models\UserContract;
 use App\Components\User\Services\UserServiceContract;
 use Illuminate\Notifications\Notifiable;
@@ -18,12 +18,13 @@ class User extends Authenticatable implements UserContract
      * @var array
      */
     protected $fillable = [
-        'token',
-        'nickname',
-        'name',
+        'api_token',
+        'first_name',
+        'last_name',
         'email',
         'avatar',
-        'is_admin'
+        'is_admin',
+        'expired_at'
     ];
 
     /**

@@ -16,4 +16,4 @@ use Illuminate\Http\Request;
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-Route::post('logining', 'UserController@singUpFromSocial')->name('user.login');
+Route::post('login', 'UserController@singUpFromSocial')->name('user.login');
