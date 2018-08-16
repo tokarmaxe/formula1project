@@ -42,7 +42,7 @@ class UserService implements UserServiceContract
                     $existedUser->api_token = $this->user->createToken()->api_token;
                     $this->user = $existedUser;
                 } else {
-                    if ($this->emailValidate($payload['email'])) {
+                    if ($this->emailValidate([$payload['email']])) {
                         $newUser = $this->createUserFromGoogleData($payload);
                         $this->user = $newUser;
                     } else {
@@ -54,7 +54,8 @@ class UserService implements UserServiceContract
             }
         } catch (\Exception $exception) {
         }
-        return ['access_token' => $newUser->api_token];
+        return ['access_token' => $this->user->api_token];
+//        return $payload;
     }
 
     public function createUserFromGoogleData($payload): User
@@ -74,7 +75,7 @@ class UserService implements UserServiceContract
     private function emailValidate($email)
     {
         return Validator::make($email, [
-            'email' => 'required|email|max:255|unique:users|regex:/(.*)provectus\.com$/i'
+            'email' => 'required|email|max:255|unique:users|regex:/(.*)@provectus.com$/i'
         ]);
     }
 
