@@ -23,6 +23,7 @@ class UserController extends Controller
 
     public function user()
     {
+        dd('hello');
         return $this->sendResponse(['some data']);
     }
 }

@@ -76,7 +76,7 @@ class UserService implements UserServiceContract
         ) {
             throw new AuthenticationException('E-mail domain is not allowed');
         }
-        
+
     }
 
 
