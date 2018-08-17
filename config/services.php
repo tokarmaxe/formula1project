@@ -49,6 +49,7 @@ return [
         'provectus.com',
         'livenation.com',
         'determine.com',
+        'reinvently.com'
         ],
 
 ];
