@@ -76,7 +76,7 @@ class UserService implements UserServiceContract
     private function emailValidate($email)
     {
         return Validator::make($email, [
-            'email' => 'required|email|max:255|unique:users|regex:/(.*)@provectus.com$/i'
+            'email' => 'required|max:255|unique:users|regex:/(.*)@provectus\.com$/i'
         ]);
     }
 
