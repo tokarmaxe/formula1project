@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Components\User\Services\UserServiceContract;
-USE App;
+use App;
+use app\Components\User\Models\User;
 
 
 class UserController extends Controller
@@ -21,8 +22,13 @@ class UserController extends Controller
         return $this->sendResponse($result);
     }
 
-    public function user()
+    public function user(Request $request, UserServiceContract $userService)
     {
-        return $this->sendResponse(['some data']);
+//        $result = $this->login($request, $userService);
+//        $result = json_decode($result['data']);
+        $result = $userService->login($request);
+        $user = User::where('api_token', $result['access_token'])->first()->toArray();
+
+        return $this->sendResponse($user);
     }
 }
