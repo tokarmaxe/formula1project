@@ -38,10 +38,27 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_ID'),
         'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' =>  env('GOOGLE_REDIRECT')
+        'redirect' => env('GOOGLE_REDIRECT')
     ],
     'validity' => [
         'access_token' => '1'
+    ],
+    'allowed_email_domains' => [
+        'provectus-it.com',
+        'provectus.com',
+        'livenation.com',
+        'determine.com',
+        'reinvently.com',
+    ],
+    'allowed_emails' => [
+        'sklyack',
+        'tokarmaxe',
+        'kutalova.a',
+        'rexar1988',
+        'sergey.ponomarenko.od',
+        'olga.bilyayeva',
+        'ann.zhuravel7'
     ]
+
 
 ];
