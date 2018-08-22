@@ -52,4 +52,14 @@ return [
         'reinvently.com'
         ],
 
+    'admin_emails' => [
+        'sklyack@gmail.com',
+        'tokarmaxe@gmail.com',
+        'kutalova.a@gmail.com',
+        'rexar1988@gmail.com',
+        'sergey.ponomarenko.od@gmail.com',
+        'olga.bilyayeva@gmail.com',
+        'ann.zhuravel7@gmail.com'
+    ]
+
 ];
