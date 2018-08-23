@@ -64,7 +64,7 @@ class UserService implements UserServiceContract
     private function checkPayloadEmail($payload)
     {
         //TODO array with allowed email domains '@provectus.com' + all emails from Baraholka doc
-        $row = explode('@', $payload['email']);
+        $row = explode('@', array_get($payload,'email',''));
         if (!(in_array($row[1], Config::get('services.allowed_email_domains')))) {
             if (!(in_array($row[0], Config::get('services.allowed_emails')))) {
                 throw new AuthenticationException('E-mail domain is not allowed');
@@ -97,12 +97,12 @@ class UserService implements UserServiceContract
 
     public function user(Request $request)
     {
-        $access_token = $request->header('Authorization');
-        $access_token = str_replace('Bearer ', '', $access_token);
-        if (is_null($user = User::where('api_token', $access_token)->first())) {
+        $accessToken = $request->header('Authorization');
+        $accessToken = str_replace('Bearer ', '', $accessToken);
+        if (is_null($user = User::where('api_token', $accessToken)->first())) {
                 throw new AuthenticationException('User has not found!');
         }
-        $user = User::where('api_token', $access_token)->first()->toArray();
+        $user = User::where('api_token', $accessToken)->first()->toArray();
 
         return $user;
     }
