@@ -107,12 +107,17 @@ class UserService implements UserServiceContract
      * gets apiToken from header: 'Bearer apiToken
      *
      * @return user->toArray()
+     * @throws AuthenticationException
      */
 
     public function getUserByApiToken(Request $request)
     {
         $apiToken = $request->header('authorization');
         $apiToken = str_replace('Bearer ', '', $apiToken);
-        return $this->user->where('api_token', $apiToken)->first()->toArray();
+        $user = $this->user->where('api_token', $apiToken)->first();
+        if (is_null($user)) {
+            throw new AuthenticationException('User has not found!');
+        }
+        return $user->toArray();
     }
 }
