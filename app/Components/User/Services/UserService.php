@@ -66,12 +66,12 @@ class UserService implements UserServiceContract
      */
     private function checkPayloadEmail($payload)
     {
-        //TODO array with allowed email domains '@provectus.com' + all emails from Baraholka doc
-        $row = explode('@', $payload['email']);
+        $userEmail = array_get($payload, 'email');
+        $row = explode('@', $userEmail);
         if ( ! (in_array($row[1],
-                Config::get('services.allowed_email_domains')) == true
-            || in_array($payload['email'],
-                Config::get('services.admin_emails')) == true)
+                Config::get('services.allowed_email_domains'))
+            || in_array($userEmail,
+                Config::get('services.admin_emails')))
 
         ) {
             throw new AuthenticationException('E-mail domain is not allowed');
@@ -85,7 +85,7 @@ class UserService implements UserServiceContract
      * @return User
      * @throws AuthenticationException
      */
-    public function createUserFromGoogleData($payload): User
+    protected function createUserFromGoogleData($payload): User
     {
         $this->checkPayloadEmail($payload);
 
@@ -100,5 +100,19 @@ class UserService implements UserServiceContract
         ];
 
         return $this->user->create($data);
+    }
+
+    /**
+     * @param Request $request
+     * gets apiToken from header: 'Bearer apiToken
+     *
+     * @return user->toArray()
+     */
+
+    public function getUserByApiToken(Request $request)
+    {
+        $apiToken = $request->header('authorization');
+        $apiToken = str_replace('Bearer ', '', $apiToken);
+        return $this->user->where('api_token', $apiToken)->first()->toArray();
     }
 }

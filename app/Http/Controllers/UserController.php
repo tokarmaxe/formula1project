@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Components\User\Services\UserServiceContract;
-use App\Components\User\Models\UserContract;
-USE App;
+use App;
 
 
 class UserController extends Controller
@@ -22,12 +21,15 @@ class UserController extends Controller
         return $this->sendResponse($result);
     }
 
-    public function user(Request $request, UserContract $user)
+    /**
+     * @param Request             $request
+     * @param UserServiceContract $userService
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function user(Request $request, UserServiceContract $userService)
     {
-        $apiToken = $request->header('authorization');
-        $apiToken = str_replace('Bearer ', '', $apiToken);
         return
-            $this->sendResponse($user->where('api_token', $apiToken)->first()
-                ->toArray());
+            $this->sendResponse($userService->getUserByApiToken($request));
     }
 }
