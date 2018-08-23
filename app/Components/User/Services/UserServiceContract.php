@@ -7,4 +7,5 @@ use Illuminate\Http\Request as Request;
 interface UserServiceContract
 {
     public function login(Request $request);
+    public function user(Request $request);
 }

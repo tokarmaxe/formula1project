@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Components\User\Models\User;
 use App\Components\User\Models\UserContract;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate;
@@ -18,10 +19,8 @@ class AuthBaraholka extends Authenticate
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        $user = app(UserContract::class);
         //TODO check on expired at
-
-        parent::handle($request, $next, $guards);
+//        $user = User::where('email',$request)
 
         return $next($request);
     }

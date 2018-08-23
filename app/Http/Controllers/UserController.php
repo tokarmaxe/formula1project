@@ -24,11 +24,9 @@ class UserController extends Controller
 
     public function user(Request $request, UserServiceContract $userService)
     {
-//        $result = $this->login($request, $userService);
-//        $result = json_decode($result['data']);
-        $result = $userService->login($request);
-        $user = User::where('api_token', $result['access_token'])->first()->toArray();
+        $result = $userService->user($request);
 
-        return $this->sendResponse($user);
+
+        return $this->sendResponse($result);
     }
 }

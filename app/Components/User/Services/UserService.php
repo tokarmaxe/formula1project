@@ -94,4 +94,13 @@ class UserService implements UserServiceContract
 
         return $this->user->create($data);
     }
+
+    public function user(Request $request)
+    {
+        $access_token = $request->header('Authorization');
+        $access_token = str_replace('Bearer ', '', $access_token);
+        $user = User::where('api_token', $access_token)->first()->toArray();
+
+        return $user;
+    }
 }
