@@ -3,14 +3,12 @@
 namespace App\Components\User\Models;
 
 use App;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements UserContract
 {
     use Notifiable;
-    use SoftDeletes;
 
     protected $fillable = [
         'first_name',
@@ -26,7 +24,7 @@ class User extends Authenticatable implements UserContract
 
     ];
 
-    protected $dates = ['deleted_at'];
+
 
     public function createToken($length = 1024)
     {
