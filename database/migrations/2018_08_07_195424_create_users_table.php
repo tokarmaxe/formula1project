@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_admin')->nullable();
             $table->dateTime('expired_at');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
