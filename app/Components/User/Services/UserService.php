@@ -36,17 +36,13 @@ class UserService implements UserServiceContract
     {
         $idToken = $request->header('Authorization');
         $idToken = str_replace('Bearer ', '', $idToken);
-
         if (empty ($idToken)) {
             throw new AuthenticationException('Unathorized: token_ID is incorrect!');
         }
         $client = new \Google_Client();
-
         $client->setDeveloperKey(Config::get('google.client_id'));
-
         $payload = $client->verifyIdToken($idToken);
         $this->checkPayloadEmail($payload);
-
         $clientEmail = $payload['email'];
         if ($this->user->where('email', $clientEmail)->exists()) {
             $this->user = $this->user->where('email', $clientEmail)
@@ -89,7 +85,6 @@ class UserService implements UserServiceContract
     protected function createUserFromGoogleData($payload): User
     {
         $this->checkPayloadEmail($payload);
-
         $data = [
           'email'      => array_get($payload, 'email', ''),
           'first_name' => array_get($payload, 'given_name', ''),
