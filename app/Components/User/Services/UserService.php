@@ -10,6 +10,7 @@ use Illuminate\Auth\AuthenticationException;
 
 class UserService implements UserServiceContract
 {
+
     /**
      * @var User
      */
@@ -49,13 +50,13 @@ class UserService implements UserServiceContract
         $clientEmail = $payload['email'];
         if ($this->user->where('email', $clientEmail)->exists()) {
             $this->user = $this->user->where('email', $clientEmail)
-                ->first();
+              ->first();
         } else {
             $this->user = $this->createUserFromGoogleData($payload);
         }
 
         return [
-            'access_token' => $this->user->api_token,
+          'access_token' => $this->user->api_token,
         ];
     }
 
@@ -67,11 +68,11 @@ class UserService implements UserServiceContract
     private function checkPayloadEmail($payload)
     {
         $userEmail = array_get($payload, 'email');
-        $row = explode('@', $userEmail);
-        if ( ! (in_array($row[1],
-                Config::get('services.allowed_email_domains'))
-            || in_array($userEmail,
-                Config::get('services.admin_emails')))
+        $row       = explode('@', $userEmail);
+        if (!(in_array($row[1],
+            Config::get('services.allowed_email_domains'))
+          || in_array($userEmail,
+            Config::get('services.admin_emails')))
 
         ) {
             throw new AuthenticationException('E-mail domain is not allowed');
@@ -90,13 +91,13 @@ class UserService implements UserServiceContract
         $this->checkPayloadEmail($payload);
 
         $data = [
-            'email' => array_get($payload, 'email', ''),
-            'first_name' => array_get($payload, 'given_name', ''),
-            'last_name' => array_get($payload, 'family_name', ''),
-            'avatar' => array_get($payload, 'picture', ''),
-            'api_token' => $this->user->createToken(),
-            'expired_at' => Carbon::now()
-                ->addDays(Config::get('services.validity.access_token')),
+          'email'      => array_get($payload, 'email', ''),
+          'first_name' => array_get($payload, 'given_name', ''),
+          'last_name'  => array_get($payload, 'family_name', ''),
+          'avatar'     => array_get($payload, 'picture', ''),
+          'api_token'  => $this->user->createToken(),
+          'expired_at' => Carbon::now()
+            ->addDays(Config::get('services.validity.access_token')),
         ];
 
         return $this->user->create($data);
@@ -114,10 +115,11 @@ class UserService implements UserServiceContract
     {
         $apiToken = $request->header('authorization');
         $apiToken = str_replace('Bearer ', '', $apiToken);
-        $user = $this->user->where('api_token', $apiToken)->first();
+        $user     = $this->user->where('api_token', $apiToken)->first();
         if (is_null($user)) {
             throw new AuthenticationException('User has not found!');
         }
+
         return $user->toArray();
     }
 }
