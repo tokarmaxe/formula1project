@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                 'api_token' => $userModel->createToken(),
                 'first_name' => 'Андрей',
                 'last_name' => 'Скляниченко',
-                'email' => 'sklyack@gmail.com ',
+                'email' => 'sklyack@gmail.com',
                 'avatar' => 'somePath',
                 'is_admin' => true,
                 'expired_at' => date('Y-m-d')
@@ -117,7 +117,7 @@ class DatabaseSeeder extends Seeder
                 'api_token' => $userModel->createToken(),
                 'first_name' => 'Ольга',
                 'last_name' => 'Беляева',
-                'email' => 'olga.bilyayeva@gmail.com ',
+                'email' => 'olga.bilyayeva@gmail.com',
                 'avatar' => 'somePath',
                 'is_admin' => true,
                 'expired_at' => date('Y-m-d')

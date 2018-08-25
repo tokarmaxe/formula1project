@@ -13,7 +13,8 @@
 
 Route::post('/login', 'UserController@login');
 
-Route::middleware(['auth:api'])->group(function () {
+
+Route::middleware(['auth.api'])->group(function () {
     Route::get('/user', 'UserController@user');
 });
 

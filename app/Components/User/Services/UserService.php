@@ -17,6 +17,7 @@ class UserService implements UserServiceContract
 
     /**
      * UserService constructor.
+     *
      * @param User $user
      */
     public function __construct(User $user)
@@ -26,6 +27,7 @@ class UserService implements UserServiceContract
 
     /**
      * @param Request $request
+     *
      * @return array
      * @throws AuthenticationException
      */
@@ -59,23 +61,31 @@ class UserService implements UserServiceContract
 
     /**
      * @param $payload
+     *
      * @throws AuthenticationException
      */
     private function checkPayloadEmail($payload)
     {
-        if (empty($payload['email'])) {
-            throw new AuthenticationException('E-mail is not available');
+        $userEmail = array_get($payload, 'email');
+        $row = explode('@', $userEmail);
+        if ( ! (in_array($row[1],
+                Config::get('services.allowed_email_domains'))
+            || in_array($userEmail,
+                Config::get('services.admin_emails')))
+
+        ) {
+            throw new AuthenticationException('E-mail domain is not allowed');
         }
-        //TODO array with allowed email domains '@provectus.com' + all emails from Baraholka doc
     }
 
 
     /**
      * @param $payload
+     *
      * @return User
      * @throws AuthenticationException
      */
-    public function createUserFromGoogleData($payload): User
+    protected function createUserFromGoogleData($payload): User
     {
         $this->checkPayloadEmail($payload);
 
@@ -90,5 +100,24 @@ class UserService implements UserServiceContract
         ];
 
         return $this->user->create($data);
+    }
+
+    /**
+     * @param Request $request
+     * gets apiToken from header: 'Bearer apiToken
+     *
+     * @return user->toArray()
+     * @throws AuthenticationException
+     */
+
+    public function getUserByApiToken(Request $request)
+    {
+        $apiToken = $request->header('authorization');
+        $apiToken = str_replace('Bearer ', '', $apiToken);
+        $user = $this->user->where('api_token', $apiToken)->first();
+        if (is_null($user)) {
+            throw new AuthenticationException('User has not found!');
+        }
+        return $user->toArray();
     }
 }
