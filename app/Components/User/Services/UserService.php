@@ -102,8 +102,7 @@ class UserService implements UserServiceContract
         if (is_null($user = User::where('api_token', $accessToken)->first())) {
                 throw new AuthenticationException('User has not found!');
         }
-        $user = User::where('api_token', $accessToken)->first()->toArray();
 
-        return $user;
+        return $user->toArray();
     }
 }
