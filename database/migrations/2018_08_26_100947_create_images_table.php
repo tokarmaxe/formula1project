@@ -18,7 +18,7 @@ class CreateImagesTable extends Migration
             $table->string('name')->unique();
             $table->string('path');
             $table->unsignedInteger('post_id');
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
