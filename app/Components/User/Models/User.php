@@ -33,4 +33,14 @@ class User extends Authenticatable implements UserContract
         $this->api_token = \Hash::make(\random_bytes($length));
         return $this->api_token;
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Components\Comment\Models\Comment');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Components\Post\Models\Post');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Components\User\Services;
 
+
 use App\Components\User\Models\User;
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Config;
@@ -68,7 +69,7 @@ class UserService implements UserServiceContract
     {
         $userEmail = array_get($payload, 'email');
         $row = explode('@', $userEmail);
-        if ( ! (in_array($row[1],
+        if (!(in_array($row[1],
                 Config::get('services.allowed_email_domains'))
             || in_array($userEmail,
                 Config::get('services.admin_emails')))
