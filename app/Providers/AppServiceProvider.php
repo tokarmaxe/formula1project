@@ -29,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(UserContract::class, User::class);
         $this->app->bind(UserServiceContract::class, UserService::class);
+        $this->app->bind(PostContract::class, Post::class);
+        $this->app->bind(PostServiceContract::class, PostService::class);
     }
 }
