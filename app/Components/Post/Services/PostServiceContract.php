@@ -8,7 +8,12 @@ use Illuminate\Http\Request as Request;
 
 interface PostServiceContract
 {
-    public function list();
-    public function create(Request $request);
+    public function list($categoryId);
+
+    public function store(Request $request);
+
+    public function destroy($postId);
+
+    public function update(Request $request, $postId);
 
 }
