@@ -6,10 +6,6 @@ use App\Components\User\Models\User;
 use App\Components\User\Services\UserService;
 use App\Components\User\Models\UserContract;
 use App\Components\User\Services\UserServiceContract;
-use App\Components\Post\Models\PostContract;
-use App\Components\Post\Services\PostService;
-use App\Components\Post\Models\Post;
-use App\Components\Post\Services\PostServiceContract;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

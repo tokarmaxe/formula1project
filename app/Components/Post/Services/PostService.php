@@ -3,11 +3,11 @@
 
 namespace App\Components\Post\Services;
 
+
+use App\Http\Requests\PostValidationRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request as Request;
 use App\Components\Post\Models\Post;
-use App\Exceptions\ValidationExeption;
-use Validator;
+
 
 class PostService implements PostServiceContract
 {
@@ -32,73 +32,29 @@ class PostService implements PostServiceContract
     }
 
     /**
-     * @throws ModelNotFoundException
+     * @throws \HttpRequestException
      */
     public function destroy($postId)
     {
-
-        if (is_null($this->post->find($postId))) {
-            throw new ModelNotFoundException('Could not find post by id');
-        }
-        $this->post->find($postId)->delete();
+        $this->post->findOrFail($postId)->delete();
         return ['success' => 'true'];
-
     }
 
-
-    public function store(Request $request)
+    public function store(PostValidationRequest $request)
     {
-        $data = json_decode($request->getContent(), true);
-        $this->validatePost($data);
+        //working..
+        $data = $request->all();
         return $this->post->create($data)->toArray();
     }
 
-    /**
-     * @throws ModelNotFoundException
-     */
-    public function update(Request $request, $postId)
+    public function update(PostValidationRequest $request, $postId)
     {
-        $data = json_decode($request->getContent(), true);
-        $this->validatePost($data);
-        $this->post = $this->post->find($postId);
-        if (is_null($this->post)) {
-            throw new ModelNotFoundException('Could not find post by id');
-        }
+        //not wokring with new PostValdationRequest
+        /*[2018-09-05 18:08:27] local.ERROR: Call to a member function call() on null {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Call to a member function call() on null at /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php:175)
+        [stacktrace]*/
+        $data = $request->validated();
         $this->post->update($data);
-        return $this->post->find($postId)->toArray();
-
-    }
-
-    /*
-     private function checkJSONToJustOneColumnBelongsToPostModel ($data) {
-     //if we have just one column name in JSON - we have something to update
-     $modelColums = array_keys($this->post->attributesToArray());
-     foreach ($modelColums as $colum) {
-         if (array_key_exists($colum, $data)) {
-             return;
-         }
-     throw new ModelNotFoundException('Wrong JSON');
-     }*/
-
-    /**
-     * @param $data - post data
-     *
-     * @throws ValidationExeptionException
-     */
-    protected function validatePost($data)
-    {
-        $validator = Validator::make($data, [
-            'title' => 'required|min:2',
-            'description' => 'required|min:2',
-            'price' => 'required',
-            'category_id' => 'required',
-            'user_id' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            //  throw new ValidationExeption();
-            throw new ValidationExeption('Unathorized: token_ID is incorrect!');
-        }
+        return $this->post->findOrFail($postId)->toArray();
 
     }
 
