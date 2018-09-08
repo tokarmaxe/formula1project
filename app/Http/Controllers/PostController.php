@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Components\Post\Services\PostServiceContract;
 use App\Http\Requests\PostValidationRequest;
+use Illuminate\Http\Request as Request;
 
 
 class PostController extends Controller
@@ -24,7 +25,8 @@ class PostController extends Controller
     public function store(/*not working.. ( */
         PostValidationRequest $request,
         PostServiceContract $postService
-    ) {
+    )
+    {
         return
             $this->sendResponse($postService->store($request));
     }
@@ -39,7 +41,8 @@ class PostController extends Controller
         PostServiceContract $postService,
         $postId,/*not working.. ( */
         PostValidationRequest $request
-    ) {
+    )
+    {
         //PostValidationRequest $request = new PostValidationRequest();
         return
             $this->sendResponse($postService->update($request, $postId));

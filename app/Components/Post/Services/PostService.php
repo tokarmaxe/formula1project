@@ -7,7 +7,7 @@ namespace App\Components\Post\Services;
 use App\Http\Requests\PostValidationRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Components\Post\Models\Post;
-
+use Illuminate\Http\Request as Request;
 
 class PostService implements PostServiceContract
 {
@@ -42,7 +42,6 @@ class PostService implements PostServiceContract
 
     public function store(PostValidationRequest $request)
     {
-        //working..
         $data = $request->all();
         return $this->post->create($data)->toArray();
     }
@@ -53,9 +52,11 @@ class PostService implements PostServiceContract
         /*[2018-09-05 18:08:27] local.ERROR: Call to a member function call() on null {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Call to a member function call() on null at /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php:175)
         [stacktrace]*/
         $data = $request->all();
-
-        $this->post->update($data);
-        return $this->post->findOrFail($postId)->toArray();
+        $this->post->findOrFail($postId)->fill($data)->save();
+        return $this->post->toArray();
+        //return ['success' => 'true'];
+//        $this->post->update($data);
+//        return $this->post->findOrFail($postId)->toArray();
 
     }
 
