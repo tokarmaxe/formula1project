@@ -22,10 +22,7 @@ class PostController extends Controller
             $this->sendResponse($postService->list($categoryId));
     }
 
-    public function store(/*not working.. ( */
-        PostValidationRequest $request,
-        PostServiceContract $postService
-    )
+    public function store(PostValidationRequest $request, PostServiceContract $postService)
     {
         return
             $this->sendResponse($postService->store($request));
@@ -39,11 +36,10 @@ class PostController extends Controller
 
     public function update(
         PostServiceContract $postService,
-        $postId,/*not working.. ( */
+        $postId,
         PostValidationRequest $request
     )
     {
-        //PostValidationRequest $request = new PostValidationRequest();
         return
             $this->sendResponse($postService->update($request, $postId));
     }

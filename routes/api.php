@@ -13,17 +13,13 @@
 
 Route::post('/login', 'UserController@login');
 
-Route::put('/posts/{postId}', 'PostController@update');
-Route::post('/posts', 'PostController@store');
-Route::get('/posts/{postId}','PostController@show');
-
 Route::middleware(['auth.api'])->group(function () {
     Route::get('/user', 'UserController@user');
     Route::get('/posts/filter/{categoryId}', 'PostController@list');
     Route::get('/posts', 'PostController@list');
     Route::delete('/posts/{postId}', 'PostController@destroy');
-
-
-
+    Route::put('/posts/{postId}', 'PostController@update');
+    Route::post('/posts', 'PostController@store');
+    Route::get('/posts/{postId}','PostController@show');
 });
 
