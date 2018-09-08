@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
 
 class AuthBaraholka extends Authenticate
 {
@@ -23,8 +24,7 @@ class AuthBaraholka extends Authenticate
         if ($user->where('api_token', $apiToken)->exists()) {
             $expieredAt = $user->where('api_token', $apiToken)
                 ->first()->expired_at;
-            if (strtotime($expieredAt) < strtotime(Carbon::now())) {
-              //  parent::handle($request, $next, $guards);
+            if (strtotime($expieredAt) > strtotime(Carbon::now())) {
                 return $next($request);
             }
         }

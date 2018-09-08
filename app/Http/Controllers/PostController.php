@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Components\Post\Services\PostServiceContract;
 use App\Http\Requests\PostValidationRequest;
-use Illuminate\Http\Request as Request;
 
 
 class PostController extends Controller
@@ -38,8 +37,8 @@ class PostController extends Controller
         PostServiceContract $postService,
         $postId,
         PostValidationRequest $request
-    )
-    {
+    ) {
+
         return
             $this->sendResponse($postService->update($request, $postId));
     }

@@ -3,10 +3,9 @@
 
 namespace App\Components\Post\Services;
 
-
 use App\Http\Requests\PostValidationRequest;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Components\Post\Models\Post;
+
 
 class PostService implements PostServiceContract
 {
@@ -41,20 +40,23 @@ class PostService implements PostServiceContract
 
     public function store(PostValidationRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
         return $this->post->create($data)->toArray();
     }
 
     public function update(PostValidationRequest $request, $postId)
     {
-        $data = $request->all();
-        return $this->post->findOrFail($postId)->fill($data)->save()->toArray();
-//        return ['success' => 'true'];
+        $this->checkAuthorIsAdmin($postId);
+        $data = $request->validated();
+        $this->post->findOrFail($postId)->update($data);
+        return $this->post->findOrFail($postId)->toArray();
+
     }
 
     public function show($postId)
     {
         return $this->post->findOrFail($postId)->toArray();
     }
+
 
 }

@@ -18,8 +18,8 @@ Route::middleware(['auth.api'])->group(function () {
     Route::get('/posts/filter/{categoryId}', 'PostController@list');
     Route::get('/posts', 'PostController@list');
     Route::delete('/posts/{postId}', 'PostController@destroy');
-    Route::put('/posts/{postId}', 'PostController@update');
     Route::post('/posts', 'PostController@store');
-    Route::get('/posts/{postId}','PostController@show');
+    Route::put('/posts/{postId}', 'PostController@update');
+    Route::get('/posts/{postId}', 'PostController@show');
 });
 
