@@ -4,6 +4,8 @@ namespace App\Components\User\Services;
 
 
 use App\Components\User\Models\User;
+use App\Http\Requests\CreateUserRequest;
+use http\Env\Response;
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
@@ -45,6 +47,7 @@ class UserService implements UserServiceContract
         $client->setDeveloperKey(Config::get('google.client_id'));
 
         $payload = $client->verifyIdToken($idToken);
+
         $this->checkPayloadEmail($payload);
 
         $clientEmail = $payload['email'];

@@ -52,11 +52,16 @@ class PostService implements PostServiceContract
         //not wokring with new PostValdationRequest
         /*[2018-09-05 18:08:27] local.ERROR: Call to a member function call() on null {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalThrowableError(code: 0): Call to a member function call() on null at /var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/FormRequest.php:175)
         [stacktrace]*/
-        $data = $request->validated();
+        $data = $request->all();
+
         $this->post->update($data);
         return $this->post->findOrFail($postId)->toArray();
 
     }
 
+    public function show($postId)
+    {
+        return $this->post->findOrFail($postId)->toArray();
+    }
 
 }

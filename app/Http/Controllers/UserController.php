@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Components\User\Services\UserServiceContract;
 use App;
+use App\Http\Requests\CreateUserRequest;
 
 
 class UserController extends Controller
 {
     /**
-     * @param Request             $request
+     * @param Request $request
      * @param UserServiceContract $userService
      *
      * @return \Illuminate\Http\JsonResponse
@@ -22,7 +23,7 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request             $request
+     * @param Request $request
      * @param UserServiceContract $userService
      *
      * @return \Illuminate\Http\JsonResponse

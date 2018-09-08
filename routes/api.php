@@ -13,7 +13,6 @@
 
 Route::post('/login', 'UserController@login');
 
-
 Route::middleware(['auth.api'])->group(function () {
     Route::get('/user', 'UserController@user');
     Route::get('/posts/filter/{categoryId}', 'PostController@list');
@@ -21,5 +20,6 @@ Route::middleware(['auth.api'])->group(function () {
     Route::delete('/posts/{postId}', 'PostController@destroy');
     Route::put('/posts/{postId}', 'PostController@update');
     Route::post('/posts', 'PostController@store');
+    Route::get('/posts/{postId}','PostController@show');
 });
 

@@ -45,4 +45,8 @@ class PostController extends Controller
             $this->sendResponse($postService->update($request, $postId));
     }
 
+    public function show($postId, PostServiceContract $postService)
+    {
+        return $this->sendResponse($postService->show($postId));
+    }
 }
