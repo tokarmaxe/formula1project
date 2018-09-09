@@ -3,6 +3,7 @@
 namespace App\Components\Category\Services;
 
 use App\Components\Category\Models\Category;
+use App\Components\Post\Models\Post;
 
 class CategoryService implements CategoryServiceContract
 {
@@ -20,6 +21,6 @@ class CategoryService implements CategoryServiceContract
 
     public function postsInCategory($categoryId)
     {
-        return ['asad'=>'asd'];
+        return Post::all()->where('category_id', $categoryId)->get()->toArray();
     }
 }
