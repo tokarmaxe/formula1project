@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Components\Category\Models;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model implements CategoryContract
