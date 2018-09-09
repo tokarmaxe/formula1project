@@ -2,16 +2,24 @@
 
 namespace App\Components\Category\Services;
 
+use App\Components\Category\Models\Category;
 
 class CategoryService implements CategoryServiceContract
 {
+    private $category;
+
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
+
     public function categories()
     {
-        // TODO: Implement categories() method.
+        return $this->category->all()->toArray();
     }
 
     public function postsInCategory($categoryId)
     {
-        // TODO: Implement postsInCategory() method.
+        return ['asad'=>'asd'];
     }
 }

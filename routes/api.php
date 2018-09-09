@@ -13,8 +13,9 @@
 
 Route::post('/login', 'UserController@login');
 
-
 Route::middleware(['auth.api'])->group(function () {
     Route::get('/user', 'UserController@user');
 });
 
+Route::get('/categories', 'CategoryController@categories');
+Route::post('/category/{categoryId}', 'CategoryController@postsInCategory');
