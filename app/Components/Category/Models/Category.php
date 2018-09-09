@@ -10,6 +10,8 @@ class Category extends Model implements CategoryContract
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
 
+    protected $fillable = ['name'];
+
     public function posts()
     {
         return $this->hasMany('App\Components\Post\Models\Post');

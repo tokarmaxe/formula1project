@@ -12,7 +12,25 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $category = new Category;
+        $categories = [
+            ['name' => 'Электроника'],
+            ['name' => 'Бытовая техника'],
+            ['name' => 'Транспорт'],
+            ['name' => 'Недвижимость'],
+            ['name' => 'Работа'],
+            ['name' => 'Обмен'],
+            ['name' => 'Бизнес и услуги'],
+            ['name' => 'Отдам даром'],
+            ['name' => 'Детский мир'],
+            ['name' => 'Дом и сад'],
+            ['name' => 'Хобби, отдых, спорт'],
+            ['name' => 'Прочее']
+        ];
 
+        foreach ($categories as $category)
+        {
+            $newCategory = new Category($category);
+            $newCategory->save();
+        }
     }
 }
