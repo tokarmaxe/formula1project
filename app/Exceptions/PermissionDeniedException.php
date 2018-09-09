@@ -2,16 +2,16 @@
 
 
 namespace App\Exceptions;
-
 use Exception;
 
-class ValidationExeption extends Exception
+class PermissionDeniedException extends Exception
 {
     /**
      * ValidationExeption constructor.
      */
-    public function __construct()
+    public function __construct($message)
     {
+        parent::__construct($message);
 
     }
 

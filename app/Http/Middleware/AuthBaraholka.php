@@ -25,6 +25,7 @@ class AuthBaraholka extends Authenticate
             $expieredAt = $user->where('api_token', $apiToken)
                 ->first()->expired_at;
             if (strtotime($expieredAt) > strtotime(Carbon::now())) {
+                $this->authenticate($guards);
                 return $next($request);
             }
         }

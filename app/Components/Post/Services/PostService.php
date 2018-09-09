@@ -4,7 +4,9 @@
 namespace App\Components\Post\Services;
 
 use App\Http\Requests\PostValidationRequest;
+use App\Exceptions\PermissionDeniedException;
 use App\Components\Post\Models\Post;
+use Auth;
 
 
 class PostService implements PostServiceContract
@@ -34,6 +36,7 @@ class PostService implements PostServiceContract
      */
     public function destroy($postId)
     {
+        $this->checkAuthorIsAdmin($postId);
         $this->post->findOrFail($postId)->delete();
         return ['success' => 'true'];
     }
@@ -46,6 +49,7 @@ class PostService implements PostServiceContract
 
     public function update(PostValidationRequest $request, $postId)
     {
+
         $this->checkAuthorIsAdmin($postId);
         $data = $request->validated();
         $this->post->findOrFail($postId)->update($data);
@@ -56,6 +60,13 @@ class PostService implements PostServiceContract
     public function show($postId)
     {
         return $this->post->findOrFail($postId)->toArray();
+    }
+
+    private function checkAuthorIsAdmin($postId)
+    {
+        if (!Auth::user()->is_admin || Auth::user()->id !== $this->post->findOrFail($postId)->user_id) {
+            throw new PermissionDeniedException ('This action is not allowed for you!');
+        }
     }
 
 

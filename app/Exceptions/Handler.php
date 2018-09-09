@@ -57,14 +57,16 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => 'Unauthorized: ' . $exception->getMessage()],
                 '401');
         }
-        if ($exception instanceof ValidationExeption) {
-            return response()->json(['message' => 'Validation error: ' . $exception->getMessage()],
-                '412');
-        }
 
         if ($exception instanceof ModelNotFoundException) {
             return response()->json(['message' => 'Wrong data: ' . $exception->getMessage()],
                 '404');
         }
+
+        if ($exception instanceof PermissionDeniedException) {
+            return response()->json(['message' => $exception->getMessage()],
+                '403');
+        }
+
     }
 }

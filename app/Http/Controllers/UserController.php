@@ -8,8 +8,10 @@ use App;
 use App\Http\Requests\CreateUserRequest;
 
 
+
 class UserController extends Controller
 {
+
     /**
      * @param Request $request
      * @param UserServiceContract $userService
