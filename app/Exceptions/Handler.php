@@ -3,8 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use App\Exceptions\ValidationExeption;
 
 class Handler extends ExceptionHandler
 {
@@ -55,5 +57,16 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => 'Unauthorized: ' . $exception->getMessage()],
                 '401');
         }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json(['message' => 'Wrong data: ' . $exception->getMessage()],
+                '404');
+        }
+
+        if ($exception instanceof PermissionDeniedException) {
+            return response()->json(['message' => $exception->getMessage()],
+                '403');
+        }
+
     }
 }
