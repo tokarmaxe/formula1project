@@ -34,10 +34,8 @@ class UserService implements UserServiceContract
      * @return array
      * @throws AuthenticationException
      */
-    public function login(Request $request)
+    public function login($idToken)
     {
-        $idToken = $request->header('Authorization');
-        $idToken = str_replace('Bearer ', '', $idToken);
 
         if (empty ($idToken)) {
             throw new AuthenticationException('Unathorized: token_ID is incorrect!');
@@ -114,10 +112,8 @@ class UserService implements UserServiceContract
      * @throws AuthenticationException
      */
 
-    public function getUserByApiToken(Request $request)
+    public function getUserByApiToken($apiToken)
     {
-        $apiToken = $request->header('authorization');
-        $apiToken = str_replace('Bearer ', '', $apiToken);
         $user = $this->user->where('api_token', $apiToken)->first();
         if (is_null($user)) {
             throw new AuthenticationException('User has not found!');

@@ -24,7 +24,7 @@ class PostController extends Controller
     public function store(PostValidationRequest $request, PostServiceContract $postService)
     {
         return
-            $this->sendResponse($postService->store($request));
+            $this->sendResponse($postService->store($request->validated()));
     }
 
     public function destroy(PostServiceContract $postService, $postId)
@@ -40,7 +40,7 @@ class PostController extends Controller
     ) {
 
         return
-            $this->sendResponse($postService->update($request, $postId));
+            $this->sendResponse($postService->update($request->validated(), $postId));
     }
 
     public function show($postId, PostServiceContract $postService)

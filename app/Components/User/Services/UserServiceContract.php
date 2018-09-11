@@ -7,6 +7,6 @@ use Illuminate\Http\Request as Request;
 
 interface UserServiceContract
 {
-    public function login(Request $request);
-    public function getUserByApiToken(Request $request);
+    public function login($idToken);
+    public function getUserByApiToken($apiToken);
 }

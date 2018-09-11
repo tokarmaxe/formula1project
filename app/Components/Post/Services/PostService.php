@@ -36,22 +36,20 @@ class PostService implements PostServiceContract
      */
     public function destroy($postId)
     {
-        $this->checkAuthorIsAdminOrCreator($postId);
+        $this->IsUserAdminOrCreator($postId);
         $this->post->findOrFail($postId)->delete();
         return ['success' => 'true'];
     }
 
-    public function store(PostValidationRequest $request)
+    public function store($data)
     {
-        $data = $request->validated();
         return $this->post->create($data)->toArray();
     }
 
-    public function update(PostValidationRequest $request, $postId)
+    public function update($data, $postId)
     {
 
-        $this->checkAuthorIsAdminOrCreator($postId);
-        $data = $request->validated();
+        $this->IsUserAdminOrCreator($postId);
         $this->post->findOrFail($postId)->update($data);
         return $this->post->findOrFail($postId)->toArray();
 
@@ -62,7 +60,7 @@ class PostService implements PostServiceContract
         return $this->post->findOrFail($postId)->toArray();
     }
 
-    private function checkAuthorIsAdminOrCreator($postId)
+    private function IsUserAdminOrCreator($postId)
     {
         if (!Auth::user()->is_admin && Auth::user()->id !== $this->post->findOrFail($postId)->user_id) {
             throw new PermissionDeniedException ('This action is not allowed for you!');

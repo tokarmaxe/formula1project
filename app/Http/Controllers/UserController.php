@@ -20,7 +20,9 @@ class UserController extends Controller
      */
     public function login(Request $request, UserServiceContract $userService)
     {
-        $result = $userService->login($request);
+        $idToken = $request->header('Authorization');
+        $idToken = str_replace('Bearer ', '', $idToken);
+        $result = $userService->login($idToken);
         return $this->sendResponse($result);
     }
 
@@ -32,7 +34,9 @@ class UserController extends Controller
      */
     public function user(Request $request, UserServiceContract $userService)
     {
+        $apiToken = $request->header('authorization');
+        $apiToken = str_replace('Bearer ', '', $apiToken);
         return
-            $this->sendResponse($userService->getUserByApiToken($request));
+            $this->sendResponse($userService->getUserByApiToken($apiToken));
     }
 }
