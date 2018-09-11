@@ -36,7 +36,7 @@ class PostService implements PostServiceContract
      */
     public function destroy($postId)
     {
-        $this->IsUserAdminOrCreator($postId);
+        $this->isUserAdminOrCreator($postId);
         $this->post->findOrFail($postId)->delete();
         return ['success' => 'true'];
     }
@@ -49,7 +49,7 @@ class PostService implements PostServiceContract
     public function update($data, $postId)
     {
 
-        $this->IsUserAdminOrCreator($postId);
+        $this->isUserAdminOrCreator($postId);
         $this->post->findOrFail($postId)->update($data);
         return $this->post->findOrFail($postId)->toArray();
 
@@ -60,7 +60,7 @@ class PostService implements PostServiceContract
         return $this->post->findOrFail($postId)->toArray();
     }
 
-    private function IsUserAdminOrCreator($postId)
+    private function isUserAdminOrCreator($postId)
     {
         if (!Auth::user()->is_admin && Auth::user()->id !== $this->post->findOrFail($postId)->user_id) {
             throw new PermissionDeniedException ('This action is not allowed for you!');
