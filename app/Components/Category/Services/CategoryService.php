@@ -21,6 +21,8 @@ class CategoryService implements CategoryServiceContract
 
     public function postsInCategory($categoryId)
     {
-        return Post::all()->where('category_id', $categoryId)->get()->toArray();
+        if (Category::all()->find($categoryId)->exists()) {
+            return Post::all()->where('category_id', $categoryId)->get()->toArray();
+        }
     }
 }
