@@ -4,6 +4,8 @@ namespace App\Components\User\Services;
 
 
 use App\Components\User\Models\User;
+use App\Http\Requests\CreateUserRequest;
+use http\Env\Response;
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
@@ -32,10 +34,8 @@ class UserService implements UserServiceContract
      * @return array
      * @throws AuthenticationException
      */
-    public function login(Request $request)
+    public function login($idToken)
     {
-        $idToken = $request->header('Authorization');
-        $idToken = str_replace('Bearer ', '', $idToken);
 
         if (empty ($idToken)) {
             throw new AuthenticationException('Unathorized: token_ID is incorrect!');
@@ -45,6 +45,7 @@ class UserService implements UserServiceContract
         $client->setDeveloperKey(Config::get('google.client_id'));
 
         $payload = $client->verifyIdToken($idToken);
+
         $this->checkPayloadEmail($payload);
 
         $clientEmail = $payload['email'];
@@ -111,10 +112,8 @@ class UserService implements UserServiceContract
      * @throws AuthenticationException
      */
 
-    public function getUserByApiToken(Request $request)
+    public function getUserByApiToken($apiToken)
     {
-        $apiToken = $request->header('authorization');
-        $apiToken = str_replace('Bearer ', '', $apiToken);
         $user = $this->user->where('api_token', $apiToken)->first();
         if (is_null($user)) {
             throw new AuthenticationException('User has not found!');
