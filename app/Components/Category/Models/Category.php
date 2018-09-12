@@ -3,7 +3,6 @@
 namespace App\Components\Category\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model implements CategoryContract
 {
