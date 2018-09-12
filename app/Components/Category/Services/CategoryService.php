@@ -18,11 +18,4 @@ class CategoryService implements CategoryServiceContract
     {
         return $this->category->all()->toArray();
     }
-
-    public function postsInCategory($categoryId)
-    {
-        if (Category::all()->find($categoryId)->exists()) {
-            return Post::all()->where('category_id', $categoryId)->get()->toArray();
-        }
-    }
 }
