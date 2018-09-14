@@ -52,6 +52,12 @@ class UserService implements UserServiceContract
         if ($this->user->where('email', $clientEmail)->exists()) {
             $this->user = $this->user->where('email', $clientEmail)
                 ->first();
+            if (!is_null($payload['picture'])) {
+                if (is_null($this->user->avatar)) {
+                    $this->user->avatar = $payload['picture'];
+                    $this->user->save();
+                }
+            }
         } else {
             $this->user = $this->createUserFromGoogleData($payload);
         }
