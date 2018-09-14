@@ -11,9 +11,4 @@ class CategoryController extends Controller
     {
         return $this->sendResponse($categoryService->categories());
     }
-
-    public function postsInCategory(CategoryServiceContract $categoryService, $categoryId)
-    {
-        return $this->sendResponse($categoryService->postsInCategory($categoryId));
-    }
 }
