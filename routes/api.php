@@ -21,5 +21,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/posts', 'PostController@store');
     Route::put('/posts/{postId}', 'PostController@update');
     Route::get('/posts/{postId}', 'PostController@show');
+    Route::get('/categories', 'CategoryController@categories');
 });
+
 
