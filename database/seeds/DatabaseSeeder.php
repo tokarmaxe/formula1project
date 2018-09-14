@@ -126,5 +126,6 @@ class DatabaseSeeder extends Seeder
             $userModel->create($data);
         }
 
+        $this->call(CategoriesTableSeeder::class);
     }
 }
