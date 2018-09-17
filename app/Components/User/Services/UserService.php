@@ -52,6 +52,10 @@ class UserService implements UserServiceContract
         if ($this->user->where('email', $clientEmail)->exists()) {
             $this->user = $this->user->where('email', $clientEmail)
                 ->first();
+            $this->user->api_token = $this->user->createToken();
+            $this->user->expired_at = Carbon::now()
+                ->addDays(Config::get('services.validity.access_token'));
+            $this->user->save();
             if (!is_null($payload['picture'])) {
                 if (is_null($this->user->avatar)) {
                     $this->user->avatar = $payload['picture'];
