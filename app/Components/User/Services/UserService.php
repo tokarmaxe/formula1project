@@ -55,13 +55,12 @@ class UserService implements UserServiceContract
             $this->user->api_token = $this->user->createToken();
             $this->user->expired_at = Carbon::now()
                 ->addDays(Config::get('services.validity.access_token'));
-            $this->user->save();
             if (!is_null($payload['picture'])) {
                 if (is_null($this->user->avatar)) {
                     $this->user->avatar = $payload['picture'];
-                    $this->user->save();
                 }
             }
+            $this->user->save();
         } else {
             $this->user = $this->createUserFromGoogleData($payload);
         }
