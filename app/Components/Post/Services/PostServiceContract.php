@@ -2,9 +2,7 @@
 
 namespace App\Components\Post\Services;
 
-use App\Components\Post\Models\Post;
-use App\Http\Requests\PostValidationRequest;
-use Illuminate\Http\Request as Request;
+
 
 interface PostServiceContract
 {
