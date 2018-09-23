@@ -6,7 +6,7 @@
  * Time: 21:16
  */
 
-namespace App\Components\Image\Models;
+namespace App\Components\File\Models;
 
 
 interface FileContract
