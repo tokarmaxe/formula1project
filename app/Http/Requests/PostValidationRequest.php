@@ -35,7 +35,8 @@ class PostValidationRequest extends FormRequest
             'description' => 'required|min:2',
             'price' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'user_id' => 'required|exists:users,id'
+            'user_id' => 'required|exists:users,id',
+            'currency' => 'required'
         ];
     }
 
