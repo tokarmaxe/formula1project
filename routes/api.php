@@ -24,4 +24,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/categories', 'CategoryController@categories');
 });
 
+Route::post('/upload','ImageController@upload');
+
 
