@@ -2,18 +2,11 @@
 
 namespace App\Components\File\Services;
 
-
-use App\Components\File\Models\File;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class FileService implements FileServiceContract
 {
     private $file;
-
-//    public function __construct(File $file)
-//    {
-//        $this->file = $file;
-//    }
 
     public function put($files)
     {
@@ -25,6 +18,9 @@ class FileService implements FileServiceContract
 
     public function remove($fullFilePath)
     {
-        // TODO: Implement remove() method.
+        if (Storage::disk('local')->delete($fullFilePath)) {
+            return true;
+        } else
+            return false;
     }
 }

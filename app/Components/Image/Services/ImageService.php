@@ -4,7 +4,7 @@ namespace App\Components\Image\Services;
 
 use App\Components\File\Services\FileService;
 use App\Components\Image\Models\Image;
-use Illuminate\Support\Facades\Storage;
+
 
 class ImageService implements ImageServiceContract
 {
@@ -25,15 +25,21 @@ class ImageService implements ImageServiceContract
             $filePath = explode("/", $filePath);
             $data['name'] = $filePath[1];
             $data['post_id'] = $postId;
-            $data['path'] = $filePath[0].'/'.$filePath[1];
+            $data['path'] = $filePath[0] . '/' . $filePath[1];
             $result[] = $this->image->create($data);
         }
 
         return $result;
     }
 
-    public function destroy()
+    public function destroy($imageId)
     {
-        // TODO: Implement destroy() method.
+        if ($this->image->findOrFail($imageId)) {
+            $this->image = $this->image->findOrFail($imageId)->first();
+            $this->fileService->remove($this->image['path']);
+            $this->image->delete();
+            return ['success' => 'true'];
+        }
+        return ['success' => 'false'];
     }
 }

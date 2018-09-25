@@ -8,5 +8,5 @@ use Illuminate\Http\UploadedFile;
 interface ImageServiceContract
 {
     public function create($file, $postId);
-    public function destroy();
+    public function destroy($imageId);
 }

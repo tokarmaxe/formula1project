@@ -13,4 +13,9 @@ class ImageController extends Controller
         $result = $imageService->create($files, $request->post_id);
         return $this->sendResponse($result);
     }
+
+    public function destroy(ImageServiceContract $imageService, $imageId)
+    {
+        return $this->sendResponse($imageService->destroy($imageId));
+    }
 }
