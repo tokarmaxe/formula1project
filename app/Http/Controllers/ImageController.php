@@ -9,8 +9,8 @@ class ImageController extends Controller
 {
     public function upload(Request $request, ImageServiceContract $imageService)
     {
-        $files = $request->file('images');
-        $result = $imageService->create($files);
+        $files = $request->allFiles();
+        $result = $imageService->create($files, $request->post_id);
         return $this->sendResponse($result);
     }
 }

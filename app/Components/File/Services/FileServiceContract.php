@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 
 interface FileServiceContract
 {
-    public function put(UploadedFile $file);
+    public function put($file);
 
     public function remove($fullFilePath);
 }

@@ -15,15 +15,12 @@ class FileService implements FileServiceContract
 //        $this->file = $file;
 //    }
 
-    public function put(UploadedFile $file)
+    public function put($files)
     {
-        $fullFilesPath = null;
-
-        if (!empty($file)) {
-                $fullFilesPath = $file->store('images');
+        foreach ($files as $file) {
+            $fullFilesPath[] = $file->store('images');
         }
         return $fullFilesPath;
-
     }
 
     public function remove($fullFilePath)
