@@ -18,9 +18,6 @@ class FileService implements FileServiceContract
 
     public function remove($fullFilePath)
     {
-        if (Storage::disk('local')->delete($fullFilePath)) {
-            return true;
-        } else
-            return false;
+        return Storage::disk('local')->delete($fullFilePath);
     }
 }
