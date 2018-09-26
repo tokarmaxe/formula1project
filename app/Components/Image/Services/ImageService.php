@@ -22,7 +22,7 @@ class ImageService implements ImageServiceContract
         $filesPathes = $this->fileService->put($files['images']);
         $result = null;
         foreach ($filesPathes as $filePath) {
-            $filePath = explode("/", $filePath);
+            $filePath = explode(DIRECTORY_SEPARATOR, $filePath);
             $data['name'] = $filePath[1];
             $data['post_id'] = $postId;
             $data['path'] = $filePath[0] . '/' . $filePath[1];
