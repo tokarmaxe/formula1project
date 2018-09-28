@@ -6,8 +6,6 @@ use App\Components\Category\Models\Category;
 use App\Components\Category\Models\CategoryContract;
 use App\Components\Category\Services\CategoryService;
 use App\Components\Category\Services\CategoryServiceContract;
-use App\Components\File\Models\File;
-use App\Components\File\Models\FileContract;
 use App\Components\File\Services\FileService;
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
@@ -49,9 +47,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PostServiceContract::class, PostService::class);
         $this->app->bind(CategoryContract::class, Category::class);
         $this->app->bind(CategoryServiceContract::class, CategoryService::class);
-        $this->app->bind(ImageContract::class,Image::class);
-        $this->app->bind(ImageServiceContract::class,ImageService::class);
-        $this->app->bind(FileContract::class,File::class);
-        $this->app->bind(FileServiceContract::class,FileService::class);
+        $this->app->bind(ImageContract::class, Image::class);
+        $this->app->bind(ImageServiceContract::class, ImageService::class);
+        $this->app->bind(FileServiceContract::class, FileService::class);
     }
 }

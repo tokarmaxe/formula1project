@@ -4,7 +4,6 @@ namespace App\Components\Image\Services;
 
 use App\Components\File\Services\FileService;
 use App\Components\Image\Models\Image;
-use App\Components\File\Models\File;
 
 
 class ImageService implements ImageServiceContract
@@ -12,7 +11,7 @@ class ImageService implements ImageServiceContract
     private $image;
     private $fileService;
 
-    public function __construct(Image $image, File $file)
+    public function __construct(Image $image, FileService $file)
     {
         $this->image = $image;
         $this->fileService = $file;
@@ -23,7 +22,7 @@ class ImageService implements ImageServiceContract
         $filesPathes = $this->fileService->put($files['images']);
         $result = null;
         foreach ($filesPathes as $filePath) {
-            $filePath = explode(DIRECTORY_SEPARATOR, $filePath);
+            //$filePath = explode(DIRECTORY_SEPARATOR, $filePath);
             $data['name'] = $filePath[1];
             $data['post_id'] = $postId;
             $data['path'] = $filePath[0] . '/' . $filePath[1];
@@ -39,8 +38,7 @@ class ImageService implements ImageServiceContract
             $this->image = $this->image->findOrFail($imageId)->first();
             $this->fileService->remove($this->image['path']);
             $this->image->delete();
-            return ['success' => 'true'];
+            return ['success' => $this->image->delete()];
         }
-        return ['success' => 'false'];
     }
 }
