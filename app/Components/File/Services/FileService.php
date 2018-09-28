@@ -18,4 +18,4 @@ class FileService implements FileServiceContract
     {
         return Storage::disk('local')->delete($fullFilePath);
     }
-
+}
