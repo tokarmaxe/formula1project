@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FileService implements FileServiceContract
 {
-    private $file;
-
     public function put($files)
     {
         foreach ($files as $file) {
@@ -20,4 +18,4 @@ class FileService implements FileServiceContract
     {
         return Storage::disk('local')->delete($fullFilePath);
     }
-}
+
