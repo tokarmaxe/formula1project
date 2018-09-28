@@ -19,13 +19,13 @@ class ImageService implements ImageServiceContract
 
     public function create($files, $postId)
     {
-        $filesPathes = $this->fileService->put($files['images']);
         $result = null;
-        foreach ($filesPathes as $filePath) {
-            //$filePath = explode(DIRECTORY_SEPARATOR, $filePath);
-            $data['name'] = $filePath[1];
-            $data['post_id'] = $postId;
-            $data['path'] = $filePath[0] . '/' . $filePath[1];
+
+        foreach ($files['images'] as $file)
+        {
+            $data['name']=$file->getClientOriginalName();
+            $data['post_id']=$postId;
+            $data['path']=$this->fileService->put($file);
             $result[] = $this->image->create($data);
         }
 
