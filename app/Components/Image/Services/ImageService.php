@@ -4,6 +4,7 @@ namespace App\Components\Image\Services;
 
 use App\Components\File\Services\FileService;
 use App\Components\Image\Models\Image;
+use App\Components\File\Models\File;
 
 
 class ImageService implements ImageServiceContract
@@ -11,10 +12,10 @@ class ImageService implements ImageServiceContract
     private $image;
     private $fileService;
 
-    public function __construct(Image $image)
+    public function __construct(Image $image, File $file)
     {
         $this->image = $image;
-        $this->fileService = new FileService();
+        $this->fileService = $file;
     }
 
     public function create($files, $postId)
