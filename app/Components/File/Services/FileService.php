@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Storage;
 
 class FileService implements FileServiceContract
 {
-    public function put(UploadedFile $file)
+    public function put(UploadedFile $file, $imageName)
     {
-        return $file->store('images');
+        return $file->storeAs('images', $imageName);
     }
 
     public function remove($fullFilePath)
