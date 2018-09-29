@@ -60,6 +60,8 @@ return [
         'sergey.ponomarenko.od@gmail.com',
         'olga.bilyayeva@gmail.com',
         'ann.zhuravel7@gmail.com'
-    ]
+    ],
+
+    'image_storage' => DIRECTORY_SEPARATOR.'images',
 
 ];

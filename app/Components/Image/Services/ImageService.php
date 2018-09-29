@@ -3,12 +3,15 @@
 
 namespace App\Components\Image\Services;
 
+use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
+use App\Components\File\Services\FileService;
+use Illuminate\Support\Facades\Config;
 
 class ImageService implements ImageServiceContract
 {
-    const BASE_PATH = '/images';
-    private $fileServices;
+    private $imageStoragePath;
+    private $fileService;
     private $image;
 
 
@@ -16,32 +19,31 @@ class ImageService implements ImageServiceContract
      * ImageService constructor.
      * @param $files
      */
-    public function __construct(Image $image)
+    public function __construct(Image $image, FileServiceContract $fileService)
     {
         $this->image = $image;
-        $this->fileServices = new FileService();
+        $this->fileService = $fileService;
+        $this->imageStoragePath = Config::get('services.image_storage') . DIRECTORY_SEPARATOR;
     }
 
-    public function uploadImages($files, $postId)
+    public function create($files, $postId)
     {
-        $path = $this::BASE_PATH . '/' . $postId;
-        return $this->fileServices->upload($files['Files'], $path);
-
-    }
-
-    public function saveModel($imageNames, $postId)
-    {
-        $data = null;
-        foreach ($imageNames as $imageName) {
-          $data['name'] = $imageName;
-            $data['post_id']= $postId;
-            $data['path']= $this::BASE_PATH . '/' . $postId;
-            $this->image->create($data);
-
-
+        $pathToStorageDirectory = $this->imageStoragePath . $postId;
+        foreach ($files['images'] as $file) {
+            $data['name'] = $file->getClientOriginalName();
+            $data['post_id'] = $postId;
+            $data['path'] = $this->fileService->put($file, $pathToStorageDirectory);
+            $result[] = $this->image->create($data);
         }
+        return $result;
+    }
+	
+	public function destroy($imageId)
+    {
+        $this->image = $this->image->findOrFail($imageId)->first();
+        $this->fileService->remove($this->image['path']);
+        return ['success' => $this->image->delete()];
 
-        return ['success' => 'true'];
     }
 
 
