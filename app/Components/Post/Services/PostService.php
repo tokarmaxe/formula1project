@@ -3,6 +3,7 @@
 
 namespace App\Components\Post\Services;
 
+use App\Components\Image\Models\Image;
 use App\Http\Requests\PostValidationRequest;
 use App\Exceptions\PermissionDeniedException;
 use App\Components\Post\Models\Post;
@@ -11,15 +12,16 @@ use Auth;
 
 class PostService implements PostServiceContract
 {
-    private $post;
+    private $post, $image;
 
     /**
      * PostService constructor.
      * @param $post
      */
-    public function __construct(Post $post)
+    public function __construct(Post $post, Image $image)
     {
         $this->post = $post;
+        $this->image = $image;
     }
 
     public function list($categoryId = null)
@@ -48,16 +50,16 @@ class PostService implements PostServiceContract
 
     public function update($data, $postId)
     {
-
         $this->isUserAdminOrCreator($postId);
         $this->post->findOrFail($postId)->update($data);
         return $this->post->findOrFail($postId)->toArray();
-
     }
 
     public function show($postId)
     {
-        return $this->post->findOrFail($postId)->toArray();
+        $result = $this->post->findOrFail($postId)->toArray();
+        $result['images'] = $this->image->where('post_id',$postId)->get()->toArray();
+        return $result;
     }
 
     private function isUserAdminOrCreator($postId)
