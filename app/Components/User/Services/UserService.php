@@ -58,6 +58,8 @@ class UserService implements UserServiceContract
             if (!is_null($payload['picture'])) {
                 if (is_null($this->user->avatar)) {
                     $this->user->avatar = $payload['picture'];
+                } elseif ($this->user->avatar != $payload['picture']) {
+                    $this->user->avatar = $payload['picture'];
                 }
             }
             $this->user->save();
