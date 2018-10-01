@@ -6,7 +6,7 @@ use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
 use App\Components\Post\Models\Post;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Intervention\Image\ImageManagerStatic as InterventionImage;
 
 class ImageService implements ImageServiceContract
 {
@@ -27,10 +27,23 @@ class ImageService implements ImageServiceContract
             $result = null;
 
             foreach ($files['images'] as $file) {
-                $data['name'] = $file->getClientOriginalName();
+                $data['type'] = 'full';
+                $data['name'] = $data['type'].'-'.$file->getClientOriginalName();
                 $data['post_id'] = $postId;
                 $data['path'] = $this->fileService->put($file, $data['name']);
                 $result[] = $this->image->create($data);
+                $data['type'] = 'thumbnail';
+                $data['name'] = $data['type'].'-'.$file->getClientOriginalName();
+                $data['path'] = $this->fileService->put($file, $data['name']);
+                $result[] = $this->image->create($data);
+                $image = InterventionImage::make(storage_path($data['path']))->heighten(90);
+                $image->save(storage_path($data['path']));
+                $data['type'] = 'large';
+                $data['name'] = $data['type'].'-'.$file->getClientOriginalName();
+                $data['path'] = $this->fileService->put($file, $data['name']);
+                $result[] = $this->image->create($data);
+                $image = InterventionImage::make(storage_path($data['path']))->heighten(1200);
+                $image->save(storage_path($data['path']));
             }
             return $result;
         }
