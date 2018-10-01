@@ -25,25 +25,25 @@ class ImageService implements ImageServiceContract
     {
         if ($this->postService->where('id', $postId)->exists()) {
             $result = null;
-
+            $height = null;
+            $types = ['full', 'large', 'thumbnail'];
             foreach ($files['images'] as $file) {
-                $data['type'] = 'full';
-                $data['name'] = $data['type'].'-'.$file->getClientOriginalName();
-                $data['post_id'] = $postId;
-                $data['path'] = $this->fileService->put($file, $data['name']);
-                $result[] = $this->image->create($data);
-                $data['type'] = 'thumbnail';
-                $data['name'] = $data['type'].'-'.$file->getClientOriginalName();
-                $data['path'] = $this->fileService->put($file, $data['name']);
-                $result[] = $this->image->create($data);
-                $image = InterventionImage::make(storage_path($data['path']))->heighten(90);
-                $image->save(storage_path($data['path']));
-                $data['type'] = 'large';
-                $data['name'] = $data['type'].'-'.$file->getClientOriginalName();
-                $data['path'] = $this->fileService->put($file, $data['name']);
-                $result[] = $this->image->create($data);
-                $image = InterventionImage::make(storage_path($data['path']))->heighten(1200);
-                $image->save(storage_path($data['path']));
+                foreach ($types as $type) {
+                    $data['type'] = $type;
+                    $data['name'] = $data['type'] . '-' . $file->getClientOriginalName();
+                    $data['post_id'] = $postId;
+                    $data['path'] = $this->fileService->put($file, $data['name']);
+                    $result[] = $this->image->create($data);
+                    if ($type == 'large') {
+                        $height = 1200;
+                    } elseif ($type == 'thumbnail') {
+                        $height = 90;
+                    } else {
+                        $height = getimagesize($file)[1];
+                    }
+                    $image = InterventionImage::make(storage_path($data['path']))->heighten($height);
+                    $image->save(storage_path($data['path']));
+                }
             }
             return $result;
         }
