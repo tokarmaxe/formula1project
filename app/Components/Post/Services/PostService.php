@@ -57,9 +57,7 @@ class PostService implements PostServiceContract
 
     public function show($postId)
     {
-        $result = $this->post->findOrFail($postId)->toArray();
-        $result['images'] = $this->image->where('post_id',$postId)->get()->toArray();
-        return $result;
+        return $this->post->with('images')->findOrFail($postId)->toArray();
     }
 
     private function isUserAdminOrCreator($postId)
