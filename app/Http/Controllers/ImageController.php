@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\Image\Services\ImageServiceContract;
-use Illuminate\Http\Request;
+use App\Http\Requests\ImageValidationRequest as Request;
 
 class ImageController extends Controller
 {
