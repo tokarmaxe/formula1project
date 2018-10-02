@@ -23,7 +23,7 @@ class ImageService implements ImageServiceContract
 
     public function create($files, $postId)
     {
-        if ($this->postService->where('id', $postId)->exists()) {
+        if ($post = $this->postService->firstOrFail($postId)) {
             $result = null;
             $height = null;
             $types = ['full', 'large', 'thumbnail'];
@@ -47,7 +47,6 @@ class ImageService implements ImageServiceContract
             }
             return $result;
         }
-        throw new ModelNotFoundException('That post does not exist');
     }
 
     public function destroy($imageId)
