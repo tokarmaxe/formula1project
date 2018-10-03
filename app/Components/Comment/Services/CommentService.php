@@ -28,7 +28,7 @@ class CommentService implements CommentServiceContract
         // TODO: Implement update() method.
     }
 
-    public function delete()
+    public function destroy()
     {
         // TODO: Implement delete() method.
     }

@@ -10,5 +10,5 @@ interface CommentServiceContract
 
     public function update();
 
-    public function delete();
+    public function destroy();
 }
