@@ -3,6 +3,8 @@
 namespace App\Components\Comment\Services;
 
 use App\Components\Comment\Models\Comment;
+use App\Exceptions\PermissionDeniedException;
+use Auth;
 
 class CommentService implements CommentServiceContract
 {
@@ -23,9 +25,11 @@ class CommentService implements CommentServiceContract
         return $this->comment->findOrFail($commentId)->toArray();
     }
 
-    public function update()
+    public function update($data, $commentId)
     {
-        // TODO: Implement update() method.
+        $this->isUserAdminOrCreator($commentId);
+        $this->comment->findOrFail($commentId)->update($data);
+        return $this->comment->findOrFail($commentId)->toArray();
     }
 
     public function destroy()

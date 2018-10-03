@@ -3,11 +3,9 @@
 
 namespace App\Components\Post\Services;
 
-use App\Http\Requests\PostValidationRequest;
 use App\Exceptions\PermissionDeniedException;
 use App\Components\Post\Models\Post;
 use Auth;
-
 
 class PostService implements PostServiceContract
 {

@@ -24,6 +24,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/categories', 'CategoryController@categories');
     Route::post('/comments','CommentController@store');
     Route::get('comments/{commentId}','CommentController@show');
+    Route::put('comments/{commentId}','CommentController@update');
 });
 
 

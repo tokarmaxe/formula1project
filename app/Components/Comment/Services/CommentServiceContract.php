@@ -8,7 +8,7 @@ interface CommentServiceContract
 
     public function show($commentId);
 
-    public function update();
+    public function update($data, $commentId);
 
     public function destroy();
 }
