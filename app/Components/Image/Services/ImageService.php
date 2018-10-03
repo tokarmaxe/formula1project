@@ -27,7 +27,6 @@ class ImageService implements ImageServiceContract
         $height = null;
         $types = Config::get('services.types');
         foreach ($files['images'] as $file) {
-            $count = 0;
             foreach ($types as $type => $typeParams) {
                 $data['type'] = $type;
                 $data['name'] = $data['type'] . '-' . $file->getClientOriginalName();
