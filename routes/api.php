@@ -26,6 +26,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('comments/{commentId}','CommentController@show');
     Route::put('comments/{commentId}','CommentController@update');
     Route::delete('comments/{comentId}','CommentController@destroy');
+    Route::get('comments/filter/{postId}','CommentController@list');
 });
 
 

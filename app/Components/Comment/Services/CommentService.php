@@ -35,4 +35,9 @@ class CommentService implements CommentServiceContract
     {
         return ['success' => $this->comment->findOrFail($commentId)->delete()];
     }
+
+    public function list($postId)
+    {
+        return $this->comment->where('post_id', $postId)->get()->toArray();
+    }
 }

@@ -11,4 +11,6 @@ interface CommentServiceContract
     public function update($data, $commentId);
 
     public function destroy($commentId);
+
+    public function list($postId);
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Comment\Services\CommentService;
 use App\Components\Comment\Services\CommentServiceContract;
 use App\Http\Requests\CommentValidationRequest as Request;
 
@@ -25,5 +26,10 @@ class CommentController extends Controller
     public function destroy(CommentServiceContract $commentService, $commentId)
     {
         return $this->sendResponse($commentService->destroy($commentId));
+    }
+
+    public function list(CommentServiceContract $commentService, $postId)
+    {
+        return $this->sendResponse($commentService->list($postId));
     }
 }
