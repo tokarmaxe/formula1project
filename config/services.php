@@ -62,6 +62,8 @@ return [
         'ann.zhuravel7@gmail.com'
     ],
 
+    'storage_images_path' => 'images'.DIRECTORY_SEPARATOR,
+
     'types' => [
         'full' => [
             'height' => 0,

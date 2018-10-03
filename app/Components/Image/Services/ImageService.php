@@ -13,12 +13,14 @@ class ImageService implements ImageServiceContract
     private $image;
     private $fileService;
     private $postService;
+    private $pathImages;
 
     public function __construct(Image $image, FileServiceContract $file, Post $post)
     {
         $this->image = $image;
         $this->fileService = $file;
         $this->postService = $post;
+        $this->pathImages = Config::get('services.storage_images_path');
     }
 
     public function create($files, $postId)
@@ -31,7 +33,7 @@ class ImageService implements ImageServiceContract
                 $data['type'] = $type;
                 $data['name'] = $data['type'] . '-' . $file->getClientOriginalName();
                 $data['post_id'] = $postId;
-                $data['path'] = $this->fileService->put($file, $data['name']);
+                $data['path'] = $this->fileService->put($file, $this->pathImages.$postId, $data['name']);
                 $result[] = $this->image->create($data);
                 $height = (array_get($typeParams, 'height') == 0) ? getimagesize($file)[1] : array_get($typeParams, 'height');
                 $image = InterventionImage::make(storage_path($data['path']))->heighten($height);

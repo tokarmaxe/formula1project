@@ -4,12 +4,13 @@ namespace App\Components\File\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Config;
 
 class FileService implements FileServiceContract
 {
-    public function put(UploadedFile $file, $imageName)
+    public function put(UploadedFile $file, $imagePath, $name)
     {
-        return $file->storeAs('images', $imageName);
+        return $file->storeAs($imagePath, $name);
     }
 
     public function remove($fullFilePath)
