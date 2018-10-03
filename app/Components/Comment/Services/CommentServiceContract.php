@@ -4,7 +4,7 @@ namespace App\Components\Comment\Services;
 
 interface CommentServiceContract
 {
-    public function store();
+    public function store($data);
 
     public function show();
 

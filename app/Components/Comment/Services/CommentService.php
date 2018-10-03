@@ -13,9 +13,9 @@ class CommentService implements CommentServiceContract
         $this->comment = $comment;
     }
 
-    public function store()
+    public function store($data)
     {
-        // TODO: Implement store() method.
+        return $this->comment->create($data)->toArray();
     }
 
     public function show()
