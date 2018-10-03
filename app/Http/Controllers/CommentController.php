@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Components\Comment\Services\CommentService;
 use App\Components\Comment\Services\CommentServiceContract;
 use App\Http\Requests\CommentValidationRequest as Request;
 
