@@ -6,7 +6,7 @@ interface CommentServiceContract
 {
     public function store($data);
 
-    public function show();
+    public function show($commentId);
 
     public function update();
 

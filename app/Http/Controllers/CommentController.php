@@ -12,9 +12,9 @@ class CommentController extends Controller
         return $this->sendResponse($commentService->store($request->validated()));
     }
 
-    public function show(Request $request, CommentServiceContract $commentService)
+    public function show($commentId, CommentServiceContract $commentService)
     {
-        return $this->sendResponse($commentService->show());
+        return $this->sendResponse($commentService->show($commentId));
     }
 
     public function update(Request $request, CommentServiceContract $commentService)
