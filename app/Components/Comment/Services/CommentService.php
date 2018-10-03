@@ -27,7 +27,6 @@ class CommentService implements CommentServiceContract
 
     public function update($data, $commentId)
     {
-        $this->isUserAdminOrCreator($commentId);
         $this->comment->findOrFail($commentId)->update($data);
         return $this->comment->findOrFail($commentId)->toArray();
     }

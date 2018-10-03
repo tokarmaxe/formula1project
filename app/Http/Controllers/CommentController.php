@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\Comment\Services\CommentServiceContract;
-//use App\Http\Requests\CommentValidationRequest as Request;
-use Illuminate\Http\Request;
+use App\Http\Requests\CommentValidationRequest as Request;
 
 class CommentController extends Controller
 {
@@ -20,7 +19,7 @@ class CommentController extends Controller
 
     public function update(Request $request, CommentServiceContract $commentService, $commentId)
     {
-        return $this->sendResponse($commentService->update($request->toArray(),$commentId));
+        return $this->sendResponse($commentService->update($request->validated(), $commentId));
     }
 
     public function destroy(Request $request, CommentServiceContract $commentService)
