@@ -22,8 +22,8 @@ class CommentController extends Controller
         return $this->sendResponse($commentService->update($request->validated(), $commentId));
     }
 
-    public function destroy(Request $request, CommentServiceContract $commentService)
+    public function destroy(CommentServiceContract $commentService, $commentId)
     {
-        return $this->sendResponse($commentService->destroy());
+        return $this->sendResponse($commentService->destroy($commentId));
     }
 }

@@ -31,8 +31,8 @@ class CommentService implements CommentServiceContract
         return $this->comment->findOrFail($commentId)->toArray();
     }
 
-    public function destroy()
+    public function destroy($commentId)
     {
-        // TODO: Implement delete() method.
+        return ['success' => $this->comment->findOrFail($commentId)->delete()];
     }
 }
