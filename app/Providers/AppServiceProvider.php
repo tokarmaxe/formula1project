@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PostServiceContract::class, PostService::class);
         $this->app->bind(CategoryContract::class, Category::class);
         $this->app->bind(CategoryServiceContract::class, CategoryService::class);
-        $this->app->bind(CommentContract::class,Comment::class);
-        $this->app->bind(CommentServiceContract::class,CommentService::class);
+        $this->app->bind(CommentContract::class, Comment::class);
+        $this->app->bind(CommentServiceContract::class, CommentService::class);
     }
 }
