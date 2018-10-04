@@ -6,7 +6,8 @@ use App;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\Components\Comment\Models\Comment;
+use Auth;
 
 class User extends Authenticatable implements UserContract
 {
@@ -43,5 +44,15 @@ class User extends Authenticatable implements UserContract
     public function posts()
     {
         return $this->hasMany('App\Components\Post\Models\Post');
+    }
+
+    public function isAdministrator()
+    {
+        return Auth::user()->is_admin;
+    }
+
+    public function isCreator($commentId)
+    {
+        return Auth::user()->id == Comment::findOrFail($commentId)->user_id;
     }
 }
