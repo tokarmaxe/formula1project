@@ -8,23 +8,8 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class CommentValidationRequest extends FormRequest
+class CommentValidationRequest extends BaseValidationRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -33,21 +18,4 @@ class CommentValidationRequest extends FormRequest
             'text'=>'required',
         ];
     }
-
-    protected function failedValidation(Validator $validator)
-    {
-        $errors = (new ValidationException($validator))->errors();
-        $transformed = [];
-        foreach ($errors as $field => $message) {
-            $transformed[] = [
-                'field' => $field,
-                'message' => $message[0]
-            ];
-        }
-        throw new HttpResponseException(response()->json([
-            'status' => 'failed',
-            'errors' => $transformed
-        ], '422'));
-    }
-
 }
