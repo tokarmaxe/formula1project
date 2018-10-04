@@ -38,7 +38,7 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_ID'),
         'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' =>  env('GOOGLE_REDIRECT')
+        'redirect' => env('GOOGLE_REDIRECT')
     ],
     'validity' => [
         'access_token' => '1'
@@ -50,7 +50,7 @@ return [
         'livenation.com',
         'determine.com',
         'reinvently.com'
-        ],
+    ],
 
     'admin_emails' => [
         'sklyack@gmail.com',
@@ -60,6 +60,19 @@ return [
         'sergey.ponomarenko.od@gmail.com',
         'olga.bilyayeva@gmail.com',
         'ann.zhuravel7@gmail.com'
-    ]
+    ],
 
+    'storage_images_path' => 'images'.DIRECTORY_SEPARATOR,
+
+    'types' => [
+        'full' => [
+            'height' => 0,
+        ],
+        'large' => [
+            'height' => 1200,
+        ],
+        'thumbnail' => [
+            'height' => 90,
+        ],
+    ],
 ];
