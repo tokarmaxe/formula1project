@@ -31,9 +31,9 @@ class ImageService implements ImageServiceContract
         foreach ($files['images'] as $file) {
             foreach ($types as $type => $typeParams) {
                 $data['type'] = $type;
-                $data['name'] = $data['type'] . '-' . $file->getClientOriginalName();
+                $data['name'] = $file->getClientOriginalName();
                 $data['post_id'] = $postId;
-                $data['path'] = $this->fileService->put($file, $this->pathImages.$postId, $data['name']);
+                $data['path'] = $this->fileService->put($file, $this->pathImages . $postId, $this->randString() . '.' . $file->getClientOriginalExtension());
                 $result[] = $this->image->create($data);
                 $height = (array_get($typeParams, 'height') == 0) ? getimagesize($file)[1] : array_get($typeParams, 'height');
                 $image = InterventionImage::make(storage_path($data['path']))->heighten($height);
@@ -48,6 +48,10 @@ class ImageService implements ImageServiceContract
         $this->image = $this->image->find($imageId)->firstOrFail();
         $this->fileService->remove($this->image['path']);
         return ['success' => $this->image->delete()];
+    }
 
+    private function randString(int $length = 64): string
+    {
+        return bin2hex(random_bytes($length));
     }
 }
