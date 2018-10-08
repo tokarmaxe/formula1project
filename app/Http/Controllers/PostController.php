@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Components\Post\Services\PostServiceContract;
 use App\Http\Requests\PostValidationRequest;
 
-
 class PostController extends Controller
 {
 

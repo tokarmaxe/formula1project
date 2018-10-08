@@ -45,7 +45,7 @@ class ImageService implements ImageServiceContract
 
     public function destroy($imageId)
     {
-        $this->image = $this->image->find($imageId)->firstOrFail();
+        $this->image = $this->image->findOrFail($imageId);
         $this->fileService->remove($this->image['path']);
         return ['success' => $this->image->delete()];
     }

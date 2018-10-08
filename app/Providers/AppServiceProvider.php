@@ -6,6 +6,10 @@ use App\Components\Category\Models\Category;
 use App\Components\Category\Models\CategoryContract;
 use App\Components\Category\Services\CategoryService;
 use App\Components\Category\Services\CategoryServiceContract;
+use App\Components\Comment\Models\Comment;
+use App\Components\Comment\Models\CommentContract;
+use App\Components\Comment\Services\CommentService;
+use App\Components\Comment\Services\CommentServiceContract;
 use App\Components\File\Services\FileService;
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
@@ -50,5 +54,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ImageContract::class, Image::class);
         $this->app->bind(ImageServiceContract::class, ImageService::class);
         $this->app->bind(FileServiceContract::class, FileService::class);
+        $this->app->bind(CommentContract::class, Comment::class);
+        $this->app->bind(CommentServiceContract::class, CommentService::class);
     }
 }
