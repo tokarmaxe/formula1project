@@ -3,18 +3,20 @@
 namespace App\Components\Comment\Services;
 
 use App\Components\Comment\Models\Comment;
+use App\Components\Post\Models\Post;
 use App\Components\User\Models\User;
 use App\Exceptions\PermissionDeniedException;
 use Auth;
 
 class CommentService implements CommentServiceContract
 {
-    private $comment, $user;
+    private $comment, $user, $post;
 
-    public function __construct(Comment $comment, User $user)
+    public function __construct(Comment $comment, User $user, Post $post)
     {
         $this->comment = $comment;
         $this->user = $user;
+        $this->post = $post;
     }
 
     public function store($data)
@@ -48,6 +50,7 @@ class CommentService implements CommentServiceContract
 
     public function list($postId)
     {
+        $this->post->findOrFail($postId);
         return $this->comment->where('post_id', $postId)->get()->toArray();
     }
 }
