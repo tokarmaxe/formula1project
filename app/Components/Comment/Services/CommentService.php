@@ -31,7 +31,7 @@ class CommentService implements CommentServiceContract
 
     public function update($data, $commentId)
     {
-        if ($this->user->isAdministrator() || $this->user->isCreator($commentId)) {
+        if ($this->user->isAdministrator()) {
             $this->comment->findOrFail($commentId)->update($data);
             return $this->comment->findOrFail($commentId)->toArray();
         } else {
@@ -41,7 +41,7 @@ class CommentService implements CommentServiceContract
 
     public function destroy($commentId)
     {
-        if ($this->user->isAdministrator() || $this->user->isCreator($commentId)) {
+        if ($this->user->isAdministrator()) {
             return ['success' => $this->comment->findOrFail($commentId)->delete()];
         } else {
             throw new PermissionDeniedException ('This action is not allowed for you!');
