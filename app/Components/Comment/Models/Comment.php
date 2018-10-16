@@ -13,7 +13,7 @@ class Comment extends Model implements CommentContract
 
     public function user()
     {
-        return $this->belongsTo('App\Components\User\Models\User');
+        return $this->belongsTo('App\Components\User\Models\User')->select(array('id', 'first_name', 'last_name', 'avatar'));
     }
 
     public function post()

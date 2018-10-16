@@ -26,7 +26,7 @@ class CommentService implements CommentServiceContract
 
     public function show($commentId)
     {
-        return $this->comment->findOrFail($commentId)->toArray();
+        return $this->comment->with('user')->findOrFail($commentId)->toArray();
     }
 
     public function update($data, $commentId)
