@@ -30,6 +30,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::post('/images','ImageController@upload');
     Route::delete('/images/{imageId}','ImageController@destroy');
+	Route::post('/image_thumb','ImageController@uploadToTempFolder');
+	Route::delete('/image_thumb/{tempId}','ImageController@deleteFromUserFolder');
 });
 
 

@@ -63,6 +63,8 @@ return [
     ],
 
     'storage_images_path' => 'images'.DIRECTORY_SEPARATOR,
+	
+	'storage_temporary_images_path' =>'images'.DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR,
 
     'types' => [
         'full' => [
