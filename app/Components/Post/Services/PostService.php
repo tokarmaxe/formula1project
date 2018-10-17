@@ -12,16 +12,15 @@ use Auth;
 
 class PostService implements PostServiceContract
 {
-    private $post, $image;
+    private $post;
 
     /**
      * PostService constructor.
      * @param $post
      */
-    public function __construct(Post $post, Image $image)
+    public function __construct(Post $post)
     {
         $this->post = $post;
-        $this->image = $image;
     }
 
     public function list($categoryId = null)
@@ -50,14 +49,16 @@ class PostService implements PostServiceContract
 
     public function update($data, $postId)
     {
+
         $this->isUserAdminOrCreator($postId);
         $this->post->findOrFail($postId)->update($data);
         return $this->post->findOrFail($postId)->toArray();
+
     }
 
     public function show($postId)
     {
-        return $this->post->with('images')->findOrFail($postId)->toArray();
+        return $this->post->findOrFail($postId)->toArray();
     }
 
     private function isUserAdminOrCreator($postId)
