@@ -3,26 +3,25 @@
 namespace App\Components\Image\Services;
 
 use App\Components\File\Services\FileServiceContract;
-use App\Components\Post\Services\Post;
 use App\Components\Image\Models\Image;
+use App\Components\Post\Models\Post;
 use Intervention\Image\ImageManagerStatic as InterventionImage;
 use Illuminate\Support\Facades\Config;
 
 class ImageService implements ImageServiceContract
 {
- 
 	private $image;
 	private $fileService;
+	private $postService;
 	private $pathImages;
-	 private $postService;
-	 
-    public function __construct(Image $image, FileServiceContract $file, Post $post)
-    {
-        $this->image = $image;
-        $this->fileService = $file;
-        $this->postService = $post;
-        $this->pathImages = Config::get('services.storage_images_path');
-    }
+	
+	public function __construct(Image $image, FileServiceContract $file, Post $post)
+	{
+		$this->image = $image;
+		$this->fileService = $file;
+		$this->postService = $post;
+		$this->pathImages = Config::get('services.storage_images_path');
+	}
 	
 	public function create($files, $postId)
 	{
@@ -34,11 +33,9 @@ class ImageService implements ImageServiceContract
 				$data['type'] = $type;
 				$data['name'] = $file->getClientOriginalName();
 				$data['post_id'] = $postId;
-				$data['path'] = $this->fileService->put($file, $this->pathImages . $postId,
-					$this->randString() . '.' . $file->getClientOriginalExtension());
+				$data['path'] = $this->fileService->put($file, $this->pathImages . $postId, $this->randString() . '.' . $file->getClientOriginalExtension());
 				$result[] = $this->image->create($data);
-				$height = (array_get($typeParams, 'height') == 0) ? getimagesize($file)[1] : array_get($typeParams,
-					'height');
+				$height = (array_get($typeParams, 'height') == 0) ? getimagesize($file)[1] : array_get($typeParams, 'height');
 				$image = InterventionImage::make(storage_path($data['path']))->heighten($height);
 				$image->save(storage_path($data['path']));
 			}
@@ -46,11 +43,23 @@ class ImageService implements ImageServiceContract
 		return $result;
 	}
 	
-	public function createThumbnailSaveInTemp($files, $tempId)
+	public function destroy($imageId)
+	{
+		$this->image = $this->image->findOrFail($imageId);
+		$this->fileService->remove($this->image['path']);
+		return ['success' => $this->image->delete()];
+	}
+	
+	private function randString(int $length = 64): string
+	{
+		return bin2hex(random_bytes($length));
+	}
+	public function createThumbnailSaveInTemp($files)
 	{
 		$paths = null;
+		$tempId=$this->randString(30);
 		$type = Config::get('services.types.thumbnail');
-		$storagePath = Config::get('services.storage_temporary_images_path') . $tempId . DIRECTORY_SEPARATOR;
+		$storagePath = Config::get('services.storage_temporary_images_path') . $tempId;
 		foreach ($files['images'] as $file) {
 			$path = $this->fileService->put($file, $storagePath,
 				$this->randString() . '.' . $file->getClientOriginalExtension());
@@ -63,7 +72,6 @@ class ImageService implements ImageServiceContract
 		return $paths;
 		
 	}
-	
 	public function destroyTempSubfolder($tempId)
 	{
 		$storagePath = Config::get('services.storage_temporary_images_path') . $tempId . DIRECTORY_SEPARATOR;
@@ -72,16 +80,5 @@ class ImageService implements ImageServiceContract
 		return ['success' => $this->fileService->removeDirectory($storagePath)];
 	}
 	
-	public function destroy($imageId)
-	{
-		$this->image = $this->image->find($imageId)->firstOrFail();
-		$this->fileService->remove($this->image['path']);
-		return ['success' => $this->image->delete()];
-	}
-	
-	private function randString(int $length = 64): string
-	{
-		return bin2hex(random_bytes($length));
-	}
- 
 }
+
