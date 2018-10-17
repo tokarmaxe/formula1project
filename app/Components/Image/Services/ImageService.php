@@ -54,11 +54,12 @@ class ImageService implements ImageServiceContract
 	{
 		return bin2hex(random_bytes($length));
 	}
-	public function createThumbnailSaveInTemp($files, $tempId)
+	public function createThumbnailSaveInTemp($files)
 	{
 		$paths = null;
+		$tempId=$this->randString(30);
 		$type = Config::get('services.types.thumbnail');
-		$storagePath = Config::get('services.storage_temporary_images_path') . $tempId . DIRECTORY_SEPARATOR;
+		$storagePath = Config::get('services.storage_temporary_images_path') . $tempId;
 		foreach ($files['images'] as $file) {
 			$path = $this->fileService->put($file, $storagePath,
 				$this->randString() . '.' . $file->getClientOriginalExtension());
