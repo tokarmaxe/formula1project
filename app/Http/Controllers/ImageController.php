@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Components\Image\Services\ImageServiceContract;
 use App\Http\Requests\ImageValidationRequest as Request;
-use App\Http\Requests\TempImageValidationRequest as TempRequest;
+
 
 
 
@@ -18,7 +18,7 @@ class ImageController extends Controller
 		return $this->sendResponse($result);
 	}
 	
-	public function uploadToTempFolder(TempRequest $request, ImageServiceContract $imageService)
+	public function uploadToTempFolder(Request $request, ImageServiceContract $imageService)
 	{
 		$files = $request->allFiles();
 		$result = $imageService->createThumbnailSaveInTemp($files);

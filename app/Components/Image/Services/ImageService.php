@@ -10,16 +10,14 @@ use Illuminate\Support\Facades\Config;
 
 class ImageService implements ImageServiceContract
 {
-	private $image;
+	private $imageModel;
 	private $fileService;
-	private $postService;
 	private $pathImages;
 	
-	public function __construct(Image $image, FileServiceContract $file, Post $post)
+	public function __construct(Image $image, FileServiceContract $file)
 	{
-		$this->image = $image;
+		$this->imageModel = $image;
 		$this->fileService = $file;
-		$this->postService = $post;
 		$this->pathImages = Config::get('services.storage_images_path');
 	}
 	
@@ -34,7 +32,7 @@ class ImageService implements ImageServiceContract
 				$data['name'] = $file->getClientOriginalName();
 				$data['post_id'] = $postId;
 				$data['path'] = $this->fileService->put($file, $this->pathImages . $postId, $this->randString() . '.' . $file->getClientOriginalExtension());
-				$result[] = $this->image->create($data);
+				$result[] = $this->imageModel->create($data);
 				$height = (array_get($typeParams, 'height') == 0) ? getimagesize($file)[1] : array_get($typeParams, 'height');
 				$image = InterventionImage::make(storage_path($data['path']))->heighten($height);
 				$image->save(storage_path($data['path']));
@@ -45,9 +43,9 @@ class ImageService implements ImageServiceContract
 	
 	public function destroy($imageId)
 	{
-		$this->image = $this->image->findOrFail($imageId);
-		$this->fileService->remove($this->image['path']);
-		return ['success' => $this->image->delete()];
+		$this->imageModel = $this->imageModel->findOrFail($imageId);
+		$this->fileService->remove($this->imageModel['path']);
+		return ['success' => $this->imageModel->delete()];
 	}
 	
 	private function randString(int $length = 64): string
