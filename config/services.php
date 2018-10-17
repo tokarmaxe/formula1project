@@ -63,6 +63,8 @@ return [
     ],
 
     'storage_images_path' => 'images'.DIRECTORY_SEPARATOR,
+	
+	'pagination_items' => 12,
 
     'types' => [
         'full' => [
