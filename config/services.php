@@ -62,7 +62,10 @@ return [
 		'ann.zhuravel7@gmail.com'
 	],
 	
+	
+	
 	'storage_images_path' => 'images'.DIRECTORY_SEPARATOR,
+	'storage_temporary_images_path' =>'images'.DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR,
 	
 	'pagination_items' => 12,
 	
