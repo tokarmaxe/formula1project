@@ -54,5 +54,30 @@ class ImageService implements ImageServiceContract
 	{
 		return bin2hex(random_bytes($length));
 	}
+	public function createThumbnailSaveInTemp($files, $tempId)
+	{
+		$paths = null;
+		$type = Config::get('services.types.thumbnail');
+		$storagePath = Config::get('services.storage_temporary_images_path') . $tempId . DIRECTORY_SEPARATOR;
+		foreach ($files['images'] as $file) {
+			$path = $this->fileService->put($file, $storagePath,
+				$this->randString() . '.' . $file->getClientOriginalExtension());
+			$height = (array_get($type, 'height') == 0) ? getimagesize($file)[1] : array_get($type, 'height');
+			$image = InterventionImage::make(storage_path($path))->heighten($height);
+			$image->save(storage_path($path));
+			$paths['images'][] = $path;
+		}
+		$paths['temp_id'] = $tempId;
+		return $paths;
+		
+	}
+	public function destroyTempSubfolder($tempId)
+	{
+		$storagePath = Config::get('services.storage_temporary_images_path') . $tempId . DIRECTORY_SEPARATOR;
+		
+		
+		return ['success' => $this->fileService->removeDirectory($storagePath)];
+	}
+	
 }
 
