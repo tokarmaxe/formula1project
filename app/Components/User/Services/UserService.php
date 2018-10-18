@@ -44,8 +44,7 @@ class UserService implements UserServiceContract
 
         $client->setDeveloperKey(Config::get('google.client_id'));
 
-        $payload = $client->verifyIdToken($idToken);
-        if ($payload) {
+        if ($payload = $client->verifyIdToken($idToken)) {
 
             $this->checkPayloadEmail($payload);
 
