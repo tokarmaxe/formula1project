@@ -18,7 +18,7 @@ class Post extends Model implements PostContract
 
     public function user()
     {
-        return $this->belongsTo('App\Components\User\Models\User');
+        return $this->belongsTo('App\Components\User\Models\User')->select(array('id', 'first_name', 'last_name', 'avatar'));
     }
 
     public function images()
@@ -28,6 +28,6 @@ class Post extends Model implements PostContract
 
     public function comments()
     {
-        return $this->hasMany('App\Comment\Post\Models\Comment');
+        return $this->hasMany('App\Components\Comment\Models\Comment');
     }
 }
