@@ -27,7 +27,7 @@ class PostService implements PostServiceContract
 	public function list($categoryId = null)
 	{
 		if (!is_null($categoryId)) {
-			return $this->post->where('category_id',
+			return $this->post->with('user', 'comments')->where('category_id',
 				$categoryId)->paginate(Config::get('services.pagination_items'))->toArray();
 		} else {
 			return $this->post->paginate(Config::get('services.pagination_items'))->toArray();
