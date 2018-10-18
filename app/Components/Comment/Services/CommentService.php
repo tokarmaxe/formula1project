@@ -51,6 +51,6 @@ class CommentService implements CommentServiceContract
     public function list($postId)
     {
         $this->post->findOrFail($postId);
-        return $this->comment->where('post_id', $postId)->get()->toArray();
+        return $this->comment->with('user')->where('post_id', $postId)->get()->toArray();
     }
 }

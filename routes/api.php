@@ -28,8 +28,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('/comments/{comentId}', 'CommentController@destroy');
     Route::get('/comments/filter/{postId}', 'CommentController@list');
 
-    Route::post('/images','ImageController@upload');
-    Route::delete('/images/{imageId}','ImageController@destroy');
+    Route::post('/images', 'ImageController@upload');
+    Route::delete('/images/{imageId}', 'ImageController@destroy');
 });
 
 
