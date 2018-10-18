@@ -49,7 +49,6 @@ class UserService implements UserServiceContract
 
             $this->checkPayloadEmail($payload);
 
-
             $clientEmail = $payload['email'];
             if ($this->user->where('email', $clientEmail)->exists()) {
                 $this->user = $this->user->where('email', $clientEmail)
@@ -81,8 +80,7 @@ class UserService implements UserServiceContract
      *
      * @throws AuthenticationException
      */
-    private
-    function checkPayloadEmail($payload)
+    private function checkPayloadEmail($payload)
     {
         $userEmail = array_get($payload, 'email');
         $row = explode('@', $userEmail);
@@ -103,8 +101,7 @@ class UserService implements UserServiceContract
      * @return User
      * @throws AuthenticationException
      */
-    protected
-    function createUserFromGoogleData($payload): User
+    protected function createUserFromGoogleData($payload): User
     {
         $this->checkPayloadEmail($payload);
 
@@ -129,8 +126,7 @@ class UserService implements UserServiceContract
      * @throws AuthenticationException
      */
 
-    public
-    function getUserByApiToken($apiToken)
+    public function getUserByApiToken($apiToken)
     {
         $user = $this->user->where('api_token', $apiToken)->first();
         if (is_null($user)) {
