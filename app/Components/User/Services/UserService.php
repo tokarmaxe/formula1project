@@ -38,7 +38,7 @@ class UserService implements UserServiceContract
     {
 
         if (empty ($idToken)) {
-            throw new AuthenticationException('token_ID is incorrect!');
+            throw new AuthenticationException('token_ID is empty!');
         }
         $client = new \Google_Client();
 
