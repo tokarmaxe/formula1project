@@ -38,38 +38,40 @@ class UserService implements UserServiceContract
     {
 
         if (empty ($idToken)) {
-            throw new AuthenticationException('Unathorized: token_ID is incorrect!');
+            throw new AuthenticationException('token_ID is empty!');
         }
         $client = new \Google_Client();
 
         $client->setDeveloperKey(Config::get('google.client_id'));
 
-        $payload = $client->verifyIdToken($idToken);
+        if ($payload = $client->verifyIdToken($idToken)) {
 
-        $this->checkPayloadEmail($payload);
+            $this->checkPayloadEmail($payload);
 
-        $clientEmail = $payload['email'];
-        if ($this->user->where('email', $clientEmail)->exists()) {
-            $this->user = $this->user->where('email', $clientEmail)
-                ->first();
-            $this->user->api_token = $this->user->createToken();
-            $this->user->expired_at = Carbon::now()
-                ->addDays(Config::get('services.validity.access_token'));
-            if (!is_null($payload['picture'])) {
-                if (is_null($this->user->avatar)) {
-                    $this->user->avatar = $payload['picture'];
-                } elseif ($this->user->avatar != $payload['picture']) {
-                    $this->user->avatar = $payload['picture'];
+            $clientEmail = $payload['email'];
+            if ($this->user->where('email', $clientEmail)->exists()) {
+                $this->user = $this->user->where('email', $clientEmail)
+                    ->first();
+                $this->user->api_token = $this->user->createToken();
+                $this->user->expired_at = Carbon::now()
+                    ->addDays(Config::get('services.validity.access_token'));
+                if (!is_null($payload['picture'])) {
+                    if (is_null($this->user->avatar)) {
+                        $this->user->avatar = $payload['picture'];
+                    } elseif ($this->user->avatar != $payload['picture']) {
+                        $this->user->avatar = $payload['picture'];
+                    }
                 }
+                $this->user->save();
+            } else {
+                $this->user = $this->createUserFromGoogleData($payload);
             }
-            $this->user->save();
-        } else {
-            $this->user = $this->createUserFromGoogleData($payload);
-        }
 
-        return [
-            'access_token' => $this->user->api_token,
-        ];
+            return [
+                'access_token' => $this->user->api_token,
+            ];
+        }
+        throw new AuthenticationException('token_ID is incorrect!');
     }
 
     /**
