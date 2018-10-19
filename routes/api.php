@@ -27,15 +27,13 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::put('/comments/{commentId}', 'CommentController@update');
 	Route::delete('/comments/{comentId}', 'CommentController@destroy');
 	Route::get('/comments/filter/{postId}', 'CommentController@list');
-	
-	Route::post('/images','ImageController@upload');
-	Route::delete('/images/{imageId}','ImageController@destroy');
-	
-	Route::post('/image_thumb','ImageController@uploadToTempFolder');
-	Route::delete('/image_thumb/{tempId}','ImageController@deleteFromUserFolder');
-	
+
+	Route::post('/images', 'ImageController@upload');
+	Route::delete('/images/{imageId}', 'ImageController@destroy');
+
+	Route::post('/image_thumb', 'ImageController@uploadToTempFolder');
+	Route::delete('/image_thumb/{tempId}', 'ImageController@deleteFromUserFolder');
+
 });
-
-
 
 
