@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $idToken = $request->header('Authorization');
         $idToken = str_replace('Bearer ', '', $idToken);
-        if($idToken == 'Bearer')
+        if ($idToken == 'Bearer')
             $idToken = null;
         $result = $userService->login($idToken);
         return $this->sendResponse($result);

@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Exception               $exception
+     * @param  \Exception $exception
      *
      * @return \Illuminate\Http\Response
      */
@@ -68,8 +68,8 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => $exception->getMessage()],
                 '403');
         }
-        if($exception instanceof UnexpectedValueException)
-        {
+
+        if ($exception instanceof UnexpectedValueException) {
             return response()->json(['message' => $exception->getMessage()],
                 '406');
         }
