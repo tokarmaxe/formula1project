@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 use App\Exceptions\ValidationExeption;
+use UnexpectedValueException;
 
 class Handler extends ExceptionHandler
 {
@@ -67,6 +68,10 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => $exception->getMessage()],
                 '403');
         }
-
+        if($exception instanceof UnexpectedValueException)
+        {
+            return response()->json(['message' => $exception->getMessage()],
+                '403');
+        }
     }
 }
