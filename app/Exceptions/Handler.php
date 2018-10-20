@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
         if($exception instanceof UnexpectedValueException)
         {
             return response()->json(['message' => $exception->getMessage()],
-                '403');
+                '406');
         }
     }
 }
