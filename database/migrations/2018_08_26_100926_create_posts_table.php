@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->increments('id')->unique();
             $table->string('title');
             $table->text('description');
-            $table->float('price', 72, 2);
+            $table->double('price', 72, 2);
             $table->unsignedInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedInteger('user_id');
