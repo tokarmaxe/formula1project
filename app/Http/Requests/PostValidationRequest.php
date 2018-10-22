@@ -33,7 +33,7 @@ class PostValidationRequest extends FormRequest
         return [
             'title' => 'required|min:2|max:255',
             'description' => 'required|min:2',
-            'price' => 'required',
+            'price' => 'required|max:70',
             'category_id' => 'required|exists:categories,id',
             'user_id' => 'required|exists:users,id',
             'currency' => 'required'
