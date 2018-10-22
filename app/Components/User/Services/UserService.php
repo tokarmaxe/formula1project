@@ -36,6 +36,9 @@ class UserService implements UserServiceContract
      */
     public function login($idToken)
     {
+        if ($idToken == 'Bearer')
+            $idToken = null;
+
         if (empty ($idToken)) {
             throw new AuthenticationException('token_ID is empty!');
         }
