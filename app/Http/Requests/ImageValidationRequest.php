@@ -9,21 +9,17 @@ class ImageValidationRequest extends BaseValidationRequest
 	
 	public function rules()
 	{
-		
-		if (!$this->route()->uri('api/image_thumb')) {
 			return [
 				'post_id' => 'required|exists:posts,id',
-				'images' => 'required|array',
-				'images.*' => 'image|mimes:jpeg,png,jpg',
+				'images' => 'required',
+                'images.*.type' =>
+                    ['in:image/png,image/jpg,image/jpeg,image/svg,image/gif'],
+                'images.*.file' =>
+                ['required']
 			];
-		} else {
-			return [
-				'images' => 'required|array',
-				'images.*' => 'image|mimes:jpeg,png,jpg',
-			];
-			
-		}
-		
+
+
+
 	}
 }
 
