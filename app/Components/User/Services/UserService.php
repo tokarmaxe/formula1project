@@ -136,4 +136,9 @@ class UserService implements UserServiceContract
         }
         return $user->toArray();
     }
+
+    public function getUserById($id)
+    {
+        return $this->user->where('id', $id)->firstOrFail()->toArray();
+    }
 }
