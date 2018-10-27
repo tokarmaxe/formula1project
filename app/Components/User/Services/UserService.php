@@ -141,4 +141,9 @@ class UserService implements UserServiceContract
     {
         return $this->user->where('id', $id)->select(array('id', 'first_name', 'last_name', 'avatar', 'skype', 'phone_number', 'room_location'))->firstOrFail()->toArray();
     }
+
+    public function update($data, $id)
+    {
+        
+    }
 }
