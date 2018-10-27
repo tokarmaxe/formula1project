@@ -51,11 +51,9 @@ class PostService implements PostServiceContract
 	
 	public function update($data, $postId)
 	{
-		
 		$this->isUserAdminOrCreator($postId);
 		$this->post->findOrFail($postId)->update($data);
 		return $this->post->findOrFail($postId)->toArray();
-		
 	}
 	
 	public function show($postId)
