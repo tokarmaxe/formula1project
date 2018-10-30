@@ -20,4 +20,5 @@ class Comment extends Model implements CommentContract
     {
         return $this->belongsTo('App\Components\Post\Models\Post');
     }
+
 }

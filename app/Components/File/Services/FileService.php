@@ -2,15 +2,21 @@
 
 namespace App\Components\File\Services;
 
-use Illuminate\Http\UploadedFile;
+
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Config;
+use Intervention\Image\Image as InterventionImage;
+
 
 class FileService implements FileServiceContract
 {
-    public function put(UploadedFile $file, $imagePath, $name)
+    public function put(InterventionImage $file, $imagePath, $name)
     {
-        return $file->storeAs($imagePath, $name);
+        if ((!is_dir(storage_path($imagePath))) && (!is_null($file))) {
+            mkdir(storage_path($imagePath), 777, true);
+        }
+        $fullFilePath = $imagePath . DIRECTORY_SEPARATOR . $name;
+        $file->save(storage_path($fullFilePath));
+        return $fullFilePath;
     }
 
     public function remove($fullFilePath)

@@ -4,12 +4,14 @@ namespace App\Components\Post\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Post extends Model implements PostContract
 {
     use SoftDeletes;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
+
 
     public function category()
     {
@@ -30,4 +32,5 @@ class Post extends Model implements PostContract
     {
         return $this->hasMany('App\Components\Comment\Models\Comment');
     }
+
 }

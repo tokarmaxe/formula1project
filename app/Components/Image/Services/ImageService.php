@@ -7,7 +7,7 @@ use App\Components\Image\Models\Image;
 use Intervention\Image\ImageManagerStatic as InterventionImageStatic;
 use Intervention\Image\Image as InterventionImage;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
+
 
 class ImageService implements ImageServiceContract
 {
@@ -27,44 +27,16 @@ class ImageService implements ImageServiceContract
         $result = null;
         $height = null;
         $types = Config::get('services.types');
-        foreach ($files['images'] as $file) {
-            foreach ($types as $type => $typeParams) {
-                $data['type'] = $type;
-                $data['name'] = $file->getClientOriginalName();
-                $data['post_id'] = $postId;
-                $data['path'] = $this->fileService->put($file, $this->pathImages . $postId,
-                    $this->randString() . '.' . $file->getClientOriginalExtension());
-                $result[] = $this->imageModel->create($data);
-                $height = (array_get($typeParams, 'height') == 0) ? getimagesize($file)[1] : array_get($typeParams,
-                    'height');
-                $image = InterventionImageStatic::make(storage_path($data['path']))->heighten($height);
-                $image->save(storage_path($data['path']));
-            }
-        }
-        return $result;
-
-    }
-
-    public function createFromBase64($files, $postId)
-    {
-        $result = null;
-        $height = null;
-        $types = Config::get('services.types');
         $path = $this->pathImages . $postId;
         foreach ($files as $file) {
             $extension = explode('/', $file['type'])[1];
             $data['post_id'] = $postId;
             $data['name'] = $file['name'] . '.' . $extension;
             $image = InterventionImageStatic::make($file['file']);
-            if ((!is_dir(storage_path($path))) && (!is_null($image))) {
-                mkdir(storage_path($path), 777, true);
-            }
             foreach ($types as $type => $typeParams) {
                 $data['type'] = $type;
-                $data['path'] = $path . DIRECTORY_SEPARATOR . $this->randString() . '.' . $extension;
-                $data['path'] = str_replace(" ", "", $data['path']);
                 $image = $this->crop($image, $typeParams);
-                $image->save(storage_path($data['path']));
+                $data['path']=$this->fileService->put($image, $path, $this->randString() . '.' . $extension);
                 $result[] = $this->imageModel->create($data);
             }
         }
@@ -74,7 +46,7 @@ class ImageService implements ImageServiceContract
     public function destroy($imageId)
     {
         $this->imageModel = $this->imageModel->findOrFail($imageId);
-        Storage::disk('local')->delete($this->imageModel['path']);
+        $this->fileService->remove($this->imageModel['path']);
         return ['success' => $this->imageModel->delete()];
     }
 

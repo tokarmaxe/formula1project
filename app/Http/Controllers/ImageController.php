@@ -10,7 +10,7 @@ class ImageController extends Controller
 {
     public function upload(Request $request, ImageServiceContract $imageService)
     {
-        $result = $imageService->createFromBase64($request->images, $request->post_id);
+        $result = $imageService->create($request->images, $request->post_id);
         return $this->sendResponse($result);
     }
 
