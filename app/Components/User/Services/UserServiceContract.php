@@ -9,4 +9,5 @@ interface UserServiceContract
 {
     public function login($idToken);
     public function getUserByApiToken($apiToken);
+    public function getUserById($id);
 }
