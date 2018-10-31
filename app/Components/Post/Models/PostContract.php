@@ -3,7 +3,9 @@
 namespace App\Components\Post\Models;
 
 
-interface PostContract
+use App\Convention\Model\Contracts\IsoDateContract;
+
+interface PostContract extends IsoDateContract
 {
 
 }

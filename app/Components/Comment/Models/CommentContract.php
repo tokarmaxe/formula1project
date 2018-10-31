@@ -2,8 +2,9 @@
 
 namespace App\Components\Comment\Models;
 
+use App\Convention\Model\Contracts\IsoDateContract;
 
-interface CommentContract
+interface CommentContract extends IsoDateContract
 {
 
 }

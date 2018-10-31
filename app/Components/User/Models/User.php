@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Components\Comment\Models\Comment;
+use App\Convention\Model\Traits\IsoDateTrait;
+use Carbon\Carbon;
 use Auth;
 
 class User extends Authenticatable implements UserContract
 {
     use Notifiable;
     use SoftDeletes;
+    use IsoDateTrait;
 
     protected $fillable = [
         'first_name',
@@ -54,5 +57,10 @@ class User extends Authenticatable implements UserContract
     public function isCreator($commentId)
     {
         return Auth::user()->id == Comment::findOrFail($commentId)->user_id;
+    }
+
+    public function getExpiredAtAttribute($date){
+        $date = new Carbon($date);
+        return $date->toIso8601String();
     }
 }
