@@ -36,4 +36,14 @@ class UserController extends Controller
         return
             $this->sendResponse($userService->getUserByApiToken($apiToken));
     }
+
+    public function getUser(UserServiceContract $userService, $userId)
+    {
+        return $this->sendResponse($userService->getUserById($userId));
+    }
+
+    public function update(Request $request, UserServiceContract $userService, $userId)
+    {
+        return $this->sendResponse($userService->update($request->toArray(), $userId));
+    }
 }
