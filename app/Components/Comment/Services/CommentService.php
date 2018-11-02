@@ -26,7 +26,7 @@ class CommentService implements CommentServiceContract
 
     public function show($commentId)
     {
-        return $this->comment->orderBy('created_at', 'DESC')->with('user')->findOrFail($commentId)->toArray();
+        return $this->comment->orderBy('created_at', 'asc')->with('user')->findOrFail($commentId)->toArray();
     }
 
     public function update($data, $commentId)
@@ -51,6 +51,6 @@ class CommentService implements CommentServiceContract
     public function list($postId)
     {
         $this->post->findOrFail($postId);
-        return $this->comment->orderBy('created_at', 'DESC')->with('user')->where('post_id', $postId)->get()->toArray();
+        return $this->comment->orderBy('created_at', 'asc')->with('user')->where('post_id', $postId)->get()->toArray();
     }
 }
