@@ -106,6 +106,7 @@ class DatabaseSeeder extends Seeder
                 'first_name' => 'Сергей',
                 'last_name' => 'Пономаренко',
                 'email' => 'sergey.ponomarenko.od@gmail.com',
+                'telegram' => 'Sanktium',
                 'is_admin' => true,
                 'expired_at' => date('Y-m-d')
             ],
@@ -114,6 +115,7 @@ class DatabaseSeeder extends Seeder
                 'first_name' => 'Аня',
                 'last_name' => 'Журавель',
                 'email' => 'ann.zhuravel7@gmail.com',
+                'telegram' => 'ann.zhuravel7',
                 'is_admin' => true,
                 'expired_at' => date('Y-m-d')
             ]
