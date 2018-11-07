@@ -2,12 +2,14 @@
 
 namespace App\Components\Post\Models;
 
+use App\Convention\Model\Traits\IsoDateTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model implements PostContract
 {
     use SoftDeletes;
+    use IsoDateTrait;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
 
@@ -18,7 +20,12 @@ class Post extends Model implements PostContract
 
     public function user()
     {
-        return $this->belongsTo('App\Components\User\Models\User')->select(array('id', 'first_name', 'last_name', 'avatar'));
+        return $this->belongsTo('App\Components\User\Models\User')->select(array(
+            'id',
+            'first_name',
+            'last_name',
+            'avatar'
+        ));
     }
 
     public function images()
@@ -30,4 +37,5 @@ class Post extends Model implements PostContract
     {
         return $this->hasMany('App\Components\Comment\Models\Comment');
     }
+
 }

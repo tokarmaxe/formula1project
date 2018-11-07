@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_number')->nullable();
             $table->string('avatar')->nullable();
             $table->boolean('is_admin')->nullable();
-            $table->dateTime('expired_at');
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

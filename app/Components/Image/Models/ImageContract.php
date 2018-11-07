@@ -2,8 +2,9 @@
 
 namespace App\Components\Image\Models;
 
+use App\Convention\Model\Contracts\IsoDateContract;
 
-interface ImageContract
+interface ImageContract extends IsoDateContract
 {
 
 }
