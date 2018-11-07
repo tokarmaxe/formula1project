@@ -5,6 +5,7 @@ namespace App\Components\Post\Models;
 use App\Convention\Model\Traits\IsoDateTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Post extends Model implements PostContract
 {
@@ -12,6 +13,7 @@ class Post extends Model implements PostContract
     use IsoDateTrait;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
+
 
     public function category()
     {
