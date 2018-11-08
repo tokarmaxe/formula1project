@@ -64,7 +64,7 @@ class PostService implements PostServiceContract
 
     public function usersAds($userId)
     {
-        return $this->post->where('user_id', $userId)->with('category')->paginate(Config::get('services.pagination_items'))->toArray();
+        return $this->post->orderBy('created_at', 'DESC')->where('user_id', $userId)->with('category')->paginate(Config::get('services.pagination_items'))->toArray();
     }
 
     private function isUserAdminOrCreator($postId)
