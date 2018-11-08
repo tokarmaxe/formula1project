@@ -58,7 +58,7 @@ class PostService implements PostServiceContract
 	
 	public function show($postId)
 	{
-		return $this->post->findOrFail($postId)->toArray();
+		return $this->post->with('user')->findOrFail($postId)->toArray();
 	}
 	
 	private function isUserAdminOrCreator($postId)
