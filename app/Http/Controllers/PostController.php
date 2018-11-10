@@ -36,7 +36,8 @@ class PostController extends Controller
         PostServiceContract $postService,
         $postId,
         PostValidationRequest $request
-    ) {
+    )
+    {
 
         return
             $this->sendResponse($postService->update($request->validated(), $postId));
@@ -45,5 +46,10 @@ class PostController extends Controller
     public function show($postId, PostServiceContract $postService)
     {
         return $this->sendResponse($postService->show($postId));
+    }
+
+    public function usersAds(PostServiceContract $postService, $userId)
+    {
+        return $this->sendResponse($postService->usersAds($userId));
     }
 }
