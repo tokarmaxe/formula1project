@@ -13,7 +13,7 @@ class Base64Image implements Rule
     }
     public function passes($attribute, $value)
     {
-        return !is_null(imagecreatefromstring(base64_decode($value)));
+        return !is_null(\imagecreatefromstring(base64_decode($value)));
 
     }
 
