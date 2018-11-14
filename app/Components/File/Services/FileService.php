@@ -12,7 +12,7 @@ class FileService implements FileServiceContract
     public function put(InterventionImage $file, $imagePath, $name)
     {
         if ((!is_dir(storage_path($imagePath))) && (!is_null($file))) {
-            mkdir(storage_path($imagePath), 777, true);
+            mkdir(storage_path($imagePath), 0777, true);
         }
         $fullFilePath = $imagePath . DIRECTORY_SEPARATOR . $name;
         $file->save(storage_path($fullFilePath));
