@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PostValidationRequest extends FormRequest
+class PostValidationRequest extends BaseValidationRequest
 {
 
 
