@@ -26,7 +26,12 @@ class Post extends Model implements PostContract
             'id',
             'first_name',
             'last_name',
-            'avatar'
+            'avatar',
+            'email',
+            'phone_number',
+            'skype',
+            'room_location',
+            'telegram',
         ));
     }
 
