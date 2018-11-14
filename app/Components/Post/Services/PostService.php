@@ -62,15 +62,15 @@ class PostService implements PostServiceContract
         return $this->post->with('user', 'comments', 'images')->findOrFail($postId)->toArray();
     }
 
-    public function usersAds($userId)
-    {
-        return $this->post->orderBy('created_at', 'DESC')->where('user_id', $userId)->with('category')->paginate(Config::get('services.pagination_items'))->toArray();
-    }
-
     private function isUserAdminOrCreator($postId)
     {
         if (!Auth::user()->is_admin && Auth::user()->id !== $this->post->findOrFail($postId)->user_id) {
             throw new PermissionDeniedException ('This action is not allowed for you!');
         }
+    }
+
+    public function usersAds($userId)
+    {
+        return $this->post->orderBy('created_at', 'DESC')->where('user_id', $userId)->with('category')->paginate(Config::get('services.pagination_items'))->toArray();
     }
 }
