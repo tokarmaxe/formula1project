@@ -36,6 +36,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::post('/image_thumb', 'ImageController@uploadToTempFolder');
     Route::delete('/image_thumb/{tempId}', 'ImageController@deleteFromUserFolder');
+
+    Route::post('/search', 'PostController@search');
 });
 
 

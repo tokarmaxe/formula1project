@@ -20,4 +20,6 @@ interface PostServiceContract
 
     public function usersAds($userId);
 
+    public function search($data);
+
 }

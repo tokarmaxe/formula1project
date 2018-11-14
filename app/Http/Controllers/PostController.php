@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Components\Post\Services\PostServiceContract;
 use App\Http\Requests\PostValidationRequest;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -51,5 +52,10 @@ class PostController extends Controller
     public function usersAds(PostServiceContract $postService, $userId)
     {
         return $this->sendResponse($postService->usersAds($userId));
+    }
+
+    public function search(Request $request, PostServiceContract $postService)
+    {
+        return $this->sendResponse($postService->search($request->toArray()));
     }
 }
