@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Components\User\Services\UserServiceContract;
+use App\Http\Requests\UserValidationRequest as UserRequest;
 use App;
 
 class UserController extends Controller
@@ -42,7 +43,7 @@ class UserController extends Controller
         return $this->sendResponse($userService->getUserById($userId));
     }
 
-    public function update(Request $request, UserServiceContract $userService, $userId)
+    public function update(UserRequest $request, UserServiceContract $userService, $userId)
     {
         return $this->sendResponse($userService->update($request->toArray(), $userId));
     }

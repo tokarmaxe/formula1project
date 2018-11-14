@@ -40,6 +40,11 @@ return [
         'client_secret' => env('GOOGLE_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT')
     ],
+    'user_editable_fields' => [
+        'phone_number',
+        'skype',
+        'room_location'
+    ],
     'validity' => [
         'access_token' => '1'
     ],
