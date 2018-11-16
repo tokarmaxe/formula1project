@@ -14,8 +14,6 @@ class UserEditableFields implements Rule
 
     public function passes($attribute, $field)
     {
-      //  dd(Config::get('services.user_editable_fields'));
-       // dd($attribute);
         if (!in_array($attribute, Config::get('services.user_editable_fields'))) {
             return false;
         }
