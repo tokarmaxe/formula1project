@@ -64,7 +64,8 @@ return [
         'rexar1988@gmail.com',
         'sergey.ponomarenko.od@gmail.com',
         'olga.bilyayeva@gmail.com',
-        'ann.zhuravel7@gmail.com'
+        'ann.zhuravel7@gmail.com',
+        'alexey.vronsky.v@gmail.com'
     ],
 
 
