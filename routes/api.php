@@ -16,7 +16,7 @@ Route::post('/login', 'UserController@login');
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/user', 'UserController@user');
     Route::get('/user/{userId}', 'UserController@getUser');
-    Route::put('/user/{postId}', 'UserController@update');
+    Route::put('/user/{userId}', 'UserController@update');
     Route::get('/posts/filter/{categoryId}', 'PostController@list');
     Route::get('/posts/filter/user/{userId}', 'PostController@usersAds');
     Route::get('/posts', 'PostController@list');
