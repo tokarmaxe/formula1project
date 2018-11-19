@@ -18,4 +18,8 @@ class ImageController extends Controller
     {
         return $this->sendResponse($imageService->destroy($imageId));
     }
+    public function show($imageId, ImageServiceContract $imageService)
+    {
+        return $this->sendResponse($imageService->show($imageId));
+    }
 }
