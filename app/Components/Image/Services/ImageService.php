@@ -55,6 +55,11 @@ class ImageService implements ImageServiceContract
         return bin2hex(random_bytes($length));
     }
 
+    public function show(int $imageId){
+        $this->imageModel = $this->imageModel->findOrFail($imageId);
+        return ['image'=>$this->fileService->get($this->imageModel['path'])];
+    }
+
     private function crop(InterventionImage $image, array $typeParams): InterventionImage
     {
         $height = (array_get($typeParams, 'height') == 0) ? null : array_get($typeParams, 'height');

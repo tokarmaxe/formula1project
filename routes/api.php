@@ -32,6 +32,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/comments/filter/{postId}', 'CommentController@list');
 
     Route::post('/images', 'ImageController@upload');
+    Route::get('/images/{imageId}', 'ImageController@show');
     Route::delete('/images/{imageId}', 'ImageController@destroy');
 
     Route::post('/image_thumb', 'ImageController@uploadToTempFolder');
