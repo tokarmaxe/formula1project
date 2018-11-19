@@ -5,6 +5,7 @@ namespace App\Components\File\Services;
 
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Image as InterventionImage;
+use Intervention\Image\ImageManagerStatic as ImageManager;
 
 
 class FileService implements FileServiceContract
@@ -22,5 +23,11 @@ class FileService implements FileServiceContract
     public function remove($fullFilePath)
     {
         return Storage::disk('local')->delete($fullFilePath);
+    }
+
+    public function get(String $imagePath)
+    {
+        return ImageManager::make(storage_path($imagePath))->encode('data-url');
+
     }
 }

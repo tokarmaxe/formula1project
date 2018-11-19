@@ -40,6 +40,12 @@ return [
         'client_secret' => env('GOOGLE_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT')
     ],
+    'user_editable_fields' => [
+        'phone_number',
+        'skype',
+        'telegram',
+        'room_location'
+    ],
     'validity' => [
         'access_token' => '1'
     ],
@@ -59,7 +65,8 @@ return [
         'rexar1988@gmail.com',
         'sergey.ponomarenko.od@gmail.com',
         'olga.bilyayeva@gmail.com',
-        'ann.zhuravel7@gmail.com'
+        'ann.zhuravel7@gmail.com',
+        'alexey.vronsky.v@gmail.com'
     ],
 
 

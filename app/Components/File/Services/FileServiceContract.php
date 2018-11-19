@@ -9,4 +9,6 @@ interface FileServiceContract
     public function put(InterventionImage $file, $path, $name);
 
     public function remove($fullFilePath);
+
+    public function get(String $imagePath);
 }

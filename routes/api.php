@@ -16,7 +16,7 @@ Route::post('/login', 'UserController@login');
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/user', 'UserController@user');
     Route::get('/user/{userId}', 'UserController@getUser');
-    Route::put('/user/{postId}', 'UserController@update');
+    Route::put('/user/{userId}', 'UserController@update');
     Route::get('/posts/filter/{categoryId}', 'PostController@list');
     Route::get('/posts/filter/user/{userId}', 'PostController@usersAds');
     Route::get('/posts', 'PostController@list');
@@ -33,10 +33,13 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/logout/{userId}', 'UserController@log_out');
 
     Route::post('/images', 'ImageController@upload');
+    Route::get('/images/{imageId}', 'ImageController@show');
     Route::delete('/images/{imageId}', 'ImageController@destroy');
 
     Route::post('/image_thumb', 'ImageController@uploadToTempFolder');
     Route::delete('/image_thumb/{tempId}', 'ImageController@deleteFromUserFolder');
+
+    Route::post('/search', 'PostController@search');
 });
 
 

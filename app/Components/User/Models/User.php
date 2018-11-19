@@ -26,7 +26,9 @@ class User extends Authenticatable implements UserContract
         'is_admin',
         'api_token',
         'phone_number',
+        'skype',
         'telegram',
+        'room_location',
         'avatar',
         'expired_at',
 
