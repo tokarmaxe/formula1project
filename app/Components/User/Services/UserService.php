@@ -152,4 +152,12 @@ class UserService implements UserServiceContract
             throw new PermissionDeniedException ('This action is not allowed for you!');
         }
     }
+
+    public function log_out($userId)
+    {
+        $user = $this->user->findOrFail($userId);
+        $user->api_token = null;
+        $user->save();
+        return ['success' => 'true'];
+    }
 }

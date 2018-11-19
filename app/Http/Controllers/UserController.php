@@ -46,4 +46,9 @@ class UserController extends Controller
     {
         return $this->sendResponse($userService->update($request->toArray(), $userId));
     }
+
+    public function log_out(UserServiceContract $userService, $userId)
+    {
+        return $this->sendResponse($userService->log_out($userId));
+    }
 }
