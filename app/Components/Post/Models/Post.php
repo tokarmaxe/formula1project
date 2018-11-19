@@ -17,7 +17,10 @@ class Post extends Model implements PostContract
 
     public function category()
     {
-        return $this->belongsTo('App\Components\Category\Models\Category');
+        return $this->belongsTo('App\Components\Category\Models\Category')->select(array(
+            'id',
+            'name'
+        ));
     }
 
     public function user()
