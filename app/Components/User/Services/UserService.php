@@ -145,7 +145,7 @@ class UserService implements UserServiceContract
 
     public function update($data, $userId)
     {
-        if ($this->user->isAdministrator() || Auth::user()->id == User::findOrFail($userId)->user_id) {
+        if ($this->user->isAdministrator() || Auth::guard('api')->user()->id == User::findOrFail($userId)->user_id) {
             $this->user->findOrFail($userId)->update($data);
             return $this->user->findOrFail($userId)->toArray();
         } else {
@@ -153,7 +153,7 @@ class UserService implements UserServiceContract
         }
     }
 
-    public function log_out($userId)
+    public function logOut($userId)
     {
         $user = $this->user->findOrFail($userId);
         $user->api_token = null;

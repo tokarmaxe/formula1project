@@ -54,7 +54,7 @@ class User extends Authenticatable implements UserContract
 
     public function isAdministrator()
     {
-        return Auth::user()->is_admin;
+        return Auth::guard('api')->user()->is_admin;
     }
 
     public function isCreator($commentId)

@@ -13,7 +13,7 @@
 
 Route::post('/login', 'UserController@login');
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth_api'])->group(function () {
     Route::get('/user', 'UserController@user');
     Route::get('/user/{userId}', 'UserController@getUser');
     Route::put('/user/{userId}', 'UserController@update');
@@ -30,7 +30,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('/comments/{commentId}', 'CommentController@update');
     Route::delete('/comments/{comentId}', 'CommentController@destroy');
     Route::get('/comments/filter/{postId}', 'CommentController@list');
-    Route::post('/logout/{userId}', 'UserController@log_out');
+    Route::post('/logout/{userId}', 'UserController@logOut');
 
     Route::post('/images', 'ImageController@upload');
     Route::get('/images/{imageId}', 'ImageController@show');
