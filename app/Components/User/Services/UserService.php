@@ -140,16 +140,24 @@ class UserService implements UserServiceContract
 
     public function getUserById($id)
     {
-        return $this->user->where('id', $id)->select(array('id', 'first_name', 'last_name', 'avatar', 'skype', 'phone_number', 'room_location'))->firstOrFail()->toArray();
+        return $this->user->where('id', $id)->select(array('id', 'first_name', 'last_name', 'avatar', 'skype', 'phone_number', 'room_location', 'telegram'))->firstOrFail()->toArray();
     }
 
     public function update($data, $userId)
     {
-        if ($this->user->isAdministrator() || Auth::user()->id == User::findOrFail($userId)->user_id) {
+        if ($this->user->isAdministrator() || Auth::guard('api')->user()->id == User::findOrFail($userId)->user_id) {
             $this->user->findOrFail($userId)->update($data);
             return $this->user->findOrFail($userId)->toArray();
         } else {
             throw new PermissionDeniedException ('This action is not allowed for you!');
         }
+    }
+
+    public function logOut($userId)
+    {
+        $user = $this->user->findOrFail($userId);
+        $user->api_token = null;
+        $user->save();
+        return ['success' => 'true'];
     }
 }

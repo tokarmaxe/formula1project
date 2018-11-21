@@ -11,4 +11,5 @@ interface UserServiceContract
     public function getUserByApiToken($apiToken);
     public function getUserById($id);
     public function update($data, $id);
+    public function logOut($userId);
 }
