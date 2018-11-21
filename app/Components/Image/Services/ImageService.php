@@ -78,8 +78,11 @@ class ImageService implements ImageServiceContract
 
         }
         return $image;
+    }
 
-
+    public function imagesByPostId($postId)
+    {
+        return ['seccuess' => 'true'];
     }
 }
 

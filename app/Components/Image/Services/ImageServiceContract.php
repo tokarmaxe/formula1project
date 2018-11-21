@@ -9,4 +9,5 @@ interface ImageServiceContract
 {
     public function create($file, $postId);
     public function destroy($imageId);
+    public function imagesByPostId($postId);
 }

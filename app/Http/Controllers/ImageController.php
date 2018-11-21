@@ -22,4 +22,9 @@ class ImageController extends Controller
     {
         return $this->sendResponse($imageService->show($imageId));
     }
+
+    public function imagesByPostId($postId, ImageServiceContract $imageService)
+    {
+        return $this->sendResponse($imageService->imagesByPostId($postId));
+    }
 }
