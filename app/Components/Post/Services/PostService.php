@@ -28,10 +28,10 @@ class PostService implements PostServiceContract
     public function list($categoryId = null)
     {
         if (!is_null($categoryId)) {
-            return $this->post->orderBy('created_at', 'DESC')->with('user', 'comments', 'images')->where('category_id',
+            return $this->post->orderBy('created_at', 'DESC')->with('user', 'comments', 'images', 'category')->where('category_id',
                 $categoryId)->paginate(Config::get('services.pagination_items'))->toArray();
         } else {
-            return $this->post->orderBy('created_at', 'DESC')->with('user', 'comments', 'images')->paginate(Config::get('services.pagination_items'))->toArray();
+            return $this->post->orderBy('created_at', 'DESC')->with('user', 'comments', 'images', 'category')->paginate(Config::get('services.pagination_items'))->toArray();
         }
     }
 
