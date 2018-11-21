@@ -82,7 +82,24 @@ class ImageService implements ImageServiceContract
 
     public function imagesByPostId($postId)
     {
-        return ['seccuess' => 'true'];
+        $images = $this->imageModel->where('post_id', $postId)->get()->toArray();
+        $count = 0;
+        for($i = 0; $i < count($images);$i++)
+        {
+            if($i%3==0)
+                $count++;
+            switch ($images[$i]['type']){
+                case "thumbnail":
+                    $imagesPathes[$count][] = ["thumbnail" => $this->fileService->get($images[$i]['path'])];
+                    break;
+                case "origin":
+                    $imagesPathes[$count][] = ["origin" => $this->fileService->get($images[$i]['path'])];
+                    break;
+                case "large":
+                    $imagesPathes[$count][] = ["large" => $this->fileService->get($images[$i]['path'])];
+                    break;
+            }
+        }
+        return $imagesPathes;
     }
 }
-
