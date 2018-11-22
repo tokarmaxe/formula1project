@@ -94,7 +94,7 @@ class ImageService implements ImageServiceContract
         ], $preserveKeys = true)
             ->mapWithKeys(function ($item) use (&$cnt) {
                 $i = $item->map(function ($subItems) {
-                    return $subItems->first();
+                    return $this->fileService->get($subItems->first()['path']);
                 });
 
                 $subResult = [$cnt => $i];
