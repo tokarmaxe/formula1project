@@ -145,7 +145,7 @@ class UserService implements UserServiceContract
 
     public function update($data, $userId)
     {
-        if ($this->user->isAdministrator() || Auth::guard('api')->user()->id == User::findOrFail($userId)->user_id) {
+        if ($this->user->isAdministrator() || Auth::guard('api')->user()->id == User::findOrFail($userId)->id) {
             $this->user->findOrFail($userId)->update($data);
             return $this->user->findOrFail($userId)->toArray();
         } else {
