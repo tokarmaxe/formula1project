@@ -46,6 +46,7 @@ Route::middleware(['auth_api'])->group(function () {
     Route::delete('/black_market/{blackMarketId}', 'BlackMarketPostController@destroy');
     Route::post('/black_market', 'BlackMarketPostController@store');
     Route::put('/black_market/{blackMarketId}', 'BlackMarketPostController@update');
+    Route::get('/black_market/filter/user/{userId}', 'BlackMarketPostController@usersAds');
 
 
 
