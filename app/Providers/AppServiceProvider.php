@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Components\BlackMarketPost\Models\BlackMarketPost;
+use App\Components\BlackMarketPost\Models\BlackMarketPostContract;
+use App\Components\BlackMarketPost\Services\BlackMarketPostServiceContract;
+use App\Components\BlackMarketPost\Services\BlackMarketPostsService;
 use App\Components\Category\Models\Category;
 use App\Components\Category\Models\CategoryContract;
 use App\Components\Category\Services\CategoryService;
@@ -56,5 +60,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FileServiceContract::class, FileService::class);
         $this->app->bind(CommentContract::class, Comment::class);
         $this->app->bind(CommentServiceContract::class, CommentService::class);
+        $this->app->bind(BlackMarketPostContract::class, BlackMarketPost::class);
+        $this->app->bind(BlackMarketPostServiceContract::class, BlackMarketPostsService::class);
     }
 }
