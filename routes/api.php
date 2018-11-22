@@ -34,6 +34,7 @@ Route::middleware(['auth_api'])->group(function () {
 
     Route::post('/images', 'ImageController@upload');
     Route::get('/images/{imageId}', 'ImageController@show');
+    Route::get('/images/filter/{postId}', 'ImageController@imagesByPostId');
     Route::delete('/images/{imageId}', 'ImageController@destroy');
 
     Route::post('/image_thumb', 'ImageController@uploadToTempFolder');

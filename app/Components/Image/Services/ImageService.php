@@ -32,11 +32,13 @@ class ImageService implements ImageServiceContract
             $extension = explode('/', $file['type'])[1];
             $data['post_id'] = $postId;
             $data['name'] = $file['name'] . '.' . $extension;
+            $uid = $this->randString();
             $image = InterventionImageStatic::make($file['file']);
             foreach ($types as $type => $typeParams) {
                 $data['type'] = $type;
+                $data['uid'] = $uid;
                 $image = $this->crop($image, $typeParams);
-                $data['path']=$this->fileService->put($image, $path, $this->randString() . '.' . $extension);
+                $data['path'] = $this->fileService->put($image, $path, $this->randString() . '.' . $extension);
                 $result[] = $this->imageModel->create($data);
             }
         }
@@ -55,9 +57,10 @@ class ImageService implements ImageServiceContract
         return bin2hex(random_bytes($length));
     }
 
-    public function show(int $imageId){
+    public function show(int $imageId)
+    {
         $this->imageModel = $this->imageModel->findOrFail($imageId);
-        return ['image'=>$this->fileService->get($this->imageModel['path'])];
+        return ['image' => $this->fileService->get($this->imageModel['path'])];
     }
 
     private function crop(InterventionImage $image, array $typeParams): InterventionImage
@@ -78,8 +81,26 @@ class ImageService implements ImageServiceContract
 
         }
         return $image;
+    }
 
+    public function imagesByPostId($postId)
+    {
+        $cnt = 0;
+        $images = $this->imageModel->where('post_id', $postId)->get()->groupBy([
+            'uid',
+            function ($item) {
+                return $item['type'];
+            },
+        ], $preserveKeys = true)
+            ->mapWithKeys(function ($item) use (&$cnt) {
+                $i = $item->map(function ($subItems) {
+                    return $this->fileService->get($subItems->first()['path']);
+                });
 
+                $subResult = [$cnt => $i];
+                $cnt++;
+                return $subResult;
+            })->toArray();
+        return $images;
     }
 }
-
