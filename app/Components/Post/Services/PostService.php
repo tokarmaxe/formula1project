@@ -64,7 +64,7 @@ class PostService implements PostServiceContract
 
     private function isUserAdminOrCreator($postId)
     {
-        if (!Auth::user()->is_admin && Auth::user()->id !== $this->post->findOrFail($postId)->user_id) {
+        if (!Auth::guard('api')->user()->is_admin && Auth::guard('api')->user()->id !== $this->post->findOrFail($postId)->user_id) {
             throw new PermissionDeniedException ('This action is not allowed for you!');
         }
     }
