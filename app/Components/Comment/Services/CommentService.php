@@ -49,10 +49,7 @@ class CommentService implements CommentServiceContract
     public function destroy($commentId)
     {
         if ($this->user->isAdministrator()) {
-            $this->database::transaction(function () use ($commentId, &$comment) {
-                $comment = $this->comment->findOrFail($commentId)->delete();
-            });
-            return ['success' => $comment];
+            return ['success' => $this->comment->findOrFail($commentId)->delete()];
         } else {
             throw new PermissionDeniedException ('This action is not allowed for you!');
         }

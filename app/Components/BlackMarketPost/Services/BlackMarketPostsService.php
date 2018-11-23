@@ -29,9 +29,7 @@ class BlackMarketPostsService implements BlackMarketPostServiceContract
     public function destroy($postId)
     {
         $this->isUserAdminOrCreator($postId);
-        $this->database::transaction(function () use ($postId){
-            $this->blackMarketPost->findOrFail($postId)->delete();
-        });
+        $this->blackMarketPost->findOrFail($postId)->delete();
         return ['success' => 'true'];
     }
 
