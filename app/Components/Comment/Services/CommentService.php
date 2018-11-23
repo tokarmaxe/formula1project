@@ -7,21 +7,26 @@ use App\Components\Post\Models\Post;
 use App\Components\User\Models\User;
 use App\Exceptions\PermissionDeniedException;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class CommentService implements CommentServiceContract
 {
-    private $comment, $user, $post;
+    private $comment, $user, $post, $database;
 
-    public function __construct(Comment $comment, User $user, Post $post)
+    public function __construct(Comment $comment, User $user, Post $post, DB $database)
     {
         $this->comment = $comment;
         $this->user = $user;
         $this->post = $post;
+        $this->database = $database;
     }
 
     public function store($data)
     {
-        return $this->comment->create($data)->toArray();
+        $this->database::transaction(function () use ($data, &$comment) {
+            $comment = $this->comment->create($data);
+        });
+        return $comment->toArray();
     }
 
     public function show($commentId)
@@ -32,7 +37,9 @@ class CommentService implements CommentServiceContract
     public function update($data, $commentId)
     {
         if ($this->user->isAdministrator()) {
-            $this->comment->findOrFail($commentId)->update($data);
+            $this->database::transaction(function () use ($data, $commentId){
+                $this->comment->findOrFail($commentId)->update($data);
+            });
             return $this->comment->findOrFail($commentId)->toArray();
         } else {
             throw new PermissionDeniedException ('This action is not allowed for you!');
@@ -42,7 +49,10 @@ class CommentService implements CommentServiceContract
     public function destroy($commentId)
     {
         if ($this->user->isAdministrator()) {
-            return ['success' => $this->comment->findOrFail($commentId)->delete()];
+            $this->database::transaction(function () use ($commentId, &$comment) {
+                $comment = $this->comment->findOrFail($commentId)->delete();
+            });
+            return ['success' => $comment];
         } else {
             throw new PermissionDeniedException ('This action is not allowed for you!');
         }
