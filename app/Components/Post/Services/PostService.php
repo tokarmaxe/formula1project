@@ -3,26 +3,26 @@
 
 namespace App\Components\Post\Services;
 
-use App\Components\Image\Models\Image;
-use App\Components\User\Models\User;
-use App\Http\Requests\PostValidationRequest;
 use App\Exceptions\PermissionDeniedException;
 use App\Components\Post\Models\Post;
 use Illuminate\Support\Facades\Config;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class PostService implements PostServiceContract
 {
     private $post;
+    private $database;
 
     /**
      * PostService constructor.
      * @param $post
      */
-    public function __construct(Post $post)
+    public function __construct(Post $post, DB $database)
     {
         $this->post = $post;
+        $this->database = $database;
     }
 
     public function list($categoryId = null)
