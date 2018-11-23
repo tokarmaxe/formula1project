@@ -5,7 +5,7 @@ namespace App\Components\Image\Services;
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
 use Intervention\Image\ImageManagerStatic as InterventionImageStatic;
-use Intervention\Image\Image as a;
+use Intervention\Image\Image as InterventionImage;
 use Illuminate\Support\Facades\Config;
 
 
