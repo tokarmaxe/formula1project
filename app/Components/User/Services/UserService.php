@@ -3,7 +3,6 @@
 namespace App\Components\User\Services;
 
 use App\Components\User\Models\User;
-use function foo\func;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Config;
@@ -55,7 +54,6 @@ class UserService implements UserServiceContract
             $this->checkPayloadEmail($payload);
 
             $clientEmail = $payload['email'];
-
             if ($this->user->where('email', $clientEmail)->exists()) {
                 $this->user = $this->user->where('email', $clientEmail)
                     ->first();
