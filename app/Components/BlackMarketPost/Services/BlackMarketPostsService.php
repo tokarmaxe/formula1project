@@ -56,5 +56,10 @@ class BlackMarketPostsService implements BlackMarketPostServiceContract
         }
     }
 
+    public function show($postId)
+    {
+        return $this->blackMarketPost->with('user')->findOrFail($postId)->toArray();
+    }
+
 
 }
