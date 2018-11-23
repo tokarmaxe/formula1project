@@ -4,6 +4,7 @@ namespace App\Components\Image\Services;
 
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as InterventionImageStatic;
 use Intervention\Image\Image as InterventionImage;
 use Illuminate\Support\Facades\Config;
@@ -14,11 +15,13 @@ class ImageService implements ImageServiceContract
     private $imageModel;
     private $fileService;
     private $pathImages;
+    private $database;
 
-    public function __construct(Image $image, FileServiceContract $file)
+    public function __construct(Image $image, FileServiceContract $file, DB $database)
     {
         $this->imageModel = $image;
         $this->fileService = $file;
+        $this->database = $database;
         $this->pathImages = Config::get('services.storage_images_path');
     }
 
@@ -34,12 +37,15 @@ class ImageService implements ImageServiceContract
             $data['name'] = $file['name'] . '.' . $extension;
             $uid = $this->randString();
             $image = InterventionImageStatic::make($file['file']);
+            $result=array();
             foreach ($types as $type => $typeParams) {
                 $data['type'] = $type;
                 $data['uid'] = $uid;
                 $image = $this->crop($image, $typeParams);
                 $data['path'] = $this->fileService->put($image, $path, $this->randString() . '.' . $extension);
-                $result[] = $this->imageModel->create($data);
+                $this->database::transaction(function() use ($data, &$result) {
+                    $result[] = $this->imageModel->create($data);
+                });
             }
         }
         return $result;
@@ -47,9 +53,9 @@ class ImageService implements ImageServiceContract
 
     public function destroy($imageId)
     {
-        $this->imageModel = $this->imageModel->findOrFail($imageId);
-        $this->fileService->remove($this->imageModel['path']);
-        return ['success' => $this->imageModel->delete()];
+        $image = $this->imageModel->findOrFail($imageId);
+        $this->fileService->remove($image['path']);
+        return ['success' => $image->delete()];
     }
 
     private function randString(int $length = 64): string

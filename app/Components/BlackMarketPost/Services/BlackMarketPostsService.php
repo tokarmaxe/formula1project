@@ -7,14 +7,16 @@ use App\Components\BlackMarketPost\Models\BlackMarketPostContract;
 use App\Exceptions\PermissionDeniedException;
 use Illuminate\Support\Facades\Config;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class BlackMarketPostsService implements BlackMarketPostServiceContract
 {
-    private $blackMarketPost;
+    private $blackMarketPost, $database;
 
-    public function __construct(BlackMarketPostContract $blackMarketPost)
+    public function __construct(BlackMarketPostContract $blackMarketPost, DB $database)
     {
         $this->blackMarketPost = $blackMarketPost;
+        $this->database = $database;
     }
 
     public function list()
@@ -33,13 +35,18 @@ class BlackMarketPostsService implements BlackMarketPostServiceContract
 
     public function store($data)
     {
-        return $this->blackMarketPost->create($data)->toArray();
+        $this->database::transaction(function () use ($data, &$blackPost) {
+            $blackPost = $this->blackMarketPost->create($data);
+        });
+        return $blackPost->toArray();
     }
 
     public function update($data, $postId)
     {
         $this->isUserAdminOrCreator($postId);
-        $this->blackMarketPost->findOrFail($postId)->update($data);
+        $this->database::transaction(function () use ($data, $postId) {
+            $this->blackMarketPost->findOrFail($postId)->update($data);
+        });
         return $this->blackMarketPost->findOrFail($postId)->toArray();
     }
 

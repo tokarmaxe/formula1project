@@ -3,26 +3,26 @@
 
 namespace App\Components\Post\Services;
 
-use App\Components\Image\Models\Image;
-use App\Components\User\Models\User;
-use App\Http\Requests\PostValidationRequest;
 use App\Exceptions\PermissionDeniedException;
 use App\Components\Post\Models\Post;
 use Illuminate\Support\Facades\Config;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class PostService implements PostServiceContract
 {
     private $post;
+    private $database;
 
     /**
      * PostService constructor.
      * @param $post
      */
-    public function __construct(Post $post)
+    public function __construct(Post $post, DB $database)
     {
         $this->post = $post;
+        $this->database = $database;
     }
 
     public function list($categoryId = null)
@@ -41,19 +41,27 @@ class PostService implements PostServiceContract
     public function destroy($postId)
     {
         $this->isUserAdminOrCreator($postId);
-        $this->post->findOrFail($postId)->delete();
+        $this->database::transaction(function () use ($postId) {
+            $this->post->findOrFail($postId)->delete();
+        });
+
         return ['success' => 'true'];
     }
 
     public function store($data)
     {
-        return $this->post->create($data)->toArray();
+        $this->database::transaction(function () use ($data) {
+            $this->post = $this->post->create($data);
+        });
+        return $this->post->toArray();
     }
 
     public function update($data, $postId)
     {
         $this->isUserAdminOrCreator($postId);
-        $this->post->findOrFail($postId)->update($data);
+        $this->database::transaction(function () use ($data, $postId) {
+            $this->post->findOrFail($postId)->update($data);
+        });
         return $this->post->findOrFail($postId)->toArray();
     }
 
