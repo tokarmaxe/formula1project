@@ -3,8 +3,8 @@
 namespace App\Components\User\Services;
 
 use App\Components\User\Models\User;
-use App\Http\Requests\CreateUserRequest;
-use http\Env\Response;
+use function foo\func;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
@@ -18,15 +18,17 @@ class UserService implements UserServiceContract
      * @var User
      */
     private $user;
+    private $database;
 
     /**
      * UserService constructor.
      *
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, DB $database)
     {
         $this->user = $user;
+        $this->database = $database;
     }
 
     /**
@@ -53,6 +55,7 @@ class UserService implements UserServiceContract
             $this->checkPayloadEmail($payload);
 
             $clientEmail = $payload['email'];
+
             if ($this->user->where('email', $clientEmail)->exists()) {
                 $this->user = $this->user->where('email', $clientEmail)
                     ->first();
@@ -66,9 +69,13 @@ class UserService implements UserServiceContract
                         $this->user->avatar = $payload['picture'];
                     }
                 }
-                $this->user->save();
+                $this->database::transaction(function () {
+                    $this->user->save();
+                });
             } else {
-                $this->user = $this->createUserFromGoogleData($payload);
+                $this->database::transaction(function () use ($payload) {
+                    $this->user = $this->createUserFromGoogleData($payload);
+                });
             }
 
             return [
@@ -117,8 +124,11 @@ class UserService implements UserServiceContract
             'expired_at' => Carbon::now()
                 ->addDays(Config::get('services.validity.access_token')),
         ];
+        $this->database::transaction(function () use($data) {
+            $this->user->create($data);
+        });
 
-        return $this->user->create($data);
+        return $this->user;
     }
 
     /**
@@ -145,8 +155,10 @@ class UserService implements UserServiceContract
 
     public function update($data, $userId)
     {
-        if ($this->user->isAdministrator() || Auth::guard('api')->user()->id == User::findOrFail($userId)->user_id) {
-            $this->user->findOrFail($userId)->update($data);
+        if ($this->user->isAdministrator() || Auth::guard('api')->user()->id == User::findOrFail($userId)->id) {
+            $this->database::transaction(function () use ($data, $userId) {
+                $this->user->findOrFail($userId)->update($data);
+            });
             return $this->user->findOrFail($userId)->toArray();
         } else {
             throw new PermissionDeniedException ('This action is not allowed for you!');
