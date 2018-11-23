@@ -27,4 +27,9 @@ class ImageController extends Controller
     {
         return $this->sendResponse($imageService->imagesByPostId($postId));
     }
+
+    public function destroyImagesByPostId($postId, ImageServiceContract $imageService)
+    {
+        return $this->sendResponse($imageService->destroyImagesByPostId($postId));
+    }
 }
