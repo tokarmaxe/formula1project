@@ -4,7 +4,6 @@ namespace App\Components\Image\Services;
 
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
-use function foo\func;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as InterventionImageStatic;
 use Intervention\Image\Image as InterventionImage;
