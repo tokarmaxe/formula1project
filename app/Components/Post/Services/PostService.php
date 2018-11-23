@@ -41,19 +41,27 @@ class PostService implements PostServiceContract
     public function destroy($postId)
     {
         $this->isUserAdminOrCreator($postId);
-        $this->post->findOrFail($postId)->delete();
+        $this->database::transaction(function () use ($postId) {
+            $this->post->findOrFail($postId)->delete();
+        });
+
         return ['success' => 'true'];
     }
 
     public function store($data)
     {
-        return $this->post->create($data)->toArray();
+        $this->database::transaction(function () use ($data) {
+            $this->post = $this->post->create($data);
+        });
+        return $this->post->toArray();
     }
 
     public function update($data, $postId)
     {
         $this->isUserAdminOrCreator($postId);
-        $this->post->findOrFail($postId)->update($data);
+        $this->database::transaction(function () use ($data, $postId) {
+            $this->post->findOrFail($postId)->update($data);
+        });
         return $this->post->findOrFail($postId)->toArray();
     }
 
