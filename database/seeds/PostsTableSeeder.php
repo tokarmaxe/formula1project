@@ -14,4 +14,6 @@ class PostsTableSeeder extends Seeder
     {
         factory(App\Components\Post\Models\Post::class, 20)->create();
     }
+
+
 }
