@@ -106,6 +106,23 @@ class ImageService implements ImageServiceContract
 
     public function destroyImagesByPostId($postId)
     {
-        
+        $cnt = 0;
+        $images = $this->imageModel->where('post_id', $postId)->get()->groupBy([
+            'uid',
+            function ($item) {
+                return $item['type'];
+            },
+        ], $preserveKeys = true)
+            ->mapWithKeys(function ($item) use (&$cnt) {
+                $i = $item->map(function ($subItems) {
+                    $subItems->first()->delete();
+                    return $this->fileService->remove($subItems->first()['path']);
+                });
+
+                $subResult = [$cnt => $i];
+                $cnt++;
+                return $subResult;
+            })->toArray();
+        return $images;
     }
 }

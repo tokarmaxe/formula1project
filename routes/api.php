@@ -36,6 +36,7 @@ Route::middleware(['auth_api'])->group(function () {
     Route::get('/images/{imageId}', 'ImageController@show');
     Route::get('/images/filter/{postId}', 'ImageController@imagesByPostId');
     Route::delete('/images/{imageId}', 'ImageController@destroy');
+    Route::delete('/images/filter/{postId}', 'ImageController@destroyimagesByPostId');
 
     Route::post('/image_thumb', 'ImageController@uploadToTempFolder');
     Route::delete('/image_thumb/{tempId}', 'ImageController@deleteFromUserFolder');
