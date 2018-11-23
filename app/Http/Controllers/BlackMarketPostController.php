@@ -44,5 +44,10 @@ class BlackMarketPostController extends Controller
         return $this->sendResponse($blackMarketService->usersAds($userId));
     }
 
+    public function show($postId, BlackMarketPostServiceContract $blackMarketService)
+    {
+        return $this->sendResponse($blackMarketService->show($postId));
+    }
+
 
 }

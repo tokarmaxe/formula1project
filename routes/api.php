@@ -47,6 +47,7 @@ Route::middleware(['auth_api'])->group(function () {
     Route::post('/black_market', 'BlackMarketPostController@store');
     Route::put('/black_market/{blackMarketId}', 'BlackMarketPostController@update');
     Route::get('/black_market/filter/user/{userId}', 'BlackMarketPostController@usersAds');
+    Route::get('/black_market/{blackMarketId}', 'BlackMarketPostController@show');
 
 
 
