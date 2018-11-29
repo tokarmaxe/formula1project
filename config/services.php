@@ -88,4 +88,12 @@ return [
             'width' => 90
         ],
     ],
+
+    'supported_image_extensions' => [
+        'png',
+        'gif',
+        'jpeg',
+        'jpg',
+        'svg'
+    ],
 ];

@@ -4,20 +4,21 @@ namespace App\Components\File\Services;
 
 
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Image as InterventionImage;
-use Intervention\Image\ImageManagerStatic as ImageManager;
 
 
 class FileService implements FileServiceContract
 {
-    public function put(InterventionImage $file, $imagePath, $name)
+    private $strategyFactory;
+
+    public function __construct(StrategyFactory $strategyFactory)
     {
-        if ((!is_dir(storage_path($imagePath))) && (!is_null($file))) {
-            mkdir(storage_path($imagePath), 0777, true);
-        }
-        $fullFilePath = $imagePath . DIRECTORY_SEPARATOR . $name;
-        $file->save(storage_path($fullFilePath));
-        return $fullFilePath;
+        $this->strategyFactory = $strategyFactory;
+    }
+
+
+    public function put($file, $path, $name)
+    {
+        return $this->strategyFactory->createPutStrategy($file)->put($file, $path, $name);
     }
 
     public function remove($fullFilePath)
@@ -25,9 +26,9 @@ class FileService implements FileServiceContract
         return Storage::disk('local')->delete($fullFilePath);
     }
 
-    public function get(String $imagePath)
+    public function get(String $path)
     {
-        return ImageManager::make(storage_path($imagePath))->encode('data-url');
+        return $this->strategyFactory->createGetBase64Strategy($path)->get($path);
 
     }
 }
