@@ -18,7 +18,7 @@ class Base64FileServicesStrategy implements FileServiceStrategyContract
         return $fullFilePath;
     }
 
-    public function get($imagePath)
+    public function get(String $imagePath)
     {
         return ImageManager::make(storage_path($imagePath))->encode('data-url');
     }

@@ -8,6 +8,6 @@ interface FileServiceStrategyContract
 {
     public function put($file, $path, $name);
 
-    public function get($path);
+    public function get(String $path);
 
 }

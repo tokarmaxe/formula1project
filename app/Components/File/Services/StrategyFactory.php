@@ -20,7 +20,7 @@ class StrategyFactory
         }
     }
 
-    public function createGetBase64Strategy($path): FileServiceStrategyContract
+    public function createGetBase64Strategy(String $path): FileServiceStrategyContract
     {
         $info =  pathinfo(storage_path($path));
         if (in_array($info['extension'], Config::get('services.supported_image_extensions'))) {
