@@ -4,6 +4,7 @@ namespace App\Components\Image\Services;
 
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
+use App\Convention\Model\Traits\ImageTrait;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as InterventionImageStatic;
 use Intervention\Image\Image as InterventionImage;
@@ -16,6 +17,7 @@ class ImageService implements ImageServiceContract
     private $fileService;
     private $pathImages;
     private $database;
+    use ImageTrait;
 
     public function __construct(Image $image, FileServiceContract $file, DB $database)
     {
@@ -91,44 +93,13 @@ class ImageService implements ImageServiceContract
 
     public function imagesByPostId($postId)
     {
-        $cnt = 0;
-        $images = $this->imageModel->where('post_id', $postId)->get()->groupBy([
-            'uid',
-            function ($item) {
-                return $item['type'];
-            },
-        ], $preserveKeys = true)
-            ->mapWithKeys(function ($item) use (&$cnt) {
-                $i = $item->map(function ($subItems) {
-                    return $this->fileService->get($subItems->first()['path']);
-                });
-
-                $subResult = [$cnt => $i];
-                $cnt++;
-                return $subResult;
-            })->toArray();
+        $images = $this->getDeleteImages($postId, "get");
         return $images;
     }
 
     public function destroyImagesByPostId($postId)
     {
-        $cnt = 0;
-        $images = $this->imageModel->where('post_id', $postId)->get()->groupBy([
-            'uid',
-            function ($item) {
-                return $item['type'];
-            },
-        ], $preserveKeys = true)
-            ->mapWithKeys(function ($item) use (&$cnt) {
-                $i = $item->map(function ($subItems) {
-                    $subItems->first()->delete();
-                    return $this->fileService->remove($subItems->first()['path']);
-                });
-
-                $subResult = [$cnt => $i];
-                $cnt++;
-                return $subResult;
-            })->toArray();
+        $images = $this->getDeleteImages($postId, "remove");
         return $images;
     }
 }
