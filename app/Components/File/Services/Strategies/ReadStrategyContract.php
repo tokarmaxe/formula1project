@@ -1,10 +1,11 @@
 <?php
+
+
+namespace App\Components\File\Services\Strategies;
+
+
+interface ReadStrategyContract
+{
     
-    
-    namespace App\Components\File\Services\Strategies;
-    
-    
-    interface ReadStrategyContract
-    {
-        public function get();
-    }
+    public function get();
+}
