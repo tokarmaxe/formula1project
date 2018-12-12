@@ -3,31 +3,41 @@
 namespace App\Components\File\Services;
 
 
+use App\Components\File\Services\StrategiesFactories\WriteStrategiesFactoryContract;
+use App\Components\File\Services\StrategiesFactories\ReadStrategiesFactoryContract;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Image as InterventionImage;
-use Intervention\Image\ImageManagerStatic as ImageManager;
 
 
 class FileService implements FileServiceContract
 {
-    public function put(InterventionImage $file, $imagePath, $name)
-    {
-        if ((!is_dir(storage_path($imagePath))) && (!is_null($file))) {
-            mkdir(storage_path($imagePath), 0777, true);
-        }
-        $fullFilePath = $imagePath . DIRECTORY_SEPARATOR . $name;
-        $file->save(storage_path($fullFilePath));
-        return $fullFilePath;
+    
+    private $readStrategyFactory;
+    
+    private $writeStrategyFactory;
+    
+    
+    public function __construct(
+      ReadStrategiesFactoryContract $readStrategyFactory,
+      WriteStrategiesFactoryContract $writeStrategyFactory
+    ) {
+        $this->readStrategyFactory  = $readStrategyFactory;
+        $this->writeStrategyFactory = $writeStrategyFactory;
     }
-
+    
+    
+    public function put($file, $path, $name)
+    {
+        return $this->writeStrategyFactory->writeStrategy($file)
+                                          ->put($path, $name);
+    }
+    
     public function remove($fullFilePath)
     {
         return Storage::disk('local')->delete($fullFilePath);
     }
-
-    public function get(String $imagePath)
+    
+    public function get(string $path)
     {
-        return ImageManager::make(storage_path($imagePath))->encode('data-url');
-
+        return $this->readStrategyFactory->readStrategy($path)->get();
     }
 }

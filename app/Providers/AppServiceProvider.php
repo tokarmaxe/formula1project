@@ -16,6 +16,8 @@ use App\Components\Comment\Services\CommentService;
 use App\Components\Comment\Services\CommentServiceContract;
 use App\Components\File\Services\FileService;
 use App\Components\File\Services\FileServiceContract;
+use App\Components\File\Services\StrategiesFactories\WriteBase64StrategiesFactory;
+use App\Components\File\Services\StrategiesFactories\WriteStrategiesFactoryContract;
 use App\Components\Image\Models\Image;
 use App\Components\Image\Models\ImageContract;
 use App\Components\Image\Services\ImageService;
@@ -28,6 +30,8 @@ use App\Components\Post\Models\Post;
 use App\Components\Post\Services\PostService;
 use App\Components\Post\Models\PostContract;
 use App\Components\Post\Services\PostServiceContract;
+use App\Components\File\Services\StrategiesFactories\ReadStrategiesFactoryContract;
+use App\Components\File\Services\StrategiesFactories\ReadBase64StrategiesFactory;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -62,5 +66,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CommentServiceContract::class, CommentService::class);
         $this->app->bind(BlackMarketPostContract::class, BlackMarketPost::class);
         $this->app->bind(BlackMarketPostServiceContract::class, BlackMarketPostsService::class);
+        
+        $this->app->bind(WriteStrategiesFactoryContract::class,WriteBase64StrategiesFactory::class);
+        $this->app->bind(ReadStrategiesFactoryContract::class,ReadBase64StrategiesFactory::class);
     }
 }

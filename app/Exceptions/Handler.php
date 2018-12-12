@@ -76,6 +76,11 @@ class Handler extends ExceptionHandler
                 '406');
         }
 
+        if ($exception instanceof \InvalidArgumentException) {
+            return response()->json(['message' => $exception->getMessage()],
+                '406');
+        }
+
         if ($exception instanceof NotReadableException) {
             return response()->json(['message' => $exception->getMessage()],
                 '415');
