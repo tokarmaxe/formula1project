@@ -9,7 +9,7 @@
 namespace App\Convention\Model\Traits;
 
 
-use App\Components\File\Services\FileService;
+use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
 
 trait ImageTrait
@@ -27,11 +27,11 @@ trait ImageTrait
                 $i = $item->map(function ($subItems) use(&$str) {
                     switch ($str){
                         case "get":
-                            return (new FileService())->get($subItems->first()['path']);
+                            return (app(FileServiceContract::class))->get($subItems->first()['path']);
                             break;
                         case "remove":
                             $subItems->first()->delete();
-                            return (new FileService())->remove($subItems->first()['path']);
+                            return (app(FileServiceContract::class))->remove($subItems->first()['path']);
                             break;
                     }
                 });
