@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maxim
- * Date: 26.11.18
- * Time: 22:45
- */
 
 namespace App\Convention\Model\Traits;
-
 
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
