@@ -6,11 +6,14 @@ use App\Convention\Model\Traits\IsoDateTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Config;
 
 class Post extends Model implements PostContract
 {
     use SoftDeletes;
     use IsoDateTrait;
+    use Notifiable;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
 
@@ -46,6 +49,11 @@ class Post extends Model implements PostContract
     public function comments()
     {
         return $this->hasMany('App\Components\Comment\Models\Comment');
+    }
+    
+    public function routeNotificationForSlack()
+    {
+        return config('services.slack.webhook');
     }
 
 }

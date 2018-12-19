@@ -8,52 +8,58 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-
-
+    
+    
     /**
      * PostController constructor.
      */
-
-
+    
+    
     public function list(PostServiceContract $postService, $categoryId = null)
     {
         return
-            $this->sendResponse($postService->list($categoryId));
+          $this->sendResponse($postService->list($categoryId));
     }
-
-    public function store(PostValidationRequest $request, PostServiceContract $postService)
-    {
-        return
-            $this->sendResponse($postService->store($request->validated()));
+    
+    public function store(
+      PostValidationRequest $request,
+      PostServiceContract $postService
+    ) {
+        $data   = $request->validated();
+        $answer = $this->sendResponse($postService->store($data));
+        $postService->sendToSlack($data);
+        
+        return $answer;
+        
     }
-
+    
     public function destroy(PostServiceContract $postService, $postId)
     {
         return
-            $this->sendResponse($postService->destroy($postId));
+          $this->sendResponse($postService->destroy($postId));
     }
-
+    
     public function update(
-        PostServiceContract $postService,
-        $postId,
-        PostValidationRequest $request
-    )
-    {
-
+      PostServiceContract $postService,
+      $postId,
+      PostValidationRequest $request
+    ) {
+        
         return
-            $this->sendResponse($postService->update($request->validated(), $postId));
+          $this->sendResponse($postService->update($request->validated(),
+            $postId));
     }
-
+    
     public function show($postId, PostServiceContract $postService)
     {
         return $this->sendResponse($postService->show($postId));
     }
-
+    
     public function usersAds(PostServiceContract $postService, $userId)
     {
         return $this->sendResponse($postService->usersAds($userId));
     }
-
+    
     public function search(Request $request, PostServiceContract $postService)
     {
         return $this->sendResponse($postService->search($request->toArray()));
