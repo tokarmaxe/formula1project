@@ -18,6 +18,7 @@ class Post extends Model implements PostContract
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
     use ImageTrait;
+    protected $appends = ['images'];
 
     public function category()
     {
@@ -50,5 +51,10 @@ class Post extends Model implements PostContract
     public function comments()
     {
         return $this->hasMany('App\Components\Comment\Models\Comment');
+    }
+
+    public function getImagesAttribute()
+    {
+        return $this->getDeleteImages($this->id, "get");
     }
 }

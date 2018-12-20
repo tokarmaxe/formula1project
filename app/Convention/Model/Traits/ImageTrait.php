@@ -10,7 +10,11 @@ trait ImageTrait
     public function getDeleteImages($postId, $str)
     {
         $cnt = 0;
-        $images = Image::where('post_id', $postId)->get()->groupBy([
+        if($str == "get")
+            $method = Image::where('post_id', $postId)->orderBy('type', 'DESC')->where('type', "!=", 'origin');
+        else
+            $method = Image::where('post_id', $postId);
+        $images = $method->get()->groupBy([
             'uid',
             function ($item) {
                 return $item['type'];
