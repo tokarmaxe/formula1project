@@ -45,7 +45,7 @@ class Post extends Model implements PostContract
 
     public function images()
     {
-        return $this->hasMany('App\Components\Image\Models\Image')->where('type', 'thumbnail')->orWhere('type', 'large');
+        return $this->hasMany('App\Components\Image\Models\Image')->where('type', 'thumbnail');
     }
 
     public function comments()
@@ -55,6 +55,6 @@ class Post extends Model implements PostContract
 
     public function getImagesAttribute()
     {
-        return $this->getDeleteImages($this->id, "get");
+        return $this->getDeleteImages($this->id, "getThumb");
     }
 }

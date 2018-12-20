@@ -10,9 +10,11 @@ trait ImageTrait
     public function getDeleteImages($postId, $str)
     {
         $cnt = 0;
-        if($str == "get")
+        if($str == "getThumb")
+            $method = Image::where('post_id', $postId)->orderBy('type', 'DESC')->where('type', 'thumbnail');
+        else if("getWithOutOrigin")
             $method = Image::where('post_id', $postId)->orderBy('type', 'DESC')->where('type', "!=", 'origin');
-        else
+        else if("getAll" || "remove")
             $method = Image::where('post_id', $postId);
         $images = $method->get()->groupBy([
             'uid',
@@ -23,7 +25,7 @@ trait ImageTrait
             ->mapWithKeys(function ($item) use (&$cnt, &$str) {
                 $i = $item->map(function ($subItems) use(&$str) {
                     switch ($str){
-                        case "get":
+                        case "get" || "getAll":
                             return (app(FileServiceContract::class))->get($subItems->first()['path']);
                             break;
                         case "remove":

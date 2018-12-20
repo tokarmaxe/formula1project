@@ -86,7 +86,7 @@ class PostService implements PostServiceContract
     {
         $searchedStr = $data['search'];
         return $this->post->orderBy('created_at', 'DESC')
-            ->with('user', 'comments', 'images', 'category')
+            ->with('user', 'comments', 'category')
             ->where('title', 'LIKE', '%' . $searchedStr . '%')
             ->paginate(Config::get('services.pagination_items'))->toArray();
 
