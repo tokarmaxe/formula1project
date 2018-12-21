@@ -93,7 +93,7 @@ class ImageService implements ImageServiceContract
 
     public function imagesByPostId($postId)
     {
-        $images = $this->getDeleteImages($postId, "get");
+        $images = $this->getDeleteImages($postId, "getWithOutOrigin");
         return $images;
     }
 

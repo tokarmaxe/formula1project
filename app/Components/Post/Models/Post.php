@@ -2,8 +2,12 @@
 
 namespace App\Components\Post\Models;
 
+use App\Components\File\Services\FileServiceContract;
 use App\Convention\Model\Traits\IsoDateTrait;
+use function foo\func;
 use Illuminate\Database\Eloquent\Model;
+use App\Components\Image\Models\Image;
+use App\Convention\Model\Traits\ImageTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
@@ -13,7 +17,8 @@ class Post extends Model implements PostContract
     use IsoDateTrait;
     protected $guarded = ['id'];
     protected $dates = ['deleted_at'];
-
+    use ImageTrait;
+    protected $appends = ['images'];
 
     public function category()
     {
@@ -40,7 +45,7 @@ class Post extends Model implements PostContract
 
     public function images()
     {
-        return $this->hasMany('App\Components\Image\Models\Image');
+        return $this->hasMany('App\Components\Image\Models\Image')->where('type', 'thumbnail');
     }
 
     public function comments()
@@ -48,4 +53,8 @@ class Post extends Model implements PostContract
         return $this->hasMany('App\Components\Comment\Models\Comment');
     }
 
+    public function getImagesAttribute()
+    {
+        return $this->getDeleteImages($this->id, "getThumb");
+    }
 }
