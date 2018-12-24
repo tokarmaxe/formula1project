@@ -12,9 +12,9 @@ trait ImageTrait
         $cnt = 0;
         if($str == "getThumb")
             $method = Image::where('post_id', $postId)->orderBy('type', 'DESC')->where('type', 'thumbnail');
-        else if("getWithOutOrigin")
+        else if($str == "getWithOutOrigin")
             $method = Image::where('post_id', $postId)->orderBy('type', 'DESC')->where('type', "!=", 'origin');
-        else if("getAll" || "remove")
+        else if($str == "getAll" || $str == "remove")
             $method = Image::where('post_id', $postId);
         $images = $method->get()->groupBy([
             'uid',
@@ -25,7 +25,7 @@ trait ImageTrait
             ->mapWithKeys(function ($item) use (&$cnt, &$str) {
                 $i = $item->map(function ($subItems) use(&$str) {
                     switch ($str){
-                        case "get" || "getAll":
+                        case ($str == "get" || $str == "getWithOutOrigin" || $str == "getAll" || $str == "getThumb"):
                             return (app(FileServiceContract::class))->get($subItems->first()['path']);
                             break;
                         case "remove":
