@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maxim
- * Date: 26.11.18
- * Time: 22:45
- */
 
 namespace App\Convention\Model\Traits;
-
 
 use App\Components\File\Services\FileServiceContract;
 use App\Components\Image\Models\Image;
@@ -17,7 +10,13 @@ trait ImageTrait
     public function getDeleteImages($postId, $str)
     {
         $cnt = 0;
-        $images = Image::where('post_id', $postId)->get()->groupBy([
+        if($str == "getThumb")
+            $method = Image::where('post_id', $postId)->orderBy('type', 'DESC')->where('type', 'thumbnail');
+        else if($str == "getWithOutOrigin")
+            $method = Image::where('post_id', $postId)->orderBy('type', 'DESC')->where('type', "!=", 'origin');
+        else if($str == "getAll" || $str == "remove")
+            $method = Image::where('post_id', $postId);
+        $images = $method->get()->groupBy([
             'uid',
             function ($item) {
                 return $item['type'];
@@ -26,7 +25,7 @@ trait ImageTrait
             ->mapWithKeys(function ($item) use (&$cnt, &$str) {
                 $i = $item->map(function ($subItems) use(&$str) {
                     switch ($str){
-                        case "get":
+                        case ($str == "get" || $str == "getWithOutOrigin" || $str == "getAll" || $str == "getThumb"):
                             return (app(FileServiceContract::class))->get($subItems->first()['path']);
                             break;
                         case "remove":
