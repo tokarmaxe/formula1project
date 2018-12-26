@@ -23,7 +23,5 @@ interface PostServiceContract
     
     public function search($data);
     
-    public function sendToSlack(array $data);
-    
     
 }

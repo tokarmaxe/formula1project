@@ -25,11 +25,9 @@ class PostController extends Controller
       PostValidationRequest $request,
       PostServiceContract $postService
     ) {
-        $data   = $request->validated();
-        $answer = $this->sendResponse($postService->store($data));
-        $postService->sendToSlack($data);
+        return
+          $this->sendResponse($postService->store($request->validated()));
         
-        return $answer;
         
     }
     

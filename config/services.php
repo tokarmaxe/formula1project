@@ -74,7 +74,6 @@ return [
   'pagination_items' => 12,
   
   
-
   'types' => [
     'origin'    => [
       'height' => 0,
@@ -108,8 +107,14 @@ return [
     ],
   
   ],
-
-  'slack'     => [
-    'webhook' => 'https://hooks.slack.com/services/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',
+  
+  
+  'notifiable' => [
+    'services' => [
+      'slack' => App\Notifications\Services\Notifiable\SlackNotifiableService::class,
+    ],
+    'webhooks' => [
+      'slack' => 'https://hooks.slack.com/services/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',
+    ],
   ],
 ];

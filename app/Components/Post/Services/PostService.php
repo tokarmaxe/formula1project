@@ -8,7 +8,7 @@ use App\Components\Post\Models\Post;
 use Illuminate\Support\Facades\Config;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use App\Components\User\Models\User;
+use App\Events\PostNotifier;
 
 
 class PostService implements PostServiceContract
@@ -66,9 +66,8 @@ class PostService implements PostServiceContract
         $this->database::transaction(function () use ($data) {
             $this->post = $this->post->create($data);
         });
-        
-        
-        
+    
+        event(new PostNotifier($data));
         return $this->post->toArray();
     }
     
@@ -118,20 +117,8 @@ class PostService implements PostServiceContract
         
     }
     
-    public function sendToSlack(array $data)
-    {
-        $user = app(\App\Components\User\Models\UserContract::class)->find($data['user_id']);
-        
-        $user = $user->first_name.' '.$user->last_name;
     
-        $sendData['title'] = 'A new adv has been created';
-        $sendData['content']=[
-          'Title:' => $data['title'],
-          'User:' => $user
-        ];
-        $this->post->notify(app(\App\Notifications\NotifyToSlackChannel::class, ['data'=>$sendData]));
-        
-    }
+  
     
     
 }
