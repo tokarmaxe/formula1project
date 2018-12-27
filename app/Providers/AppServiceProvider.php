@@ -32,6 +32,8 @@ use App\Components\Post\Models\PostContract;
 use App\Components\Post\Services\PostServiceContract;
 use App\Components\File\Services\StrategiesFactories\ReadStrategiesFactoryContract;
 use App\Components\File\Services\StrategiesFactories\ReadBase64StrategiesFactory;
+use App\Notifications\Services\Notifier\NotifierServiceContract;
+use App\Notifications\Services\Notifier\NotifierService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -69,5 +71,6 @@ class AppServiceProvider extends ServiceProvider
         
         $this->app->bind(WriteStrategiesFactoryContract::class,WriteBase64StrategiesFactory::class);
         $this->app->bind(ReadStrategiesFactoryContract::class,ReadBase64StrategiesFactory::class);
+        $this->app->bind(NotifierServiceContract::class,NotifierService::class);
     }
 }
