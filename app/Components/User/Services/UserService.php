@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
 use App\Exceptions\PermissionDeniedException;
 use Auth;
+use GuzzleHttp\Client;
 
 class UserService implements UserServiceContract
 {
@@ -67,6 +68,11 @@ class UserService implements UserServiceContract
                         $this->user->avatar = $payload['picture'];
                     }
                 }
+                if(!is_null($payload['email'])) {
+                    if(is_null($this->user->skype)){
+                        $this->user->skype = $this->createSlackLink(array_get($payload, 'email', ''));
+                    }
+                }
                 $this->database::transaction(function () {
                     $this->user->save();
                 });
@@ -121,6 +127,7 @@ class UserService implements UserServiceContract
             'api_token' => $this->user->createToken(),
             'expired_at' => Carbon::now()
                 ->addDays(Config::get('services.validity.access_token')),
+            'skype' => $this->createSlackLink(array_get($payload, 'email', '')),
         ];
         $this->database::transaction(function () use($data) {
             $this->user->create($data);
@@ -136,6 +143,25 @@ class UserService implements UserServiceContract
      * @return user->toArray()
      * @throws AuthenticationException
      */
+
+    private function createSlackLink($email): string
+    {
+        if(!is_null($email)) {
+            $slack = new Client();
+            $response = $slack->post(
+                'https://slack.com/api/users.lookupByEmail',
+                array(
+                    'form_params' => array(
+                        'email' => $email,
+                        'token' => Config::get('services.slackBotAccessToken'),
+                    )
+                )
+            )->getBody()->getContents();
+            $response = (array)json_decode($response, true);
+
+            return "slack://user?team=" . $response['user']['team_id'] . "&id=" . $response['user']['id'];
+        }
+    }
 
     public function getUserByApiToken($apiToken)
     {
