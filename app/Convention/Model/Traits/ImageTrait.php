@@ -34,7 +34,6 @@ trait ImageTrait
                             break;
                     }
                 });
-
                 $subResult = [$cnt => $i];
                 $cnt++;
                 return $subResult;
