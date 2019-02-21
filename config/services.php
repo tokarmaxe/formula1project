@@ -42,7 +42,6 @@ return [
   ],
   'user_editable_fields' => [
     'phone_number',
-    'skype',
     'telegram',
     'room_location',
   ],

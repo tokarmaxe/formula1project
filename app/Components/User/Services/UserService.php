@@ -69,8 +69,8 @@ class UserService implements UserServiceContract
                     }
                 }
                 if(!is_null($payload['email'])) {
-                    if(is_null($this->user->skype)){
-                        $this->user->skype = $this->createSlackLink(array_get($payload, 'email', ''));
+                    if(is_null($this->user->slack)){
+                        $this->user->slack = $this->createSlackLink(array_get($payload, 'email', ''));
                     }
                 }
                 $this->database::transaction(function () {
@@ -127,7 +127,7 @@ class UserService implements UserServiceContract
             'api_token' => $this->user->createToken(),
             'expired_at' => Carbon::now()
                 ->addDays(Config::get('services.validity.access_token')),
-            'skype' => $this->createSlackLink(array_get($payload, 'email', '')),
+            'slack' => $this->createSlackLink(array_get($payload, 'email', '')),
         ];
         $this->database::transaction(function () use($data) {
             $this->user->create($data);
