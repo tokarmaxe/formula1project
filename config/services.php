@@ -84,8 +84,8 @@ return [
       'width'  => 1200,
     ],
     'thumbnail' => [
-      'height' => 90,
-      'width'  => 90,
+      'height' => 140,
+      'width'  => 140,
     ],
   ],
   
