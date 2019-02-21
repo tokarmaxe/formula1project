@@ -42,7 +42,6 @@ return [
   ],
   'user_editable_fields' => [
     'phone_number',
-    'skype',
     'telegram',
     'room_location',
   ],
@@ -117,4 +116,5 @@ return [
       'slack' => 'https://hooks.slack.com/services/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',
     ],
   ],
+    'slackBotAccessToken' => 'xoxb-324537581172-555721253046-f2KVns5kE3iSH4qd0KjbpjPV',
 ];
