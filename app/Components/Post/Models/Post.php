@@ -37,7 +37,7 @@ class Post extends Model implements PostContract
             'avatar',
             'email',
             'phone_number',
-            'skype',
+            'slack',
             'room_location',
             'telegram',
         ));
