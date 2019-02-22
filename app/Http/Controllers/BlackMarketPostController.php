@@ -48,6 +48,4 @@ class BlackMarketPostController extends Controller
     {
         return $this->sendResponse($blackMarketService->show($postId));
     }
-
-
 }
