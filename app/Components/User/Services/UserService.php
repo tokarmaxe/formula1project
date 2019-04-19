@@ -136,15 +136,7 @@ class UserService implements UserServiceContract
         return $this->user;
     }
 
-    /**
-     * @param Request $request
-     * gets apiToken from header: 'Bearer apiToken
-     *
-     * @return user->toArray()
-     * @throws AuthenticationException
-     */
-
-    private function createSlackLink($email): string
+    private function createSlackLink($email)
     {
         if(!is_null($email)) {
             $slack = new Client();
@@ -157,9 +149,11 @@ class UserService implements UserServiceContract
                     )
                 )
             )->getBody()->getContents();
+
             $response = (array)json_decode($response, true);
 
-            return "slack://user?team=" . $response['user']['team_id'] . "&id=" . $response['user']['id'];
+            if($response['ok'] === true)  return "slack://user?team=" . $response['user']['team_id'] . "&id=" . $response['user']['id'];
+            else return null;
         }
     }
 
