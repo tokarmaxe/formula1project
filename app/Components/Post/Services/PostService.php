@@ -54,6 +54,8 @@ class PostService implements PostServiceContract
         $this->database::transaction(function () use ($data) {
             $this->post = $this->post->create($data);
         });
+   //BAR-347 need for generate link to adv in slack
+        $data['id'] = ($this->post->id);
         event(new PostNotifier($data));
         return $this->post->toArray();
     }

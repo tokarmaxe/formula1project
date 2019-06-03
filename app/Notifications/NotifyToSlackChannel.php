@@ -42,7 +42,6 @@ class NotifyToSlackChannel extends Notification
     public function toSlack($notifiable)
     {
         $data = $this->data;
-     
         return (new \Illuminate\Notifications\Messages\SlackMessage())->image('/storage/images/bar_logo')
                                                                       ->content($data['title'])
                                                                       ->attachment(function (
@@ -50,6 +49,8 @@ class NotifyToSlackChannel extends Notification
                                                                       ) use (
                                                                         $data
                                                                       ) {
+                                                                          $attachment->title($data['post_title'] ,$data['url']);
+                                                                          
                                                                           $attachment
                                                                             ->fields(
                                                                               $data['content']
