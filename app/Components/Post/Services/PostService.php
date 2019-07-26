@@ -8,7 +8,7 @@ use App\Components\Post\Models\Post;
 use Illuminate\Support\Facades\Config;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use App\Events\PostNotifier;
+use \App\Events\PostNotifier;
 
 
 class PostService implements PostServiceContract
@@ -53,10 +53,13 @@ class PostService implements PostServiceContract
     {
         $this->database::transaction(function () use ($data) {
             $this->post = $this->post->create($data);
+            $data['id'] = $this->post->id;
+            if ($data['id']) {
+                event(new PostNotifier($data));
+            }
         });
-   //BAR-347 need for generate link to adv in slack
-        $data['id'] = ($this->post->id);
-        event(new PostNotifier($data));
+    
+ 
         return $this->post->toArray();
     }
 
